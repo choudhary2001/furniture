@@ -1,0 +1,355 @@
+{% extends 'adminestration/base.html' %} {% load static %} {% load custom_filters %}
+{% block head %} 
+<style>
+  .button_s{
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+
+  <main id="main" class="container">
+
+    <div class="pagetitle">
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-xl-12" style="padding:5px;">
+
+              <div class="card info-card customers-card">
+
+                
+
+                <div class="card-body">
+                 
+                  <div class="d-flex align-items-center button_s"  >
+                      <div>
+                        <a href="{% url 'admin_user' %}" class="primary-btn" style="margin:10px;"> User</a>
+                      </div>
+                      <div>
+                        <a href="{% url 'admin_category' %}" class="primary-btn" style="margin:10px;"> Category</a>
+                      </div>
+                      <div>
+                        <a href="{% url 'admin_crousel' %}" class="primary-btn" style="margin:10px;"> Crousel</a>
+                      </div>
+                      <div>
+                        <a href="{% url 'admin_coupon' %}" class="primary-btn" style="margin:10px;"> Coupon</a>
+                      </div>
+                      <div>
+                        <a href="{% url 'admin_products' %}" class="primary-btn" style="margin:10px;"> Product</a>
+                      </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-6" style="padding:5px;">
+              <div class="card info-card sales-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Sales <span>| Today</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{orders_count}}</h6>
+                      
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Revenue Card -->
+            <div class="col-xxl-4 col-md-6" style="padding:5px;">
+              <div class="card info-card revenue-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Revenue <span>| This Month</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>&#x20b9; {{current_month_total}}</h6>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Revenue Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-xl-12" style="padding:5px;">
+
+              <div class="card info-card customers-card">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Customers <span>| This Month</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-people"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{users_this_month}}</h6>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+            <div class="col-lg-12" style="padding:5px;">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Order Chart</h5>
+    
+                  <!-- Area Chart -->
+                  <div id="areaChart"></div>
+    
+                  <script>
+    
+                    document.addEventListener("DOMContentLoaded", () => {
+                      const orders = JSON.parse('{{ sales|safe }}');
+                      const prices = [];
+                      const dates = [];
+    
+                      orders.forEach(order => {
+                        prices.push(order.total_sales);
+                        dates.push(order.date_added);
+                      });
+    
+                      const series = {
+                        "monthDataSeries1": {
+                          "prices": prices,
+                          "dates": dates
+                        }
+                      };
+                      new ApexCharts(document.querySelector("#areaChart"), {
+                        series: [{
+                          name: "Revenue",
+                          data: series.monthDataSeries1.prices
+                        }],
+                        chart: {
+                          type: 'area',
+                          height: 350,
+                          zoom: {
+                            enabled: false
+                          }
+                        },
+                        dataLabels: {
+                          enabled: false
+                        },
+                        stroke: {
+                          curve: 'straight'
+                        },
+                        subtitle: {
+                          text: 'Order Movements',
+                          align: 'left'
+                        },
+                        labels: series.monthDataSeries1.dates,
+                        xaxis: {
+                          type: 'datetime',
+                        },
+                        yaxis: {
+                          opposite: true
+                        },
+                        legend: {
+                          horizontalAlign: 'left'
+                        }
+                      }).render();
+                    });
+                  </script>
+                  <!-- End Area Chart -->
+    
+                </div>
+              </div>
+            </div>
+    
+
+
+            <!-- Recent Sales -->
+            <div class="col-12" style="padding:5px;">
+              <div class="card recent-sales overflow-auto">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Recent Sales <span>| Today</span></h5>
+
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for o in orders %}
+                      <tr>
+                        <th scope="row"><a href="/admin/user/details/order/{{o.order_id}}" class="text-primary">{{o.order_id}}</a></th>
+                        <td>{{o.user.first_name}} {{o.user.last_name}}</td>
+                        <td>
+                            {% for p in o.product.all %}
+                              <a href="/products/{{p.product.category.slug}}/{{p.product.slug}}" class="text-primary">{{p.product.title}}</a><br>
+                            {% endfor %}
+                        </td>
+                        <td>&#x20b9; {{o.total_price}}</td>
+                        <td><span class="badge bg-success">{{o.order_status}}</span></td>
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End Recent Sales -->
+
+            <!-- Top Selling -->
+            <div class="col-12" style="padding:5px;">
+              <div class="card top-selling overflow-auto">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">Today</a></li>
+                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body pb-0">
+                  <h5 class="card-title">Top Selling <span>| Today</span></h5>
+
+                  <table class="table table-borderless">
+                    <thead>
+                      <tr>
+                        <th scope="col">Preview</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Sold</th>
+                        <th scope="col">Revenue</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for t in top_products %}
+                      <tr>
+                        <th scope="row"><a href="#"><img src="/media/{{t.image1}}" height="50" width="80" alt=""></a></th>
+                        <td><a href="/products/{{t.category.slug}}/{{t.slug}}" class="text-primary fw-bold">{{t.title}}</a></td>
+                        <td>&#x20b9; {{t.price}}</td>
+                        <td class="fw-bold">{{t.total_sold}}</td>
+                        <td>
+                           {% with quantity=t.total_sold %}
+                           &#x20b9; {{ t.price|multiply:quantity }}
+                          {% endwith %}
+                          </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div><!-- End Top Selling -->
+
+          </div>
+    </section>
+
+
+
+
+
+
+
+
+  </main><!-- End #main -->
+
+  <script src="{% static 'js/apexcharts.min.js' %}"></script>
+  <script src="{% static 'js/echarts.min.js' %}"></script>
+  <script src="{% static 'js/chart.umd.js' %}"></script>
+  <script src="{% static 'js/chartstyle.js' %}"></script>
+
+{% endblock %}
+

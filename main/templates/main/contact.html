@@ -1,0 +1,204 @@
+{% extends 'main/base.html' %} {% load static %} {% load custom_filters %} {% block head %}
+<style>
+  .contact-page-banner {
+    background: url(https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: bottom;
+  }
+</style>
+{% endblock head %} {% block content %}
+<!--Page Content-->
+<main id="page-content">
+  <!--Page Heading-->
+  <div class="page-banner contact-page-banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1>Contact</h1>
+          <p class="sort-title">We are Here You</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Page Heading-->
+
+  <!--Breadcrums-->
+  <div class="breadcrumbs">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">Home</a> <span><i class="cps cp-angle-right"></i></span>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">Contact</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <!--End Breadcrums-->
+
+  <!--Text Contact Info Section-->
+  <div class="section contact-info-section">
+    <div class="container">
+      {% if messages %} {% for message in messages %}
+      <div class="alert">{{message}}</div>
+      {% endfor %} {% endif %}
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="contact-info">
+            <div class="title d-flex justify-content-between">
+              <h3 class="text-uppercase">Phone</h3>
+              <i class="cps cp-phone"></i>
+            </div>
+            <p class="text-uppercase">Sales: 1234567890<br /></p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="contact-info">
+            <div class="title d-flex justify-content-between">
+              <h3 class="text-uppercase">Our Address</h3>
+              <i class="cps cp-map-marker"></i>
+            </div>
+            <p class="text-uppercase">SAMASTIPUR</p>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+          <div class="contact-info">
+            <div class="title d-flex justify-content-between">
+              <h3 class="text-uppercase">Email</h3>
+              <i class="cps cp-envelope-open"></i>
+            </div>
+            <p class="text-uppercase">Sales: sales@furniture.swastik.ai</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Contact Info Section-->
+
+  <!--Contact Form-->
+  <section class="contact-form-section section pt-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+          <div class="contact-inner">
+            <div class="formFeilds contact-form form-vertical">
+              <div class="section-title text-center mb-4">
+                <h2 class="title text-uppercase mb-2">Get In Touch</h2>
+                <small></small>
+              </div>
+              <form action="{% url 'contact' %}" name="contactus" method="post" id="contact-form" class="contact-form">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group">
+                      <label for="ContactFormName" class="form-label">First Name <span class="required">*</span></label>
+                      <input type="text" id="ContactFormName" required name="first_name" class="form-control" placeholder="" value="" />
+                      <span class="error_msg" id="name_error"></span>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group">
+                      <label for="ContactFormEmail" class="form-label">Last Name <span class="required">*</span></label>
+                      <input type="text" id="ContactFormEmail" required name="last_name" class="form-control" placeholder="" value="" />
+                      <span class="error_msg" id="email_error"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group">
+                      <label for="ContactFormPhone" class="form-label">Phone Number</label>
+                      <input class="form-control" type="tel" required id="ContactFormPhone" name="phone_no" pattern="[0-9\-]*" placeholder="" value="" />
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
+                    <div class="form-group">
+                      <label for="ContactSubject" class="form-label">Email <span class="required">*</span></label>
+                      <input type="email" id="ContactSubject" required name="email" class="form-control" placeholder="" value="" />
+                      <span class="error_msg" id="subject_error"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                    <div class="form-group">
+                      <label for="ContactFormMessage" class="form-label">Message <span class="required">*</span></label>
+                      <textarea id="ContactFormMessage" required name="message" class="form-control" rows="4" placeholder=""></textarea>
+                      <span class="error_msg" id="message_error"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group mailsendbtn mb-0 w-100 text-center">
+                      <input class="btn btn-primary rounded" type="submit" name="contactus" value="Send Message" />
+                      <div class="loading"><img class="img-fluid" src="{% static 'assets/images/ajax-loader.gif' %}" alt="loading" /></div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="response-msg"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--End Contact Form-->
+
+  <!--Feature Text Image Section-->
+  <section class="feature-text-image-section section pt-0">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+          <div class="section-title text-start">
+            <h2 class="title text-uppercase mb-2">Want to Save time?</h2>
+          </div>
+          <p>Please use our online self service center</p>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+          <div class="img">
+            <img
+              src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              data-src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Contact"
+              title="Contact"
+              class="blur-up lazyload rounded-3"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--End Feature Text Image Section-->
+
+  <!--Feature Text Image Section-->
+  <section class="feature-text-image-section feature-text-image-section2 section pt-0">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-9">
+          <div class="img">
+            <div class="position-absolute top-0">
+              <a href="https://www.google.com/maps/search/343+Coburn+Hollow+Road+Peoria,+Illinois+-+61602/@40.6758102,-89.621306,14z/data=!3m1!4b1">
+                <img src="{% static 'assets/images/map-img.jpg' %}" data-src="{% static 'assets/images/map-img.jpg' %}" alt="Google map" title="Google Map" class="blur-up lazyload rounded-3" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+          <div class="location-text">
+            <div class="section-title text-end">
+              <h2 class="title text-uppercase mb-2">Location</h2>
+            </div>
+            <p class="text-end">SAMASTIPUR</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--End Feature Text Image Section-->
+</main>
+<!--End Page Content-->
+{% endblock %}

@@ -1,0 +1,579 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="description" />
+    <title>Furniture {% block title %}| {{title}} {% endblock %} </title>
+    <!--Favicon-->
+    <!-- <link rel="icon" href="{% static 'img/icon/icon.png' %}" type="image/x-icon"> -->
+    <!--Google Fonts-->
+    <link href="//fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/owl.theme.default.min.css' %}" />
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}" />
+    <style>
+        .messages .error {
+            color: red;
+        }
+
+        @media (min-width:992px) {
+            .cart_card {
+                display: none !important;
+            }
+        }
+
+        .footer::before {
+            background: none;
+        }
+
+        .footer-col .title::after {
+            background: none;
+        }
+
+        .section-title .title::after {
+            background-image: none;
+        }
+
+        .contact-info .title::after {
+            background: none;
+        }
+    </style>
+    {% block head %}
+
+    {% endblock head %}
+</head>
+
+<body class="home demo1">
+    <!--Preloader-->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <!--End Preloader-->
+    <div class="page-wrapper">
+        <!--TopBar-->
+        <div class="top-bar">
+            <div class="container-xl">
+                <div class="row align-items-center">
+                    <div
+                        class="col-12 col-sm-12 col-md-12 col-lg-6 d-flex justify-content-lg-start justify-content-center">
+                        <span class="phone-top">
+                            <a href="tel:1234567890"><i class="icon cps cp-phone align-middle px-1"></i> Customer
+                                Support<span>: 1234567890</span></a></span>
+                        <span class="email-id"><a href="mailto:support@furniture.swastik.ai"><i
+                                    class="icon cps cp-envelope-open align-middle px-1"></i>
+                                <span>support@furniture.swastik.ai</span></a></span>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-6 col-lg-6 justify-content-end d-none d-lg-flex">
+
+                        <ul class="list-inline m-0 social-icons">
+                            <li class="list-inline-item">
+                                <a href="#;" target="_blank" title="Facebook"><i class="cpb cp-facebook-f"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#;" target="_blank" title="Twitter"><i class="cpb cp-twitter"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#;" target="_blank" title="Instagram"><i class="cpb cp-instagram"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://wa.me/1234567890" target="_blank" title="Whatsapp"><i
+                                        class="cpb cp-whatsapp"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#;" target="_blank" title="Linked In"><i class="cpb cp-linkedin-in"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#;" target="_blank" title="Youtube"><i class="cpb cp-youtube"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End TopBar-->
+        <!--Header-->
+        <header id="header" class="header-fixed">
+            <div class="header d-flex align-items-center">
+                <div class="container-xl">
+                    <div class="row" style="align-items: center;">
+                        <div class="col-2 col-sm-3 col-md-4 d-flex d-lg-none mobile-icons">
+                            <!--Mobile Toggle-->
+                            <button type="button"
+                                class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open">
+                                <i class="icon cps cp-times"></i>
+                                <i class="icon cps cp-bars"></i>
+                            </button>
+                            <!--End Mobile Toggle-->
+                        </div>
+                        <div class="col-8 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                            <!--Desktop Logo-->
+                            <a class="logo" href="/">
+                                <!-- <img src="{% static 'assets/images/logo.png' %}" alt="Furniture "
+                                    title="Furniture " /> -->
+                                    <h2 style="margin: 0 !important;">FURNITURE</h2>
+                                </a>
+                            <!--End Desktop Logo-->
+                        </div>
+                        <div class="col-4 col-sm-4 col-md-6 col-lg-7 col-xl-7 prs-0 d-none d-lg-flex"
+                            style="justify-content: center;">
+                            <!--Desktop Menu-->
+                            <nav class="grid__item px-5 pr-0" id="AccessibleNav">
+                                <ul id="siteNav" class="site-nav medium left hidearrow">
+                                    <li class="lvl1">
+                                        <a href="/" class="{% if title == 'Index' %}active{% endif %}">Home</a>
+                                    </li>
+                                    <li class="lvl1 parent dropdown">
+                                        <a href="{% url 'products' %}"
+                                            class="{% if title == 'Products' %}active{% endif %}">Products</a>
+                                        <ul class="dropdown">
+                                            {% for i in categories %}
+                                            <li><a href="/products/{{i.slug}}"
+                                                    class="{% if cats == i.slug %}active{% endif %}">{{i.title}}</a>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    <!-- <li class="lvl1 ">
+                                        <a href="{% url 'customer_service' %}"
+                                            class="{% if title == 'Customer Services' %}active{% endif %}">Services</a>
+
+                                    </li> -->
+                                    <!-- <li class="lvl1"><a class="{% if title == 'Cart' %}active{% endif %}"
+                                            href="{% url 'cart' %}">Cart (<span
+                                                class="cart_length">{{cart_len|length}}</span>)</a>
+                                    </li> -->
+                                    {% if user.is_authenticated %}
+                                    <li class="lvl1">
+
+                                        <a class="{% if title == 'Wishlist' %}active{% endif %}"
+                                            href="{% if user.is_authenticated %}{% url 'wishlist' %}{% else %}{% endif %}">Wishlist</a>
+
+                                    </li>
+                                    {% endif %}
+                                    <li class="lvl1"><a href="{% url 'contact' %}">Contact</a></li>
+                                    <li class="lvl1">
+                                        {% if user.is_authenticated %}
+                                        <a class="{% if title == 'Profile' %}active{% endif %}"
+                                            href="{% url 'profile' %}">{{request.user.first_name}}</a>
+                                        {% else %}
+                                        <a class="{% if title == 'log in' %}active{% endif %}"
+                                            href="{% url 'login' %}">Sign in</a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!--End Desktop Menu-->
+                        </div>
+                        <div
+                            class="col-2 col-sm-3 col-md-4 col-lg-2 col-xl-3 d-flex justify-content-end align-items-center">
+                            <!--Right Icons-->
+                            <div class="serach-site px-3">
+                                <a href="javascript:void(0)"
+                                    class="btn btn-secondary btn-lg rounded-circle search-icon">
+                                    <i class="cps cp-search align-middle"></i>
+                                </a>
+                            </div>
+                            <div class="cart_card" style="padding-left: 1rem !important;">
+                                <a class="{% if title == 'Cart' %}active{% endif %}" style="display: flex;
+                                align-items: flex-start;
+                                justify-content: center;
+                                flex-direction: row-reverse;" href="{% url 'cart' %}">
+                                    <span class="cart_length" style="margin-top: -8px;">{{cart_len|length}}</span>
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                            <path
+                                                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+
+                            <a href="{% url 'cart' %}"
+                                class="btn btn-outline-primary btn-lg rounded-pill make-btn text-nowrap d-none d-lg-block"><span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                        <path
+                                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                    </svg>
+                                </span>
+                                <span class="align-middle">{{cart_len|length}}</span></a>
+                            <!--End Right Icons-->
+                        </div>
+                    </div>
+                </div>
+                <!--Search Popup-->
+                <div id="search-popup" class="search-drawer">
+                    <div class="container">
+                        <span class="closeSearch cps cp-times"></span>
+                        <form class="form minisearch" id="header-search" action="/products" method="get">
+                            <label class="label"><span>Search</span></label>
+                            <div class="control">
+                                <div class="searchField">
+                                    <div class="input-box">
+                                        <button type="submit" title="Search" class="action search">
+                                            <i class="icon cps cp-search"></i>
+                                        </button>
+                                        <input type="text" name="search" value="" placeholder="Search your favourite Furniture"
+                                            class="input-text" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--End Search Popup-->
+            </div>
+        </header>
+        <!--Header-->
+
+        <!--Mobile Drawer Menu-->
+        <div class="mobile-nav-wrapper" role="navigation">
+            <div class="closemobileMenu">
+                <i class="icon cps cp-times pull-right"></i> Close Menu
+            </div>
+            <ul id="MobileNav" class="mobile-nav">
+                <li class="lvl1"><a href="/" class="{% if title == 'Index' %}active{% endif %}">Home</a></li>
+                <li class="lvl1 parent">
+                    <a href="{% url 'products' %}" class="{% if title == 'Products' %}active{% endif %}">Products <i
+                            class="cps cp-plus"></i></a>
+                    <ul class="dropdown">
+                        {% for i in categories %}
+                        <li><a href="/products/{{i.slug}}">{{i.title}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <!-- <li class="lvl1 ">
+                    <a href="{% url 'customer_service' %}"
+                        class="{% if title == 'Customer Services' %}active{% endif %}">Services </a>
+
+                </li> -->
+
+                <li class="lvl1"><a href="{% url 'cart' %}">Cart (<span
+                            class="cart_length">{{cart_len|length}}</span>)</a></li>
+                {% if user.is_authenticated %}
+                <li class="lvl1"><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                {% endif %}
+                <li class="lvl1"><a href="{% url 'contact' %}">Contact</a></li>
+                <li class="lvl1">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">{{request.user.first_name}}</a>
+                    {% else %}
+                    <a href="{% url 'login' %}">Sign in</a>
+                    {% endif %}
+                </li>
+
+                <!-- <li class="lbl1">
+                    <a href="{% url 'partner_registration' %}" style="margin: 10px;"
+                        class="btn btn-outline-primary rounded-pill  text-nowrap d-lg-block"><i
+                            class="cps cp-calendar-check align-middle"></i>
+                        <span class="align-middle">Partners</span></a>
+                </li> -->
+
+
+                <li class="social">
+                    <div class="list-inline m-0 social-icons">
+                        <span class="list-inline-item"><a href="#;" target="_blank" title="Facebook"><i
+                                    class="cpb cp-facebook-f"></i></a></span>
+                        <span class="list-inline-item"><a href="#;" target="_blank" title="Twitter"><i
+                                    class="cpb cp-twitter"></i></a></span>
+                        <span class="list-inline-item"><a href="#;" target="_blank" title="Instagram"><i
+                                    class="cpb cp-instagram"></i></a></span>
+                        <span class="list-inline-item"><a href="https://wa.me/1234567890" target="_blank"
+                                title="Whatsapp"><i class="cpb cp-whatsapp"></i></a></span>
+                        <span class="list-inline-item"><a href="#;" target="_blank" title="Linked In"><i
+                                    class="cpb cp-linkedin-in"></i></a></span>
+                        <span class="list-inline-item"><a href="#;" target="_blank" title="Youtube"><i
+                                    class="cpb cp-youtube"></i></a></span>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+        <!--End Mobile Drawer Menu-->
+
+
+        {% block content %}
+        {% endblock %}
+
+
+    </div>
+
+
+
+    </main>
+    <!--End Page Content-->
+
+    <!--Footer-->
+    <footer class="footer" id="footer">
+        <div class="footer-top">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                        <div class="footer-col footer-links clearfix">
+                            <h4 class="title">Quick Links</h4>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="{% url 'about' %}">About</a></li>
+                                <!-- <li><a href="{% url 'customer_service' %}">Services</a></li>
+                                <li><a href="{% url 'partner_registration' %}">Partner Registration</a></li> -->
+
+                           
+                                <li><a href="{% url 'products' %}">Shop</a></li>
+                                <li><a href="{% url 'contact' %}">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                        <div class="footer-col footer-links clearfix">
+                            <h4 class="title">Other Links</h4>
+                            <ul>
+                                <li>
+                                    {% if user.is_authenticated %}
+                                    <a class="{% if title == 'Profile' %}active{% endif %}"
+                                        href="{% url 'profile' %}">My Account</a>
+                                    {% else %}
+                                    <a class="{% if title == 'log in' %}active{% endif %}" href="{% url 'login' %}">My
+                                        Account</a>
+                                    {% endif %}
+                                </li>
+                                <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+                                <li><a href="{% url 'return_policy' %}">Return Policy</a></li>
+                                <li>
+                                    <a href="{% url 'terms_condition' %}">Term &amp; Conditions</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'video' %}">Videos</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-3">
+                        <div class="footer-col contact-col">
+                            <h4 class="title">Contact</h4>
+                            <ul>
+                                <li>
+                                    <a href="mailto:support@furniture.swastik.ai"><i class="cps cp-envelope-open"></i>
+                                        support@furniture.swastik.ai</a>
+                                </li>
+                                <li>
+                                    <a href="tel:1234567890"><i class="cps cp-phone"></i> 1234567890</a>
+                                </li>
+                                <li>
+                                    <i class="cps cp-map-marker"></i> SAMASTIPUR
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-2">
+                        <div class="footer-col social-col">
+                            <h4 class="title">Follow Us</h4>
+                            <a href="#;" target="_blank"><i class="cpb cp-facebook-f"></i></a>
+                            <a href="#;" target="_blank"><i class="cpb cp-twitter"></i></a>
+                            <a href="#;" target="_blank"><i class="cpb cp-instagram"></i></a>
+                            <a href="#;" target="_blank"><i class="cpb cp-google-plus"></i></a>
+                            <a href="#;" target="_blank"><i class="cpb cp-linkedin-in"></i></a>
+                            <a href="#;" target="_blank"><i class="cpb cp-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <p>Copyright &copy; 2023 Furniture. All Rights Reserved. Made By <a href="https://swastik.ai/" target="_blank" style="color: #e53637;" >Shwastik Tech Solutions Pvt. Ltd.</a></p>
+                    <!-- <p>
+                        Made With <span class="text-danger">❤</span> by
+                        <a href="https://codalay.org" class="text-white">Codalay</a>
+                    </p> -->
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--End Footer-->
+
+    <!--Scoll Top-->
+    <span id="site-scroll"><i class="cps cp-arrow-up text-white"></i></span>
+    <!--End Scoll Top-->
+
+    <!--Newsletter Popup-->
+    <div id="newsletter-modal" class="style1 mfp-with-anim mfp-hide">
+        <div class="newsletter-popup d-flex flex-column">
+            <div class="newsltr-img">
+                <img class="blur-up lazyload" src="{% static 'assets/images/newsletter-img.webp' %}"
+                    data-src="{% static 'assets/images/newsletter-img.webp' %}" alt="" width="431" height="167" />
+            </div>
+            <div class="newsltr-text text-center">
+                <div class="wraptext">
+                    <h2>Subscribe to Our Newsletter</h2>
+                    <p class="sub-text">
+                        Stay Informed! Monthly Tips, Tracks and Discount.
+                    </p>
+                    <form action="#" class="mcNewsletter" method="post">
+                        <div class="input-group">
+                            <input type="email" class="newsletter__input" name="EMAIL" value=""
+                                placeholder="Email address" required />
+                            <button type="submit" class="btn btn-secondary w-100 rounded" name="commit">
+                                <span>Subscribe</span>
+                            </button>
+                        </div>
+                    </form>
+                    <ul class="social-icons mt-3">
+                        <li>
+                            <a href="#;" target="_blank"><i class="cpb cp-facebook-f"></i></a>
+                        </li>
+                        <li>
+                            <a href="#;" target="_blank"><i class="cpb cp-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="#;" target="_blank"><i class="cpb cp-instagram"></i></a>
+                        </li>
+                        <li>
+                            <a href="#;" target="_blank"><i class="cpb cp-google-plus"></i></a>
+                        </li>
+                        <li>
+                            <a href="#;" target="_blank"><i class="cpb cp-linkedin-in"></i></a>
+                        </li>
+                        <li>
+                            <a href="#;" target="_blank"><i class="cpb cp-youtube"></i></a>
+                        </li>
+                    </ul>
+                    <p class="checkboxlink">
+                        <input type="checkbox" id="dontshow" class="form-check-input m-0" />
+                        <label for="dontshow" class="mx-2 align-middle">Don't show this popup again</label>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <button title="Close (Esc)" type="button" class="mfp-close">×</button>
+    </div>
+    <!--End Newsletter Popup-->
+
+    <div class="modalOverly"></div>
+
+    <!-- Including Jquery -->
+    <script src="{% static 'assets/js/vendor/jquery-min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/js.cookie.js' %}"></script>
+    <!--Including Javascript-->
+    <script src="{% static 'assets/js/plugins.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <!-- Photoswipe Gallery -->
+    <script src="{% static 'assets/js/vendor/photoswipe.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/photoswipe.js' %}"></script>
+    <!-- Carousal -->
+    <script src="{% static 'assets/js/carousel.min.js' %}"></script>
+
+
+    <div id="gallery" class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                                <div class="pswp__preloader__donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#owl-demo").owlCarousel({
+                navigation: false,
+                animateIn: "fadeIn",
+                animateOut: "fadeOut",
+                loop: true,
+                items: 1,
+                autoplay: true,
+                autoplayTimeout: 4000,
+                autoplayHoverPause: true,
+                dots: true,
+                margin: 0,
+                //autoWidth:true,
+                //autoHeight:true
+            });
+        });
+    </script>
+
+
+    <div class="whatsapp_icon" style="position: fixed; bottom: 85px; right: 17px; z-index: 999;">
+        <a class="a_link" href="https://wa.me/1234567890" target="_blank">
+            <span class="text-light text-sm">
+                <i class="cpb cp-whatsapp" style="color:#0fe840; font-size: 40px;"></i></span>
+        </a>
+    </div>
+
+    <!--Newsletter Popup Cookies-->
+    <!-- <script>
+        function newsletter_popup() {
+          var cookieSignup = "cookieSignup",
+            date = new Date();
+          if (
+            $.cookie(cookieSignup) != "true" &&
+            window.location.href.indexOf("challenge#newsletter-modal") <= -1
+          ) {
+            setTimeout(function () {
+              $.magnificPopup.open({
+                items: {
+                  src: "#newsletter-modal",
+                },
+                type: "inline",
+                removalDelay: 300,
+                mainClass: "mfp-zoom-in",
+              });
+            }, 5000);
+          }
+          $.magnificPopup.instance.close = function () {
+            if ($("#dontshow").prop("checked") == true) {
+              $.cookie(cookieSignup, "true", {
+                expires: 1,
+                path: "/",
+              });
+            }
+            $.magnificPopup.proto.close.call(this);
+          };
+        }
+        newsletter_popup();
+      </script> -->
+    <!--End Newsletter Popup Cookies-->
+    </div>
+    <!--page-wrapper-->
+    {% block script %}
+
+    {% endblock script %}
+</body>
+
+</html>

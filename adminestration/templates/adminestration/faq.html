@@ -1,0 +1,212 @@
+{% extends 'adminestration/base.html' %} {% load static %} 
+{% block head %} 
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .example::-webkit-scrollbar {
+      display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .example {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+<div class="container" >
+  <div class="col-lg-4 col-md-4 col-sm-4">
+    <div class="shop__product__option__left">
+      <button id="open-modal" class="primary-btn" style="margin:10px;">Add Faq</button>
+    </div>
+  </div>
+<div class="card"style="border-radius:10px;">
+    <div class="card-body">
+          <div class="shop__product__option">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__left">
+                  <p>
+                    Page {{ faq.number }} of {{ faq.paginator.num_pages}}.
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__center">
+                  <div class="checkout__input">
+
+                  <form action="/admin/faq">
+                    <input type="text" name="search" placeholder="Search...">
+                  </form>
+                </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__right">
+                  <p>Sort by Status:</p>
+                  <select onchange="location = this.value">
+                    <option {% if authenticate == 'None' %}selected{% endif %}>Sort</option>
+                    <option value="/admin/faq/?status=Show{% if sarch != 'None' %}&search={{search}}{% endif %}" {% if aut == 'Show' %}selected{% endif %}>Show</option>
+                    <option value="/admin/faq/?status=Hide{% if sarch != 'None' %}&search={{search}}{% endif %}" {% if aut == 'Hide' %}selected{% endif %}>Hide</option>
+                </select>
+                </div>
+              </div>
+            </div>
+          </div>
+      {% if messages %}
+      {% for message in messages %}
+        <div class="alert" >
+            {{message}}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if faq != 'None' %}
+    <div class="u-table-res" style="overflow-x: scroll;">
+        <table class="table mb-0 example">
+            <thead>
+                <tr>
+                    <th>Faq Id</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% if request.user.is_staff %}
+                    {% for c in faq %}
+                    <tr>
+                        <td class="product__cart__item">
+                            <h5>{{c.faq_id}}</h5>
+                        </td>
+                            
+                        <td>
+                            <h6>{{c.title}}</h6>
+                        </td>
+                       
+                        <td>{{c.description}}</td>
+                        <td>{{c.date_added}}</td>
+
+                        <td>
+                            <select onchange="location = this.value">
+                                <option value="/admin/faq/status/{{c.faq_id}}?active=Show" {% if c.status == 'Show' %}selected{% endif %}>Show</option>
+                                <option value="/admin/faq/status/{{c.faq_id}}?active=Hide" {% if c.status == 'Hide' %}selected{% endif %}>Hide</option>
+                            </select>
+                        </td>
+                        <td><a href="/admin/faq/delete/{{c.faq_id}}" class="primary-btn" style="">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                
+                {% endif %}
+                
+            </tbody>
+
+        </table>
+    </div>
+    {% else %}
+    <h3 style="text-align:center;">No faq found</h3>
+    {% endif %}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="product__pagination">
+          <span class="step-links">
+            {% if faq.has_previous %} 
+              {% if faq.has_previous != '1' %}
+                <a href="?page={{ faq.previous_page_number }}{% if authenticate != 'None' %}&authenticate={{authenticate}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&laquo; </a>
+              {% endif %} 
+            {% endif %}
+            <span class="current-page active">{{ faq.number }}</span>
+            {% if user.has_next %} 
+              {% if faq.has_next != faq.paginator.num_pages %}
+                <a href="?page={{ faq.next_page_number }}{% if authenticate != 'None' %}&authenticate={{authenticate}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&raquo;</a>
+              {% endif %} 
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div id="popupModal" class="modal fade">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content p-1">
+        <header class="">
+          <h4 style="float:left; padding:3px; padding-left:10px;"><b>Add faq</b></h4>
+          <button  
+            type="button"
+            class="btn-close"
+            data-mdb-dismiss="modal"
+            aria-label="Close" style="float: right;
+            border: none;"
+          ><i class="fa fa-close"></i></button>    
+          </header>
+        <div class="modal-body" >
+          <form action="#" class="signin-form" action="/admin/faq/" method = "post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert" >
+                      {{message}}
+                  </div>
+                {% endfor %}
+              {% endif %}
+              <p>{{msg}}</p>
+            </div>
+              <div class="form-group mb-3">
+                <label class="label" for="title">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Title"
+                  required
+                  name = "title"
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label class="label" for="description">Description</label>
+                <textarea name="description" class="form-control" rows="5"></textarea>
+              </div>              
+              
+              <div class="form-group">
+                <button
+                  type="submit"
+                  class="rounded submit primary-btn"
+                >
+                  Create 
+                </button>
+              </div>
+            </form>
+        </div>
+  </div>
+</div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $("#open-modal").click(function() {
+      $("#popupModal").modal("show");
+    });
+  });
+  $(document).ready(function(){
+    // Close modal on button click
+    $(".btn-close").click(function(){
+        $("#popupModal").modal('hide');
+    });
+});
+</script>
+
+{% endblock %}

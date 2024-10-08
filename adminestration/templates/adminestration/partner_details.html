@@ -1,0 +1,81 @@
+{% extends 'adminestration/base.html' %} {% load static %} {% block head %}
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+  
+  .card {
+    border: none;
+  }
+
+  .totals tr td {
+    font-size: 13px;
+  }
+  body {
+    background-color: #eeeeeea8;
+  }
+
+  @media (max-width:576px) {
+    #button_bb{
+      display: flex;
+      flex-direction: column;
+    }
+    #button_bb > a{
+      display: flex;
+    }
+  }
+</style>
+{% endblock head %} {% block content %}
+<div class="container order_container mt-5 mb-5">
+  <div class="row d-flex justify-content-center" >
+    <div class="col-md-8" id="invoice">
+        <div class="invoice p-5">
+          <div class="col-12 col-md-12 ">
+            <h2 class="border-bottom mt-3 mb-3">Personal Details :</h2>
+                
+                <span class="text-muted textmuted">Id: </span>{{partner.partner_id}}<br>
+                <span class="text-muted textmuted">Name: </span>{{partner.name}}<br>
+                <span class="text-muted textmuted">Father Name: </span>{{partner.father_name}}<br>
+                <span class="text-muted textmuted">Email: </span>{{partner.email}}<br>
+                <span class="text-muted textmuted">Phone: </span>{{partner.mob_number}}<br>
+                <h6>Image : </h6>
+                <img src="/media/{{partner.image}}" style="width:100%; height:100%;margin:25px;">
+                <h6>Identity Proof : </h6>
+                <img src="/media/{{partner.identity_proof}}" style="width:100%; height:100%; margin:25px;"><br>
+                <h2 class="border-bottom mt-3 mb-3">Bussiness Details : </h2>
+            
+                <span class="text-muted textmuted">Partner Type: </span>{{partner.partner_type}}<br>
+                <span class="text-muted textmuted">State: </span>{{partner.state}}<br>
+                <span class="text-muted textmuted">Pin Code: </span>{{partner.pin_code}}<br>
+                <h2 class="border-bottom mt-3 mb-3">Other Details : </h2>
+
+                <span class="text-muted textmuted">Bank Name: </span>{{partner.bank_name}}<br>
+                <span class="text-muted textmuted">Account Holder Name: </span>{{partner.account_holder_name}}<br>
+                <span class="text-muted textmuted">Bank Account No.: </span>{{partner.bank_account_no}}<br>
+                <span class="text-muted textmuted">Bank IFSC Code: </span>{{partner.bank_ifsc_code}}<br>
+                <h6>Cancel cheque / Document : </h6>
+                <img src="/media/{{partner.bank_details}}" style="width:100%; height:100%;margin:25px;"><br>
+                <span class="text-muted textmuted">Payment Method: </span>{{partner.pay_method}}<br>
+                <span class="text-muted textmuted">Payment Method Number: </span>{{partner.pay_method_no}}<br>
+                <span class="text-muted textmuted">Status: </span>{{partner.status}}<br>
+                <span class="text-muted textmuted">Date: </span>{{partner.date_added}}<br>
+                <div class="d-flex justify-content-center mt-3 mb-3" id="button_bb">
+                  <a class="primary-btn"  href="/admin/partner/status/{{partner.partner_id}}?active=Approved&details=1"  style="margin:5px;">Approve</button>
+                  <a href="/admin/partner/status/{{partner.partner_id}}?active=Rejected&details=1" class="primary-btn" style="margin:5px;">Reject</a>
+                  <a href="/admin/partner/delete/{{c.partner_id}}" class="primary-btn" style="margin:5px;">Delete</a>
+                </div>
+
+        </div>
+         
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+
+{% endblock %}

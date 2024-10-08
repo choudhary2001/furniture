@@ -1,0 +1,178 @@
+{% extends 'main/base.html' %} {% load static %} {% block head %}
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+  .card {
+    border: none;
+  }
+
+  .totals tr td {
+    font-size: 13px;
+  }
+
+  body {
+    background-color: #eeeeeea8;
+  }
+</style>
+<link rel="stylesheet" href="{% static 'assets/css/plugins.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/owl.theme.default.min.css' %}" />
+
+<!-- Main Style CSS -->
+<link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}" />
+
+<style>
+  /* #footer {
+    background: none !important;
+  } */
+</style>
+{% endblock head %} {% block content %}
+<div class="container order_container mt-5 mb-5">
+  <div class="d-flex justify-content-center mb-2">
+    <button onclick="printDiv()" class="btn btn-primary">Print</button>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8" id="invoice">
+      <div class="card">
+        <div class="text-center logoo p-2 px-5">
+          <!-- <a href="/"><img class="" src="{% static 'assets/images/logo.png' %}" alt="" /></a> -->
+          <a>FURNITURE</a>
+        </div>
+
+        <div class="invoice p-5">
+          <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+            <table class="table table-borderless">
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="py-2">
+                      <span class="d-block text-muted">Order Date</span>
+                      <span>{{invoice.date_added}}</span>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="py-2">
+                      <span class="d-block text-muted">Order No</span>
+                      <span>{{invoice.order_id}}</span>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="py-2">
+                      <span class="d-block text-muted">Payment Status</span>
+                      <span>{{invoice.payment_status}}</span>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="py-2">
+                      <span class="d-block text-muted">Payment Method</span>
+                      <span>{{invoice.payment_method}}</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-12 col-md-12">
+            <h5>Billing Address :</h5>
+
+            <span class="text-muted textmuted">Name: </span>{{invoice.address.first_name}} {{invoice.address.last_name}}<br />
+            <span class="text-muted textmuted">Email: </span>{{invoice.address.email}}<br />
+            <span class="text-muted textmuted">Phone: </span>{{invoice.address.phone}}<br />
+            <span class="text-muted textmuted">Address: </span>{{invoice.address.address}}, {{invoice.address.local_address}} <br />
+            <span class="text-muted textmuted">Country: </span>{{invoice.address.country}}<br />
+            <span class="text-muted textmuted">State: </span>{{invoice.address.state}}<br />
+            <span class="text-muted textmuted">City: </span>{{invoice.address.town}}<br />
+            <span class="text-muted textmuted">Zip: </span>{{invoice.address.postalcode}}<br />
+          </div>
+          <div class="product border-top table-responsive">
+            <table class="table table-border">
+              <tbody>
+                {% for a in invoice.product.all %}
+                <tr>
+                  <td width="20%">
+                    <img src="/media/{{a.product.image1}}" width="90" />
+                  </td>
+
+                  <td width="60%">
+                    <span class="font-weight-bold">{{a.product.title}}</span>
+                    <div class="product-qty">
+                      <span class="d-block">Quantity : {{a.quantity}}</span>
+                    </div>
+                  </td>
+                  <td width="20%">
+                    <div class="text-right">
+                      <span class="font-weight-bold">&#x20b9; {{a.total_price}}</span>
+                    </div>
+
+                    <div class="text-right">
+                      <span class="font-weight-bold">&#x20b9; {{a.product.tax}} %</span>
+                    </div>
+                    {% if a.coupon %}
+                    <div class="text-right">
+                      <span class="font-weight-bold">&#x20b9; {{a.coupon.discount}} %</span>
+                    </div>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="row d-flex justify-content-end">
+            <div class="col-md-5">
+              <table class="table table-borderless">
+                <tbody class="totals">
+                  <tr class="border-bottom">
+                    <td>
+                      <div class="text-left">
+                        <span class="font-weight-bold">Total</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="text-right">
+                        <span class="font-weight-bold">&#x20b9; {{invoice.total_price}}</span>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+          <span>FURNITURE Team</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script> -->
+<script src="{% static 'assets/js/vendor/jquery-min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/js.cookie.js' %}"></script>
+<!--Including Javascript-->
+<script src="{% static 'assets/js/plugins.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<!-- Photoswipe Gallery -->
+<script src="{% static 'assets/js/vendor/photoswipe.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/photoswipe.js' %}"></script>
+<!-- Carousal -->
+<script src="{% static 'assets/js/carousel.min.js' %}"></script>
+
+<script>
+  function printDiv() {
+    var printContents = document.getElementById("invoice").innerHTML;
+    var originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = printContents;
+  }
+</script>
+{% endblock script %}

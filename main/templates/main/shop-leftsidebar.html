@@ -1,0 +1,914 @@
+{% extends 'main/base.html' %} {% load static %} {% block head %}
+
+<!--Page Content-->
+<main id="page-content">
+
+    <!--Page Heading-->
+    <div class="page-banner shop-page-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Shop Left Sidebar</h1>
+                    <p class="sort-title">WE ARE PROVIDE best Products.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Page Heading-->
+
+    <!--Breadcrums-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a> <span><i
+                                class="cps cp-angle-right"></i></span></li>
+                    <li class="breadcrumb-item active" aria-current="page">Shop Left Sidebar</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!--End Breadcrums-->
+
+    <!--Page Content-->
+    <div class="content-with-sidebar">
+        <div class="container">
+            <div class="row">
+                <!--Sidebar-->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3 sidebar filterbar">
+                    <div class="closeFilter d-block d-lg-none"><i class="cps cp-times"></i></div>
+                    <div class="sidebar-filters">
+                        <!--Category Block-->
+                        <div class="block clearfix block-categories">
+                            <div class="block-title">
+                                <h3>Categories</h3>
+                            </div>
+                            <div class="block-content">
+                                <ul class="items">
+                                    <li class="lvl-1 sub-level"><a href="#;">Steering Wheels (5)</a>
+                                        <ul class="sublinks">
+                                            <li class="level2 sub-level sub-sub-level"><a href="#;">Break</a>
+                                                <ul class="sublinks mb-0">
+                                                    <li class="level3"><a href="#">Bearing</a></li>
+                                                    <li class="level3"><a href="#">Suspension</a></li>
+                                                    <li class="level3"><a href="#">Steering</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="level2"><a href="#">Accessories</a></li>
+                                            <li class="level2"><a href="#">Wheels</a></li>
+                                            <li class="level2"><a href="#">View All</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="lvl-1 sub-level"><a href="#;">Grille Guards (5)</a>
+                                        <ul class="sublinks">
+                                            <li class="level2"><a href="#;">Seats</a></li>
+                                            <li class="level2"><a href="#">Seat Covers</a></li>
+                                            <li class="level2"><a href="#">View All</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="lvl-1"><a href="#">Seats, Seat Covers (5)</a></li>
+                                    <li class="lvl-1"><a href="#">Susepension</a></li>
+                                    <li class="lvl-1"><a href="#">Tools & Parts</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End Category Block-->
+
+                        <!--Price Filter Block-->
+                        <div class="block filterBox filter-widget">
+                            <div class="block-title">
+                                <h3>Price</h3>
+                            </div>
+                            <form action="#" method="post" class="price-filter filterDD mt-3">
+                                <div id="slider-range"
+                                    class="mt-2 ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                    <div class="ui-slider-range ui-widget-header ui-corner-all"></div><span
+                                        class="ui-slider-handle ui-state-default ui-corner-all"
+                                        tabindex="0"></span><span
+                                        class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"
+                                        style="left: 73.4043%;"></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="no-margin"><input id="amount" type="text" class="rounded"></p>
+                                    </div>
+                                    <div class="col-6 text-right margin-25px-top">
+                                        <button class="btn btn--small rounded">filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!--End Price Filter Block-->
+
+                        <!--Color Block-->
+                        <div class="block filterBox colorBox filter-color">
+                            <div class="block-title">
+                                <h3>Color</h3>
+                            </div>
+                            <div class="filter-color swacth-list filterDD clearfix">
+                                <ul class="clearfix">
+                                    <li><span class="swacth-btn medium radius black"></span><span
+                                            class="tooltip-label">Black</span></li>
+                                    <li><span class="swacth-btn medium radius white"></span><span
+                                            class="tooltip-label">White</span></li>
+                                    <li><span class="swacth-btn medium radius red"></span><span
+                                            class="tooltip-label">Red</span></li>
+                                    <li><span class="swacth-btn medium radius blue"></span><span
+                                            class="tooltip-label">Blue</span></li>
+                                    <li><span class="swacth-btn medium radius pink"></span><span
+                                            class="tooltip-label">Pink</span></li>
+                                    <li><span class="swacth-btn medium radius gray"></span><span
+                                            class="tooltip-label">Gray</span></li>
+                                    <li><span class="swacth-btn medium radius green"></span><span
+                                            class="tooltip-label">Green</span></li>
+                                    <li><span class="swacth-btn medium radius orange"></span><span
+                                            class="tooltip-label">Orange</span></li>
+                                    <li><span class="swacth-btn medium radius yellow"></span><span
+                                            class="tooltip-label">Yellow</span></li>
+                                    <li><span class="swacth-btn medium radius blueviolet"></span><span
+                                            class="tooltip-label">Blue Violet</span></li>
+                                    <li><span class="swacth-btn medium radius brown"></span><span
+                                            class="tooltip-label">Brown</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End Color Block-->
+                        <!--Size Block-->
+                        <div class="block filterBox filter-widget size-swacthes">
+                            <div class="block-title">
+                                <h3 class="mb-0">Size</h3>
+                            </div>
+                            <div class="filterDD">
+                                <ul class="clearfix">
+                                    <li><input type="checkbox" value="s" id="s"><label for="s"><span></span>S</label>
+                                    </li>
+                                    <li><input type="checkbox" value="m" id="m"><label for="m"><span></span>M</label>
+                                    </li>
+                                    <li><input type="checkbox" value="l" id="l"><label for="l"><span></span>L</label>
+                                    </li>
+                                    <li><input type="checkbox" value="x" id="x"><label for="x"><span></span>X</label>
+                                    </li>
+                                    <li><input type="checkbox" value="xl" id="xl"><label
+                                            for="xl"><span></span>XL</label></li>
+                                    <li><input type="checkbox" value="xll" id="xll"><label
+                                            for="xll"><span></span>XLL</label></li>
+                                    <li><input type="checkbox" value="xxl" id="xxl"><label
+                                            for="xxl"><span></span>XXL</label></li>
+                                    <li><input type="checkbox" value="xs" id="xs"><label
+                                            for="xs"><span></span>XS</label></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End Size Block-->
+                        <!--Brand Block-->
+                        <div class="block filterBox filter-widget size-swacthes brand-filter">
+                            <div class="block-title">
+                                <h3 class="mb-0">Brands</h3>
+                            </div>
+                            <div class="filterDD" style="">
+                                <ul class="clearfix">
+                                    <li><input type="checkbox" value="adidas" id="adidas"><label
+                                            for="adidas"><span></span>Bosch</label></li>
+                                    <li><input type="checkbox" value="baggit" id="baggit"><label
+                                            for="baggit"><span></span>Filtron</label></li>
+                                    <li><input type="checkbox" value="campus" id="campus"><label
+                                            for="campus"><span></span>Valeo</label></li>
+                                    <li><input type="checkbox" value="caprese" id="caprese"><label
+                                            for="caprese"><span></span>TRW</label></li>
+                                    <li><input type="checkbox" value="elle" id="elle"><label
+                                            for="elle"><span></span>Mercedes-Benz</label></li>
+                                    <li><input type="checkbox" value="diva" id="diva"><label
+                                            for="diva"><span></span>Optima</label></li>
+                                    <li><input type="checkbox" value="optimal" id="optimal"><label
+                                            for="optimal"><span></span>Roush</label></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End Brand Block-->
+
+                        <!--Availability-->
+                        <div class="block filterBox filter-widget size-swacthes availability">
+                            <div class="block-title">
+                                <h3 class="mb-0">Availability</h3>
+                            </div>
+                            <div class="filterDD">
+                                <ul class="clearfix" style="column-count:auto;">
+                                    <li><input type="checkbox" value="instock" id="instock"><label
+                                            for="instock"><span></span>In stock</label></li>
+                                    <li><input type="checkbox" value="outofstock" id="outofstock"><label
+                                            for="outofstock"><span></span>Out of stock</label></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End Availability-->
+
+                        <!--Popular Tags-->
+                        <div class="block clearfix block-tags">
+                            <div class="block-title">
+                                <h3>Popular Tags</h3>
+                            </div>
+                            <div class="block-content">
+                                <ul class="m-0">
+                                    <li><a href="#">Parts</a></li>
+                                    <li><a href="#">Car Parts</a></li>
+                                    <li><a href="#">Suspension</a></li>
+                                    <li><a href="#">Tools</a></li>
+                                    <li><a href="#">Auto parts</a></li>
+                                    <li><a href="#">Filter</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End Popular Tags-->
+                    </div>
+                    <!-- Banner -->
+                    <div class="block clearfix block-tags p-0 border-0">
+                        <a href="#">
+                            <img class="blur-up rounded lazyloaded" src="assets/images/sidebar-banner.png"
+                                data-src="assets/images/sidebar-banner.png" alt="image">
+                        </a>
+                    </div>
+                    <!--End Banner-->
+                </div>
+                <!--End Sidebar-->
+
+                <!--Content-->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 main-col">
+                    <!--Toolbar-->
+                    <div class="toolbar py-3">
+                        <div class="filters-toolbar-wrapper">
+                            <ul class="list-unstyled d-flex align-items-center justify-content-between m-0">
+                                <li class="product-count d-flex align-items-center">
+                                    <button type="button"
+                                        class="btn rounded btn-filter d-block d-lg-none me-2 me-sm-3"><span
+                                            class="hidden">Filter</span></button>
+                                    <div class="filters-toolbar__item">
+                                        <span class="filters-toolbar__product-count d-none d-sm-block">Showing: 12
+                                            products</span>
+                                    </div>
+                                </li>
+                                <li class="collection-view">
+                                    <div
+                                        class="filters-toolbar__item collection-view-as d-flex align-items-center me-3">
+                                        <a href="/products/" class="change-view prd-grid active"><i
+                                                class="cps cp-th-large"></i><span class="tooltip-label">Grid
+                                                View</span></a>
+                                        <a href="javascript:void(0)" class="change-view prd-list"><i
+                                                class="cps cp-list"></i><span class="tooltip-label">List View</span></a>
+                                    </div>
+                                </li>
+                                <li class="filters-sort ms-auto ms-sm-0">
+                                    <div class="filters-toolbar__item">
+                                        <label for="SortBy" class="hidden">Sort by:</label>
+                                        <select name="SortBy" id="SortBy"
+                                            class="filters-toolbar__input filters-toolbar__input--sort rounded">
+                                            <option value="featured" selected="selected">Featured</option>
+                                            <option value="best-selling">Best selling</option>
+                                            <option value="title-ascending">Alphabetically, A-Z</option>
+                                            <option value="title-descending">Alphabetically, Z-A</option>
+                                            <option value="price-ascending">Price, low to high</option>
+                                            <option value="price-descending">Price, high to low</option>
+                                            <option value="created-ascending">Date, old to new</option>
+                                            <option value="created-descending">Date, new to old</option>
+                                        </select>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--End Toolbar-->
+
+                    <!--Product Grid-->
+                    <div class="products-grid">
+                        <div class="row">
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Product Label-->
+                                        <div class="product-labels"><span class="lbl new rounded">New</span></div>
+                                        <!--End Product Label-->
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Sociosqu facilisi senectus nisi</a></div>
+                                            <div class="price-box"><span class="price">$450.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cps cp-star-half-alt"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Aenean commodo ligula eget</a></div>
+                                            <div class="price-box"><span class="price">$99.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Product Label-->
+                                        <div class="product-labels"><span class="lbl on-sale rounded">-5%</span></div>
+                                        <!--End Product Label-->
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Nullam scelerisque suscip</a></div>
+                                            <div class="price-box"><span class="price">$299.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cpr cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Consectetur adipisicing </a></div>
+                                            <div class="price-box"><span class="price">$129.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cpr cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Ut imperdiet enim feugiat</a></div>
+                                            <div class="price-box"><span class="price">$19.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cps cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Curabitur quis nisi congue</a></div>
+                                            <div class="price-box"><span class="price">$189.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cps cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Aliquam tincidunt mauris</a></div>
+                                            <div class="price-box"><span class="price">$79.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cpr cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Product Label-->
+                                        <div class="product-labels"><span class="lbl hot rounded">Hot</span></div>
+                                        <!--End Product Label-->
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Mauris non libero molest</a></div>
+                                            <div class="price-box"><span class="price">$59.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cpr cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Nemo enim ipsam</a></div>
+                                            <div class="price-box"><span class="price">$159.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cps cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                        </a>
+                                        <!--Product Label-->
+                                        <div class="product-labels"><span class="lbl new rounded">New</span></div>
+                                        <!--End Product Label-->
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Vestibulum auctor dapibus</a></div>
+                                            <div class="price-box"><span class="price">$19.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cps cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="primary blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                            <!--Hover Image-->
+                                            <img class="hover blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Hover Image-->
+                                        </a>
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Translation by H. Rackham</a></div>
+                                            <div class="price-box"><span class="price">$119.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                                class="cps cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!--Product Item-->
+                                <div class="item">
+                                    <!--Product Image-->
+                                    <div class="product-image">
+                                        <a href="#">
+                                            <!--Image-->
+                                            <img class="blur-up lazyload rounded-3"
+                                                data-src="assets/images/products/305x305.jpg"
+                                                src="assets/images/products/305x305.jpg" alt="product"
+                                                title="product" />
+                                            <!--End Image-->
+                                        </a>
+                                        <!--Product Label-->
+                                        <div class="product-labels"><span class="lbl on-sale rounded">-10%</span></div>
+                                        <!--End Product Label-->
+                                        <!--Button Action-->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"><i class="cpr cp-heart"></i></a>
+                                        </div>
+                                        <!--End Button Action-->
+                                    </div>
+                                    <!--End Product Image-->
+                                    <!--Product Detail-->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="#">Fusce non nisi aliquam</a></div>
+                                            <div class="price-box"><span class="price">$189.00</span></div>
+                                            <div class="add-to-cart">
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    href="shopping-cart.html"><i class="cps cp-shopping-cart"></i> <span
+                                                        class="label">Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-review">
+                                            <i class="cps cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i><i class="cpr cp-star"></i><i
+                                                class="cpr cp-star"></i>
+                                        </div>
+                                    </div>
+                                    <!--End Product Detail-->
+                                </div>
+                                <!--End Product Item-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Product Grid-->
+
+                    <!--Pagination-->
+                    <div class="pagination section pt-0">
+                        <div class="container">
+                            <ul class="d-flex align-items-center justify-content-center">
+                                <li class="prev arrow"><a href="#"><i class="cps cp-chevron-circle-left"></i></a></li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">...</a></li>
+                                <li><a href="#">5</a></li>
+                                <li class="next arrow"><a href="#"><i class="cps cp-chevron-circle-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--End Pagination-->
+                </div>
+                <!--End Content-->
+            </div>
+        </div>
+    </div>
+    <!--End Page Content-->
+
+
+</main><!--End Page Content-->
+
+<script>
+
+    function AddToCart(product, quantity) {
+        event.preventDefault();
+        url_ = `/add/cart/` + product + '?quantity=' + quantity;
+
+
+        $.ajax({
+            type: 'GET',
+            url: url_,
+            success: function (data) {
+                console.log(data)
+                var cartLengthElements = document.getElementsByClassName('cart_length');
+                var totalItems = data.totalitems;
+                for (var i = 0; i < cartLengthElements.length; i++) {
+                    cartLengthElements[i].innerHTML = totalItems;
+                }
+
+            }
+        });
+    };
+
+    document.querySelectorAll('.add-cart').forEach(function (el) {
+        el.addEventListener('click', function (event) {
+            var clickedbutton = event.target;
+            clickedbutton.innerHTML = 'Added';
+            setTimeout(() => {
+                // Change the innerHTML after 3 seconds
+                clickedbutton.innerHTML = '+ Add To Cart';
+            }, 3000); // 3000 milliseconds = 3 seconds
+        })
+    })
+
+
+</script>
+{% endblock %}

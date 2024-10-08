@@ -1,0 +1,154 @@
+{% extends 'adminestration/base.html' %} {% load static %} 
+{% block head %} 
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .example::-webkit-scrollbar {
+      display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .example {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+<div class="container" >
+
+<div class="card"style="border-radius:10px;">
+    <div class="card-body">
+          <div class="shop__product__option">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__left">
+                  <p>
+                    Page {{ wr.number }} of {{ wr.paginator.num_pages}}.
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__center">
+                  <div class="checkout__input">
+
+                  <form action="/admin/warranty_registration">
+                    <input type="text" name="search" placeholder="Search...">
+                  </form>
+                </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__right">
+                  <p>Sort by Status:</p>
+                  <select onchange="location = this.value">
+                    <option {% if authenticate == 'None' %}selected{% endif %}>Sort</option>
+                    <option value="/admin/warranty_registration/?authenticate=Processing{% if sarch != 'None' %}&search={{search}}{% endif %}" {% if authenticate == 'Processing' %}selected{% endif %}>Progress</option>
+                    <option value="/admin/warranty_registration/?authenticate=Approved{% if sarch != 'None' %}&search={{search}}{% endif %}" {% if authenticate == 'Approved' %}selected{% endif %}>Approved</option>
+                    <option value="/admin/warranty_registration?authenticate=Rejected{% if sarch != 'None' %}&search={{search}}{% endif %}" {% if authenticate == 'Rejected' %}selected{% endif %}>Rejected</option>
+                </select>
+                </div>
+              </div>
+            </div>
+          </div>
+      {% if messages %}
+      {% for message in messages %}
+        <div class="alert" >
+            {{message}}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if user %}
+    <div class="u-table-res" style="overflow-x: scroll;">
+        <table class="table mb-0 example">
+            <thead>
+                <tr>
+                    <th>Registration Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Product</th>
+                    <th>Product Batch No.</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% if request.user.is_staff %}
+                    {% for c in wr %}
+                    <tr>
+                        <td class="product__cart__item">
+                            <a href="/admin/warranty_registration/details/{{c.reg_id}}">
+                                <h5>{{c.reg_id}}</h5>
+                            </a>
+                        </td>
+                            
+                        <td>
+                          <a href="/admin/warranty_registration/details/{{c.reg_id}}"> 
+                            <h6>{{c.name}}</h6> 
+                          </a>
+                        </td>
+                       
+                        <td>{{c.email}}</td>
+                        <td class="">
+                            <span>{{c.mob_number}}<span>
+                        </td>
+                        <td>{{c.product}}</td>
+                        <td>{{c.product_batch_no}}</td>
+
+                        <td>
+                            <select onchange="location = this.value">
+                                <option value="/admin/warranty_registration/status/{{c.reg_id}}?active=Processing" {% if c.status == 'Processing' %}selected{% endif %}>In Progress</option>
+                                <option value="/admin/warranty_registration/status/{{c.reg_id}}?active=Approved" {% if c.status == 'Approved' %}selected{% endif %}>Approved</option>
+                                <option value="/admin/warranty_registration/status/{{c.reg_id}}?active=Rejected" {% if c.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                            </select>
+                        </td>
+                        <td><a href="/admin/warranty_registration/delete/{{c.reg_id}}" class="primary-btn" style="">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                
+                {% endif %}
+                
+            </tbody>
+
+        </table>
+    </div>
+    {% else %}
+    <h3 style="text-align:center;">No User found</h3>
+    {% endif %}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="product__pagination">
+          <span class="step-links">
+            {% if wr.has_previous %} 
+              {% if wr.has_previous != '1' %}
+                <a href="?page={{ wr.previous_page_number }}{% if authenticate != 'None' %}&authenticate={{authenticate}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&laquo; </a>
+              {% endif %} 
+            {% endif %}
+            <span class="current-page active">{{ wr.number }}</span>
+            {% if user.has_next %} 
+              {% if wr.has_next != wr.paginator.num_pages %}
+                <a href="?page={{ wr.next_page_number }}{% if authenticate != 'None' %}&authenticate={{authenticate}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&raquo;</a>
+              {% endif %} 
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+{% endblock %}

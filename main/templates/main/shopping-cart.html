@@ -1,0 +1,292 @@
+{% extends 'main/base.html' %} {% load static %} {% load custom_filters %} {% block head %}
+<style>
+  .cart-page-banner {
+    background: url("https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    height: 310px;
+  }
+
+  @media (max-width: 768px) {
+    .cart-page-banner {
+      height: 175px !important;
+    }
+  }
+</style>
+{% endblock head %} {% block content %}
+<!--Page Content-->
+<main id="page-content">
+  <!--Page Heading-->
+  <div class="page-banner cart-page-banner gray-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="mb-1">Shopping Cart</h1>
+          <!--Breadcrums-->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center mb-0">
+              <li class="breadcrumb-item">
+                <a href="/">Home</a> <span><i class="cps cp-angle-right"></i></span>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+            </ol>
+          </nav>
+          <!--End Breadcrums-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Page Heading-->
+
+  <!--Main Content-->
+  <div class="container">
+    {% if messages %} {% for message in messages %}
+    <div class="alert">{{message}}</div>
+    {% endfor %} {% endif %} {% if cart_data %}
+    <div class="row align-items-center" id="shoping_cart_card">
+      <div class="col-lg-8">
+        <!-- Cart Table-->
+        <form action="#" method="post" class="cart">
+          <table class="table cart-products mb-4 mt-4">
+            <thead>
+              <tr>
+                <th scope="col" class="alt-font"></th>
+                <th scope="col" class="alt-font"></th>
+                <th scope="col" class="alt-font">Product</th>
+                <th scope="col" class="alt-font">Quantity</th>
+                <th scope="col" class="alt-font">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- {% for key, value in cart_data.items %}
+                            <tr>
+                                <td class="product-remove">
+                                    <a href="/remove/cart/{{value.product.slug}}" class="btn-default text-large">×</a>
+                                </td>
+                                <td class="product-thumbnail"><a
+                                        href="/products/{{value.product.category.slug}}/{{value.product.slug}}"><img
+                                            class="blur-up rounded-3 lazyload"
+                                            data-src="/media/{{value.product.image1}}"
+                                            src="/media/{{value.product.image1}}" alt="product" title="product"></a>
+                                </td>
+                                <td class="product-name">
+                                    <a
+                                        href="/products/{{value.product.category.slug}}/{{value.product.slug}}">{{value.product.title}}</a>
+                                    <span class="variation"> &#x20b9; {{value.product.not_price}}</span>
+                                </td>
+                                <td class="product-quantity" data-title="Quantity">
+                                    <div class="qtyField">
+                                        <label class="screen-reader-text">Quantity</label>
+                                        <a class="qtyBtn minus" href="#;" data-slug="{{value.product.slug}}"
+                                            onclick="AddToCartRemove('{{value.product.slug}}', {{value.quantity}})"><i
+                                                class="cps cp-minus"></i></a>
+                                        <input type="text" name="quantity" value="{{value.quantity}}"
+                                            class="product-form__input qty">
+                                        <a class="qtyBtn plus" href="#;"
+                                            onclick="AddToCartAdd('{{value.product.slug}}')"><i
+                                                class="cps cp-plus"></i></a>
+                                    </div>
+                                </td>
+                                <td class="product-subtotal" data-title="Total">&#x20b9; {{value.product.price}}</td>
+                            </tr>
+                            {% endfor %} -->
+              {% if request.user.is_authenticated %} {% for c in cart_data %}
+              <tr>
+                <td class="product-remove">
+                  <a href="/remove/cart/{{c.product.slug}}" class="btn-default text-large">×</a>
+                </td>
+                <td class="product-thumbnail">
+                  <a href="/products/{{c.product.category.slug}}/{{c.product.slug}}"><img class="blur-up rounded-3 lazyload" data-src="/media/{{c.product.image1}}" src="/media/{{c.product.image1}}" alt="product" title="product" /></a>
+                </td>
+                <td class="product-name">
+                  <a href="/products/{{c.product.category.slug}}/{{c.product.slug}}">{{c.product.title}}</a>
+                  <span class="variation"> &#x20b9; {{c.product.not_price}}</span>
+                </td>
+                <td class="product-quantity" data-title="Quantity">
+                  <div class="qtyField">
+                    <label class="screen-reader-text">Quantity</label>
+                    <a class="qtyBtn minus" href="#;" data-slug="{{c.product.slug}}" onclick="AddToCartRemove('{{c.product.slug}}', {{c.quantity}})"><i class="cps cp-minus"></i></a>
+                    <input type="text" name="quantity" value="{{c.quantity}}" class="product-form__input qty" />
+                    <a class="qtyBtn plus" href="#;" onclick="AddToCartAdd('{{c.product.slug}}')"><i class="cps cp-plus"></i></a>
+                  </div>
+                </td>
+                <td class="product-subtotal" data-title="Total">&#x20b9; {{c.product.price}}</td>
+              </tr>
+              {% endfor %} {% else %} {% for key, value in cart_data.items %}
+              <tr>
+                <td class="product-remove">
+                  <a href="/remove/cart/{{value.product.slug}}" class="btn-default text-large">×</a>
+                </td>
+                <td class="product-thumbnail">
+                  <a href="/products/{{value.product.category.slug}}/{{value.product.slug}}"><img class="blur-up rounded-3 lazyload" data-src="/media/{{value.product.image1}}" src="/media/{{value.product.image1}}" alt="product" title="product" /></a>
+                </td>
+                <td class="product-name">
+                  <a href="/products/{{value.product.category.slug}}/{{value.product.slug}}">{{value.product.title}}</a>
+                  <span class="variation"> &#x20b9; {{value.product.not_price}}</span>
+                </td>
+                <td class="product-quantity" data-title="Quantity">
+                  <div class="qtyField">
+                    <label class="screen-reader-text">Quantity</label>
+                    <a class="qtyBtn minus" href="#;" data-slug="{{value.product.slug}}" onclick="AddToCartRemove('{{value.product.slug}}', {{value.quantity}})"><i class="cps cp-minus"></i></a>
+                    <input type="text" name="quantity" value="{{value.quantity}}" class="product-form__input qty" />
+                    <a class="qtyBtn plus" href="#;" onclick="AddToCartAdd('{{value.product.slug}}')"><i class="cps cp-plus"></i></a>
+                  </div>
+                </td>
+                <td class="product-subtotal" data-title="Total">&#x20b9; {{value.product.price}}</td>
+              </tr>
+              {% endfor %} {% endif %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2" class="text-start">
+                  <a href="/products" class="btn btn-secondary btn--small rounded cart-continue"><i class="cps cp-arrow-left"></i> Continue shopping</a>
+                </td>
+                <td colspan="3" class="text-end">
+                  <a href="{% url 'clear_cart' %}" type="submit" name="clear" class="btn btn-secondary btn--small rounded small--hide mx-2"><i class="cps cp-times"></i> Clear Shoping Cart</a>
+                  <a type="submit" name="update" onclick="window.location='/cart'" class="btn btn-primary btn--small rounded cart-continue"><i class="cps cp-sync-alt"></i> Update Cart</a>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </form>
+        <!--End Cart Table-->
+      </div>
+      {% if cart_data %}
+
+      <div class="col-lg-4">
+        <div class="solid-border cart-total rounded-2">
+          <h5 class="text-uppercase">Summary</h5>
+          <div class="row border-bottom pb-2">
+            <span class="col-6 col-sm-6 cart__subtotal-title">Subtotal</span>
+            <span class="col-6 col-sm-6 text-right"
+              ><span class="money money_not_price"><strike>&#x20b9; {{total_not_price}}</strike></span></span
+            >
+          </div>
+          <div class="row border-bottom pb-2 pt-2">
+            <span class="col-6 col-sm-6 cart__subtotal-title">Total</span>
+            <span class="col-6 col-sm-6 text-right money_price">&#x20b9; {{ total_price }}</span>
+          </div>
+          <div class="row border-bottom pb-2 pt-2">
+            <span class="col-6 col-sm-6 cart__subtotal-title"><strong>Grand Total</strong></span>
+            <span class="col-6 col-sm-6 cart__subtotal-title cart__subtotal text-right money_total_price"><b>&#x20b9; {{ total_price }}</b></span>
+          </div>
+          {% if request.user.is_authenticated %}
+          <a href="{% url 'checkout_page' %}" class="btn btn-lg btn-primary rounded my-4 checkout w-100">Proceed To Checkout</a>
+          {% else %}
+          <a href="/signin?next=cart" class="btn btn-lg btn-primary rounded my-4 checkout w-100">Please Login first</a>
+          {% endif %}
+          <p><img class="blur-up lazyload" src="{% static 'assets/images/garauntee-img.png' %}" data-src="{% static 'assets/images/garauntee-img.png' %}" alt="Guaranteed Safe Checkout" /></p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center; height: 25vh" id="shoping_cart_card_hide">
+      <a href="/products" class="btn btn-primary btn--small rounded cart-continue"><i class="cps cp-arrow-left"></i> Continue shopping</a>
+    </div>
+    {% else %}
+    <div style="display: flex; align-items: center; justify-content: center; height: 25vh">
+      <a href="/products" class="btn btn-primary btn--small rounded cart-continue"><i class="cps cp-arrow-left"></i> Continue shopping</a>
+    </div>
+    {% endif %}
+  </div>
+</main>
+<!--End Page Content-->
+{% endblock %} {% block script %}
+<script>
+  $("#shoping_cart_card_hide").hide();
+
+  function AddToCartAdd(product) {
+    event.preventDefault();
+    url_ = `/add/cart/` + product + "?increase=1";
+
+    $.ajax({
+      type: "GET",
+      url: url_,
+      success: function (data) {
+        console.log(data);
+        var cartLengthElements = document.getElementsByClassName("cart_length");
+        var money_not_price = document.getElementsByClassName("money_not_price");
+        var money_price = document.getElementsByClassName("money_price");
+        var money_total_price = document.getElementsByClassName("money_total_price");
+        var totalItems = data.totalitems;
+        for (var i = 0; i < cartLengthElements.length; i++) {
+          if (cartLengthElements[i] !== undefined) {
+            cartLengthElements[i].innerHTML = totalItems;
+          }
+
+          if (money_not_price[i] !== undefined) {
+            money_not_price[i].innerHTML = "&#x20b9;" + data.total_not_price;
+          }
+
+          if (money_price[i] !== undefined) {
+            money_price[i].innerHTML = "&#x20b9;" + data.total_price;
+          }
+
+          if (money_total_price[i] !== undefined) {
+            money_total_price[i].innerHTML = "&#x20b9;" + data.total_price;
+          }
+        }
+      },
+    });
+  }
+
+  document.querySelectorAll(".add-cart").forEach(function (el) {
+    el.addEventListener("click", function (event) {
+      var clickedbutton = event.target;
+      clickedbutton.innerHTML = " Added";
+      setTimeout(() => {
+        // Change the innerHTML after 3 seconds
+        clickedbutton.innerHTML = " Add To Cart";
+      }, 3000); // 3000 milliseconds = 3 seconds
+    });
+  });
+
+  function AddToCartRemove(product, quantity) {
+    event.preventDefault();
+    url_ = `/add/cart/` + product + "?decrease=0";
+    var quantityInput = $('input[name="quantity"]');
+    var quantity = parseInt(quantityInput.val());
+    console.log(quantity);
+    $.ajax({
+      type: "GET",
+      url: url_,
+      success: function (data) {
+        console.log(data);
+        var cartLengthElements = document.getElementsByClassName("cart_length");
+        var money_not_price = document.getElementsByClassName("money_not_price");
+        var money_price = document.getElementsByClassName("money_price");
+        var money_total_price = document.getElementsByClassName("money_total_price");
+        var totalItems = data.totalitems;
+
+        if (totalItems === "0") {
+          $("#shoping_cart_card").hide();
+          $("#shoping_cart_card_hide").show();
+        }
+
+        if (data.location === "/cart") {
+          window.location.reload();
+        }
+
+        for (var i = 0; i < cartLengthElements.length; i++) {
+          if (cartLengthElements[i] !== undefined) {
+            cartLengthElements[i].innerHTML = totalItems;
+          }
+
+          if (money_not_price[i] !== undefined) {
+            money_not_price[i].innerHTML = "&#x20b9;" + data.total_not_price;
+          }
+
+          if (money_price[i] !== undefined) {
+            money_price[i].innerHTML = "&#x20b9;" + data.total_price;
+          }
+
+          if (money_total_price[i] !== undefined) {
+            money_total_price[i].innerHTML = "&#x20b9;" + data.total_price;
+          }
+        }
+      },
+    });
+  }
+</script>
+
+{% endblock %}

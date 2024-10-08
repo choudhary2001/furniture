@@ -1,0 +1,168 @@
+{% extends 'main/base.html' %} {% load static %} {% block head %} 
+{% endblock head %} {% block content %}
+<div class="container spad" style="padding-top: 15px">
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert" >
+          {{message}}
+      </div>
+    {% endfor %}
+  {% endif %}
+  <div class="row">
+    <div class="col-lg-12">
+        <div class="appointment-form-in">
+            <h2 class="text-uppercase">Partner Registration</h2>
+            <div class="product__details__tab__content">
+              <div class="col-lg-12 col-md-6">
+                <form method="post" action="{% url 'partner_registration' %}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <h6 class="checkout__title">Personal Details</h6>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Full Name<span>*</span></p>
+                        <input type="text" name="name" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="checkout__input">
+                          <p>Father Name<span>*</span></p>
+                          <input type="text" name="father_name" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Email<span>*</span></p>
+                        <input type="email" name="email" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Contact No.<span>*</span></p>
+                        <input type="text" name="number" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="checkout__input">
+                          <p>Upload Photograph<span>*</span></p>
+                          <input
+                          type="file"
+                          name="image"
+                          accept="jpg,jpeg,png, pdf"
+                          required
+                        />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Upload Identity Proof(Voter/Aadhar)<span>*</span></p>
+                        <input
+                          type="file"
+                          name="identity_proof"
+                          accept="jpg,jpeg,png, pdf"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <h6 class="checkout__title">Bussiness Details</h6>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Type of Partner<span>*</span></p>
+                        <select id="partner_type" name="partner_type">
+                            <option value="Electrician">Electrician</option>
+                            <option value="Business Owner">Business Owner</option>
+                          </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="checkout__input">
+                          <p>State<span>*</span></p>
+                          <input type="text" name="state" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Pin code<span>*</span></p>
+                        <input type="number" name="pincode" required />
+                      </div>
+                    </div>
+                  </div>
+
+                  <h6 class="checkout__title">Other Details</h6>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Bank Name<span>*</span></p>
+                        <input type="text" name="bankname" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="checkout__input">
+                          <p>Account Holder Name<span>*</span></p>
+                          <input type="text" name="account_holder_name" required />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Bank A/C No.<span>*</span></p>
+                        <input type="text" name="account_no" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Bank IFSC Code<span>*</span></p>
+                        <input type="text" name="ifsc_code" required />
+
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="checkout__input">
+                          <p>Bank Details ( upload cancelled cheque)<span>*</span></p>
+                          <input
+                          type="file"
+                          name="bank_details"
+                          accept="jpg,jpeg,png, pdf"
+                          required
+                        />
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <div class="checkout__input">
+                        <p>Payment Method (Paytm / Google Pay)<span>*</span></p>
+                        <select id="payment_method" name="payment_method">
+                            <option value="Paytm">Paytm</option>
+                            <option value="Google Pay">Google Pay</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="checkout__input">
+                    <p>Paytm / Google Pay Number<span>*</span></p>
+                    <input
+                      type="text"
+                      placeholder="1234567890"
+                      class="checkout__input__add"
+                      name="pay_method_no"
+                      required
+                    />
+                  </div>
+                  <button type="submit" class="btn rounded btn-lg btn-primary" style="margin-top: 15px ;">
+                    Register
+                  </button>
+                </form>
+              </div>
+            </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

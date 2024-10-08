@@ -1,0 +1,46 @@
+{% extends 'main/base.html' %} {% load static %} {% block head %}
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+  .card {
+    border: none;
+  }
+
+  .totals tr td {
+    font-size: 13px;
+  }
+  body {
+    background-color: #eeeeeea8;
+  }
+</style>
+{% endblock head %} {% block content %}
+<div class="container order_container mt-5 mb-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="text-center logoo p-2 px-5">
+          <a href="/"><img class="black-and-white" src="{% static 'assets/images/logo.png' %}" alt="" /></a>
+        </div>
+
+        <div class="invoice p-5">
+          <h5>Your order Confirmed!</h5>
+
+          <span class="font-weight-bold d-block mt-4">Hello, {{request.user.first_name}}</span>
+          <span>You order has been confirmed and will be shipped in next two days!</span>
+
+          <p>We will be sending shipping confirmation email when the item shipped successfully!</p>
+          <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+          <span>FURNITURE Team</span>
+        </div>
+        <div class="text-center logoo p-2 px-5">
+          <a href="/products" class="btn btn-primary">Continue Shopping</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+{% endblock %}

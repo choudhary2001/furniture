@@ -1,0 +1,129 @@
+{% extends 'main/base.html' %} {% load static %} {% load custom_filters %}
+{% block head %}
+<style>
+    .contact-page-banner {
+        background: url(https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+<!--Page Content-->
+<main id="page-content">
+    <!--Page Heading-->
+    <div class="page-banner contact-page-banner">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <h1>Latest Videos</h1>
+                  <p class="sort-title">We are Here You</p>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!--End Page Heading-->
+  <br>
+<!--Latest Blog Post Section-->
+<section class="section pt-0">
+  <div class="container">
+    
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="latest-blog-post-slider blog-grid">
+          {% if video %}
+          {% for n in video %}
+
+          <div class="item">
+            <div class="post-thumb">
+              <a target="_blank" href="/media/{{n.video}}" class="d-block">
+                <video controls class="blur-up lazyload rounded-top rounded-bottom w-100" style="margin-bottom: -10px;"
+                 height="100%" >
+                  <source src="/media/{{n.video}}" type="video/mp4">
+                </video>
+              </a>
+            </div>
+           
+          </div>
+          {% endfor %}
+          {% else %}
+          <div class="item">
+            <div class="post-thumb">
+              No Video Found
+            </div>
+          </div>
+          
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--End Latest Blog Post Section-->
+
+<!--Newsletter Section-->
+<section class="section newsletter-section"
+  style="background-image: url(https://images.unsplash.com/photo-1560448205-17d3a46c84de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80);">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="section-title text-center">
+          <h2 class="title text-uppercase">
+            Subscribe to Our Newsletter <br />for New updates
+          </h2>
+        </div>
+        <form action="/user/subscribe" method="post" id="subscribe-form">
+          <p>
+            to stay up-to-date on our promotions, discounts, sales,
+            special offers and more.
+          </p>
+          <div id="subscribe-response" style="display: none; color:greenyellow !important;"></div>
+          <div class="input-group">
+            <input type="email" class="newsletter-input" name="email" value="" placeholder="Enter email address..."
+              required />
+            <span class="news-btn">
+              <button type="submit" class="btn" name="commit" id="Subscribe">
+                Subscribe
+              </button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!--End Newsletter Section-->
+</div>
+{% endblock content %}
+
+
+{% block script %}
+<script>
+  $(document).ready(function () {
+    $('#subscribe-form').submit(function (e) {
+      e.preventDefault();  // Prevent default form submission
+
+      var form = $(this);
+      var url = form.attr('action');
+
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: form.serialize(),  // Serialize the form data
+        dataType: 'json',
+        success: function (data) {
+          // Handle the success response
+          $('#subscribe-form')[0].reset();
+          $('#subscribe-response').text(data.message).show();
+        },
+        error: function () {
+          // Handle the error response
+          alert('An error occurred. Please try again.');
+        }
+      });
+    });
+  });
+</script>
+{% endblock script %}

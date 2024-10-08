@@ -1,0 +1,158 @@
+{% extends 'adminestration/base.html' %} {% load static %} 
+{% block head %} 
+<style>
+
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+<div class="container" >
+
+    <div class="card"style="border-radius:10px;">
+        <div class="card-body">
+            
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert" >
+                    {{message}}
+                </div>
+            {% endfor %}
+            {% endif %}
+            {% if category != 'None' %}
+            <form action="#" class="signin-form" action="/admin/category/{{category.slug}}" method = "post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="checkout__input">
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="alert" >
+                          {{message}}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                  <p>{{msg}}</p>
+                </div>
+                <div class="checkout__input">
+                  <p class="label" for="title">Title : <span>*</span></p>
+                  <br>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Title"
+                    required
+                    name = "title"
+                    value="{{crousel.name}}"
+                  />
+                </div>
+                <div class="checkout__input">
+                  <p class="label" for="image">Image : <span>*</span></p>
+                  <input type="file" accept="image/*" name="image" >
+                </div>  
+                
+                <div class="checkout__input">
+                  <p class="label" for="description">Description : <span>*</span></p>
+                 
+                  <textarea name="description" class="form-control" rows="5" required>{{crousel.description}}</textarea>
+  
+                </div>  
+  
+                <div class="checkout__input">
+                  <p class="label" for="image">Link : <span>*</span></p>
+                  <input type="link"  name="link" value="{{crousel.link}}" required>
+                </div>             
+                  
+                  <div class="form-group">
+                    <button
+                      type="submit"
+                      class="rounded submit primary-btn"
+                    >
+                      Change
+                    </button>
+                  </div>
+                </form>
+            {% else %}
+            <h3 style="text-align:center;">No category found</h3>
+            {% endif %}
+        
+        </div>
+    </div>
+
+</div>
+
+
+<div id="popupModal" class="modal fade">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content p-1">
+        <header class="">
+          <h4 style="float:left; padding:3px; padding-left:10px;"><b>Add category</b></h4>
+          <button  
+            type="button"
+            class="btn-close"
+            data-mdb-dismiss="modal"
+            aria-label="Close" style="float: right;
+            border: none;"
+          ><i class="fa fa-close"></i></button>    
+          </header>
+        <div class="modal-body" >
+          <form action="#" class="signin-form" action="/admin/crousel/{{crousel.c_id}}" method = "post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="checkout__input">
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert" >
+                      {{message}}
+                  </div>
+                {% endfor %}
+              {% endif %}
+              <p>{{msg}}</p>
+            </div>
+            <div class="checkout__input">
+                <p class="label" for="title">Title : <span>*</span></p>
+                <br>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Title"
+                  required
+                  name = "title"
+                  value = "{{crousel.name}}"
+                />
+              </div>
+              <div class="checkout__input">
+                <p class="label" for="image">Image : <span>*</span></p>
+                <input type="file" accept="image/*" name="image">
+              </div>  
+              
+              <div class="checkout__input">
+                <p class="label" for="description">Description : <span>*</span></p>
+               
+                <textarea name="description" class="form-control" rows="5" required>{{crousel.description}}</textarea>
+
+              </div>  
+
+              <div class="checkout__input">
+                <p class="label" for="link">Link : <span>*</span></p>
+                <input type="link"  name="link" required value="{{crousel.link}}">
+              </div>  
+              
+              <div class="form-group">
+                <button
+                  type="submit"
+                  class="rounded submit primary-btn"
+                >
+                  Create 
+                </button>
+              </div>
+            </form>
+        </div>
+  </div>
+</div>
+</div>
+
+
+
+{% endblock %}

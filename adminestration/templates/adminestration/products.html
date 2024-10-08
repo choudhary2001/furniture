@@ -1,0 +1,549 @@
+{% extends 'adminestration/base.html' %} {% load static %} {% block head %}
+<style>
+  .slider {
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    padding: 30px;
+    border-radius: 3px;
+  }
+  .range-slider {
+    width: calc(100%);
+    text-align: center;
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+  .range-slider .rangeValues {
+    display: block;
+    padding: 10px;
+    font-size: 18px;
+    margin-bottom: 35px;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    border: 1px solid white;
+    width: calc(100%);
+    position: absolute;
+    left: 0;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    width: calc(100%);
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #21c1ff;
+    margin-top: -6px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+  }
+
+  input[type="range"]:focus {
+    outline: none;
+  }
+
+  input[type="range"]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+  }
+
+  /*The following CSS code is not necessary for everyone*/
+
+  input[type="range"]::-moz-range-track {
+    width: 300px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #21c1ff;
+  }
+
+  /*hide the outline behind the border*/
+  input[type="range"]:-moz-focusring {
+    outline: 1px solid white;
+    outline-offset: -1px;
+  }
+
+  input[type="range"]::-ms-track {
+    width: 300px;
+    height: 5px;
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    background: transparent;
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-color: transparent;
+    border-width: 6px 0;
+    /*remove default tick marks*/
+    color: transparent;
+    z-index: -4;
+  }
+
+  input[type="range"]::-ms-fill-lower {
+    background: #777;
+    border-radius: 10px;
+  }
+
+  input[type="range"]::-ms-fill-upper {
+    background: #ddd;
+    border-radius: 10px;
+  }
+
+  input[type="range"]::-ms-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #21c1ff;
+  }
+
+  input[type="range"]:focus::-ms-fill-lower {
+    background: #888;
+  }
+
+  input[type="range"]:focus::-ms-fill-upper {
+    background: #ccc;
+  }
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+{% block content %}
+
+
+
+<!-- Shop Section Begin -->
+  <div class="container">
+    <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:30px;">
+      <div class="shop__product__option__right">
+        <button id="open-modal" class="primary-btn" style="margin:10px;">Add Product</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="shop__sidebar">
+          <div class="shop__sidebar__accordion">
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-heading">
+                  <a data-toggle="collapse" data-target="#collapseOne"
+                    >Categories</a
+                  >
+                </div>
+                <div
+                  id="collapseOne"
+                  class="collapse show"
+                  data-parent="#accordionExample"
+                >
+                  <div class="card-body">
+                    <div class="shop__sidebar__categories">
+                      <ul class="nice-scroll">
+                        {% for i in categories %} 
+                        {% if not i.children.all %}
+                        <li>
+                          <a href="/admin/products/{{i.slug}}{% if search != None %}?search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}">{{i.title}}</a>
+                        
+                        </li>
+                        {% else %}
+                        <li
+                          data-toggle="collapse"
+                          href="#collapsecategory"
+                          role="button"
+                          aria-expanded="false"
+                          aria-controls="collapsecategory"
+                        >
+                          <a href="/admin/products/{{i.slug}}{% if search != None %}?search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}">{{i.title}}</a>
+                          <span style="float:right; color:black; cursor:pointer;">&darr;</span>
+
+                        </li>
+                        <ul class="collapse" id="collapsecategory">
+                          {% for obj in i.children.all %} 
+                          {% if not obj.children.all %}
+                          <li>
+                            <a href="/admin/products/{{obj.slug}}{% if search != None %}?search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}">{{obj.title}}</a>
+                          </li>
+                          {% else %}
+                          <li
+                            data-toggle="collapse"
+                            href="#collapsesubcategory"
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls="collapsesubcategory"
+                          >
+                            <a href="/admin/products/{{obj.slug}}{% if search != None %}?search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}">{{obj.title}}</a>
+                          <span style="float:right; color:black; cursor:pointer;">&darr;</span>
+
+                          </li>
+                          <ul class="collapse" id="collapsesubcategory">
+                            {% for subobj in obj.children.all %}
+                            <li>
+                              <a href="/admin/products/{{subobj.slug}}{% if search != None %}?search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}">{{subobj.title}}</a
+                              >
+                            </li>
+                            {% endfor %}
+                          </ul>
+                          {% endif %} {% endfor %}
+                        </ul>
+                        {% endif %} {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-heading">
+                  <a data-toggle="collapse" data-target="#collapseThree"
+                    >Filter Price</a
+                  >
+                </div>
+                <div
+                  id="collapseThree"
+                  class="collapse show"
+                  data-parent="#accordionExample"
+                >
+                  <div class="card-body">
+                    <div class="shop__sidebar__price">
+                      <ul>
+                        <li>
+                          <form method="POST" action="">
+                            {% csrf_token %}
+                            <div class="slider">
+                              <div class="range-slider">
+                                <span class="rangeValues"></span>
+                                <input
+                                  value="{{minMaxPrice.price__min}}"
+                                  min="{{minMaxPrice.price__min}}"
+                                  max="{{minMaxPrice.price__max}}"
+                                  step="1"
+                                  type="range"
+                                  name="min_price"
+                                />
+                                <input
+                                  value="{{minMaxPrice.price__max}}"
+                                  min="{{minMaxPrice.price__min}}"
+                                  max="{{minMaxPrice.price__max}}"
+                                  step="1"
+                                  type="range"
+                                  name="max_price"
+                                />
+                              </div>
+                            </div>
+                            <button
+                              class="primary-btn"
+                              style="outline: 0; border: 0"
+                              type="submit"
+                            >
+                              Filter
+                            </button>
+                          </form>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="shop__product__option">
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+              <div class="shop__product__option__left">
+                <p>
+                  Page {{ products.number }} of {{ products.paginator.num_pages}}.
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__center">
+                  <div class="checkout__input">
+        
+                  <form action="/admin/products/">
+                    <input type="text" name="search" placeholder="Search...">
+                  </form>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+              <div class="shop__product__option__right">
+                <p>Sort by Price:</p>
+                {% if low_to_high == None %}
+                  <a href="{% if categoryy != None %}/admin/products/{{categoryy}}{% endif %}?low_to_high=1{% if search != None %}&search={{search}}{% endif %}" style="color: black">Low To High</a>
+                {% endif %} 
+                {% if low_to_high == '0' %}
+                  <a href="{% if categoryy != None %}/admin/products/{{categoryy}}{% endif %}?low_to_high=1{% if search != None %}&search={{search}}{% endif %}" style="color: black">Low To High</a>
+                {% endif %} 
+                {% if low_to_high == '1' %}
+                  <a href="{% if categoryy != None %}/admin/products/{{categoryy}}{% endif %}?low_to_high=0{% if search != None %}&search={{search}}{% endif %}" style="color: black">High To Low</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if products %}
+        <div class="row">
+          {% for p in products %}
+          <div class="col-lg-4 col-md-6 col-sm-6">
+            <div class="product__item">
+              <a href="/admin/products/{{p.category.slug}}/{{p.slug}}">
+                <div
+                  class="product__item__pic set-bg" style="background-size:contain !important;"
+                  data-setbg="/media/{{p.image1}}"
+                >
+                  {% if p.quantity > 0 %} {% else %}
+                  <span class="label">Out Of Stock</span>
+                  {% endif %}
+                  <ul class="product__hover">
+                    <li style="background-color:black;padding : 5px; border-radius : 5px; text-align:center; color:white;"><a href="/admin/products/{{p.category.slug}}/{{p.slug}}"  style="color:white;">Edit</a></li>
+                    <li style="background-color:black;padding : 5px; border-radius : 5px; color:white;"><a href="/admin/delete/products/delete/{{p.slug}}" style="color:white;">Delete</a></li>
+                    
+                </ul>
+                </div>
+              </a>
+              <div class="" style="padding:5px;">
+              <a href="/admin/products/{{p.category.slug}}/{{p.slug}}">
+                <h6>{{p.title}}</h6>         
+              </a>
+                <h5 style="padding:5px;"><b>&#x20b9; {{p.price}}</b></h5>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="product__pagination">
+              <span class="step-links">
+                {% if products.has_previous %} 
+                  {% if products.has_previous != '1' %}
+                    <a href="{% if categoryy != None %}/admin/products/{{categoryy}}{% endif %}?page={{ products.previous_page_number }}{% if search != None %}&search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}">&laquo; </a>
+                  {% endif %} 
+                {% endif %}
+                <span class="current-page active">{{ products.number }}</span>
+                {% if products.has_next %} 
+                  {% if products.has_next != products.paginator.num_pages %}
+                    <a href="{% if categoryy != None %}/admin/products/{{categoryy}}{% endif %}?page={{ products.next_page_number }}{% if search != None %}&search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}">&raquo;</a>
+                  {% endif %} 
+                {% endif %}
+              </span>
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="row">
+          <h2>Soory!, Products are Not Available.</h2>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+  <div id="popupModal" class="modal fade">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content p-1">
+          <header class="">
+            <h4 style="float:left; padding:3px; padding-left:10px;"><b>Add Product</b></h4>
+            <button  
+              type="button"
+              class="btn-close"
+              data-mdb-dismiss="modal"
+              aria-label="Close" style="float: right;
+              border: none;"
+            ><i class="fa fa-close"></i></button>    
+            </header>
+          <div class="modal-body" >
+            <form method="post" action="/admin/add/products/" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="checkout__input">
+                    <p>Title<span>*</span></p>
+                    <input type="text" name="title" value="" required />
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="checkout__input">
+                      <p>Category<span>*</span></p>
+                      <select id="category" name="category">
+                        
+                        {% for i in categories %} 
+                        {% if not i.children.all %}
+                          <option value="{{i.slug}}">{{i.title}}</option>
+                        {% else %}
+                          <option value="{{i.slug}}">{{i.title}}</option>
+                          {% for obj in i.children.all %} 
+                            {% if not obj.children.all %}
+                              <option value="{{obj.slug}}">{{i.title}} > {{obj.title}}</option>
+                            {% else %}
+                              {% for subobj in obj.children.all %}
+                                <option value="{{subobj.slug}}">{{i.title}} > {{obj.title}} > {{subobj.title}}</option>
+                              {% endfor %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+              </div>
+              <div class="checkout__input">
+                <p>Details<span>*</span></p>
+                <textarea name="details" class="form-control" rows="5" required></textarea>
+              </div>
+              <div class="checkout__input">
+                <p>Features<span>*</span></p>
+                <textarea name="features" class="form-control" rows="5"  required></textarea>
+              </div>
+                <div class="checkout__input">
+                  <p>Specifications<span>*</span></p>
+                  <textarea name="specifications" class="form-control" rows="5" required></textarea>
+                </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="checkout__input">
+                    <p>Image 1<span>*</span></p>
+                    <input type="file" name="image1" accept="image/*, video/*"  />
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="checkout__input">
+                      <p>Image 2<span>*</span></p>
+                      <input type="file" name="image2" accept="image/*, video/*" />
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="checkout__input">
+                    <p>Image 3<span>*</span></p>
+                    <input type="file" name="image3" accept="image/*, video/*"  />
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="checkout__input">
+                      <p>Image 4<span>*</span></p>
+                    <input type="file" name="image4" accept="image/*, video/*" />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="checkout__input">
+                    <p>Image 5<span>*</span></p>
+                    <input type="file" name="image5" accept="image/*, video/*" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="checkout__input">
+                    <p>Quantity<span>*</span></p>
+                    <input type="number" name="quantity" value=""  required />
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="checkout__input">
+                      <p>Actual Price<span>*</span></p>
+                    <input type="number" name="not_price" value=""  required />
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="checkout__input">
+                    <p>Selling Price<span>*</span></p>
+                    <input type="number" name="price" value="" required />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="checkout__input">
+                    <p>GST<span>*</span></p>
+                    <input type="number" name="tax" value="" required />
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="checkout__input">
+                    <p>Status<span>*</span></p>
+                    <input style="height:50px; width:10%;" type="checkbox" name="status" checked  />
+                  </div>
+                </div>
+              </div>
+              <button type="submit" name="payment" class="site-btn">
+                Add
+              </button>
+            </form>
+          </div>
+    </div>
+  </div>
+  </div>
+
+
+
+<script>
+  function getVals() {
+    // Get slider values
+    let parent = this.parentNode;
+    let slides = parent.getElementsByTagName("input");
+    let slide1 = parseFloat(slides[0].value);
+    let slide2 = parseFloat(slides[1].value);
+    // Neither slider will clip the other, so make sure we determine which is larger
+    if (slide1 > slide2) {
+      let tmp = slide2;
+      slide2 = slide1;
+      slide1 = tmp;
+    }
+
+    let displayElement = parent.getElementsByClassName("rangeValues")[0];
+    displayElement.innerHTML = "&#x20b9;" + slide1 + " - &#x20b9;" + slide2;
+  }
+
+  window.onload = function () {
+    // Initialize Sliders
+    let sliderSections = document.getElementsByClassName("range-slider");
+    for (let x = 0; x < sliderSections.length; x++) {
+      let sliders = sliderSections[x].getElementsByTagName("input");
+      for (let y = 0; y < sliders.length; y++) {
+        if (sliders[y].type === "range") {
+          sliders[y].oninput = getVals;
+          // Manually trigger event first time to display values
+          sliders[y].oninput();
+        }
+      }
+    }
+  };
+</script>
+<script>
+  $(document).ready(function() {
+    $("#open-modal").click(function() {
+      $("#popupModal").modal("show");
+    });
+  });
+  $(document).ready(function(){
+    // Close modal on button click
+    $(".btn-close").click(function(){
+        $("#popupModal").modal('hide');
+    });
+});
+</script>
+
+{% endblock %}

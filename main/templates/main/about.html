@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %} {% load static %} {% load custom_filters %} {% block head %}
+<style>
+  .contact-page-banner {
+    background: url("https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&w=2946&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: bottom;
+  }
+</style>
+{% endblock head %} {% block content %}
+<!--Page Content-->
+<main id="page-content">
+  <!--Page Heading-->
+  <div class="page-banner contact-page-banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1>About</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Page Heading-->
+
+  <!--Breadcrums-->
+  <div class="breadcrumbs">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">Home</a> <span><i class="cps cp-angle-right"></i></span>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">About</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <!--End Breadcrums-->
+
+  <!--Text Contact Info Section-->
+  <div class="section contact-info-section">
+    <div class="container">{% if about %} {{about.about|safe}} {% endif %}</div>
+  </div>
+  <!--End Contact Info Section-->
+</main>
+<!--End Page Content-->
+{% endblock %}

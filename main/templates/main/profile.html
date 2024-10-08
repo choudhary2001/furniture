@@ -1,0 +1,578 @@
+{% extends 'main/base.html' %} {% load static %}
+{% block head %}
+<style>
+    .list-group-item {
+        color: black;
+        cursor: pointer;
+    }
+
+
+
+    .list-group-item.active {
+        z-index: 2;
+        color: #fff;
+        background-color: #d30a0c;
+        border-color: #d30a0c;
+    }
+
+    .list-group-item.active:hover {
+        .tablink {
+
+            color: #fff !important;
+        }
+    }
+
+    .tablink {
+        background: transparent !important;
+    }
+
+    .tablink:hover {
+        color: black !important;
+    }
+
+    .list-group-item:hover {
+        .tablink {
+
+            color: #d30a0c !important;
+        }
+    }
+    .tab-container{
+        padding: 0px !important;
+    }
+    @media (max-width:768px) {
+        
+        .tab-container{
+            padding-top: 25px !important;
+        }
+    }
+    .checkout__input p{
+        margin-bottom: 5px !important;
+    }
+</style>
+{% endblock head %}
+{% block content %}
+<div class="container padding-bottom-3x mb-5">
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="tabs-listing mt-2 row">
+                <div class="col-lg-3">
+                    <aside class="user-info-wrapper">
+                        <div class="user-info shadow border shadow-2" style="border-top-left-radius: 10px; border-top-right-radius: 10px;">
+                            <div class="user-avatar" style="display:flex; justify-content:center; 
+                            {% if not profile.profile_image %}
+                            background-image: url(https://images.unsplash.com/photo-1640960543409-dbe56ccc30e2?q=80&w=2725&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+                            {% else %}
+                            background-image: url(/media/{{profile.profile_image}}D);
+                            {% endif %}
+                            height: 250px;
+                            background-position: center;
+                            border-top-left-radius: 10px; border-top-right-radius: 10px;
+                            background-size: cover;">
+                                <!-- {% if not profile.profile_image %}
+                                <img id="avater_photo_view" style="width:50%;height:50%;"
+                                    src="https://images.unsplash.com/photo-1640951613773-54706e06851d?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="User" />
+                                {% else %}
+                                <img id="avater_photo_view" style="width:50%;height:50%;"
+                                    src="/media/{{profile.profile_image}}" alt="User" />
+                                {% endif %} -->
+                            </div>
+
+                            <div class="user-data" style="text-align:center;">
+                                <h4 class="h5">{{request.user.first_name}} {{request.user.last_name}}</h4>
+                            </div>
+                        </div>
+
+                        <nav class="list-unstyled product-tabs" style="border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                            <li rel="profile" class="active list-group-item"><a class="tablink">Profile</a></li>
+                            <li rel="address" class=" list-group-item"><a class="tablink">Address</a></li>
+                            <li rel="orders" class="list-group-item"><a class="tablink">Orders ({{order|length}})</a></li>
+                            <!-- <li rel="warranty_registration" class="list-group-item"><a class="tablink">Warranty
+                                    Registration</a></li>
+                            <li rel="warranty_claim" class="list-group-item"><a class="tablink">Warranty Claim</a></li> -->
+                            <li rel="complaint" class="list-group-item"><a class="tablink">Complaint</a></li>
+                            <a href="{% url 'logout' %}" class="list-group-item text-decoration-none">
+                                <li class="d-flex justify-content-between align-items-center" style="padding: 10px 25px;">
+                                  Log out
+                                </li>
+                            </a>
+                              
+                        </nav>
+                    </aside>
+                </div>
+                <div class="tab-container col-lg-9" style="">
+                    <!--Profile-->
+
+                    <div id="profile" class="tab-content appointment-form-in">
+                        <h4 class="pt-2 text-uppercase"> Profile</h4>
+
+                        <div class="product-description">
+                            <div class="row">
+                                <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+                                {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert">
+                                    {{message}}
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                                <form method="post" action="{% url 'profile' %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>First Name<span>*</span></p>
+                                                <input type="text" name="first_name" value="{{user.first_name}}"
+                                                    required />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Last Name<span>*</span></p>
+                                                <input type="text" name="last_name" value="{{user.last_name}}"
+                                                    required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Email<span>*</span></p>
+                                                <input type="email" name="email" value="{{user.email}}" required />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Phone No.<span>*</span></p>
+                                                <input type="number" name="phone_no" value="{{profile.phone_number}}"
+                                                    required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Profile Picture<span></span></p>
+                                                <input type="file" name="profile_picture" accept="jpg, jpeg, png" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="checkout__input">
+                                                <p>Password<span></span></p>
+                                                <input type="password" name="password" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 15px;">
+                                        Save
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Profile-->
+                    <!--Orders-->
+
+                    <div id="orders" class="tab-content appointment-form-in">
+                        <h4 class="pt-2 text-uppercase"> Orders</h4>
+
+                        <div class="padding-top-2x mt-2 hidden-lg-up"></div>
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert">
+                            {{message}}
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% if order %}
+                        <div class="u-table-res" style="overflow-x: scroll;">
+                            <table class="table table-bordered mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Total Price</th>
+                                        <th>Order Status</th>
+                                        <th>Payment Status</th>
+                                        <th>Date Purchased</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% if request.user.is_authenticated %}
+                                    {% for c in order %}
+                                    <tr>
+
+                                        <td>{{c.order_id}}</td>
+                                        <td>
+                                            {% for p in c.product.all %}
+                                            <a href="/products/{{p.product.category.slug}}/{{p.product.slug}}"
+                                                class="text-primary">{{p.product.title}}</a><br>
+                                            {% endfor %}
+                                        </td>
+                                        <td class="quantity__item">
+                                            <div class="quantity">
+                                                <span>{{c.quantity}}<span>
+                                            </div>
+                                        </td>
+                                        <td class="cart__price">&#x20b9; {{c.total_price}}</td>
+                                        <td>{{c.order_status}}</td>
+                                        <td>{{c.payment_status}}</td>
+
+                                        <td>{{c.date_added}}</td>
+                                        <td><a href="/invoice/{{c.order_id}}" class="btn btn-primary" style="">Invoice</a>
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+
+                                    {% endif %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div style="display: flex; align-items: center; justify-content: center; height: 25vh;">
+
+                            <a href="/products" class="btn btn-primary btn--small rounded cart-continue"><i
+                                    class="cps cp-arrow-left"></i> Continue shopping</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!--End Orders-->
+
+                    <!--Warranty Registration-->
+
+                    <div id="warranty_registration" class="tab-content appointment-form-in">
+                        <div class="col-lg-12 col-md-6" style="width:100%;">
+                            <div class="continue__btn update__btn" style="    display: flex;
+                            justify-content: space-between;">
+                                <h4 class="pt-2 text-uppercase"> Warranty Registration</h4>
+                                <a href="{% url 'warranty_registration' %}" class="btn btn-primary">Warranty
+                                    Registration</a>
+                            </div>
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert">
+                                {{message}}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            {% if w_reg %}
+                            <div class="u-table-res" style="overflow-x: scroll;">
+                                <table class="table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Registration ID</th>
+                                            <th>Product Batch No</th>
+                                            <th>Invoice No</th>
+                                            <th>Status</th>
+                                            <th>Date Added</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% if request.user.is_authenticated %}
+                                        {% for c in w_reg %}
+                                        <tr>
+                                            <td class="product__cart__item">
+                                                <div class="product__cart__item__text">
+                                                    <h6>{{c.product}}</h6>
+                                                </div>
+                                            </td>
+                                            <td>{{c.reg_id}}</td>
+                                            <td class="">
+                                                {{c.product_batch_no}}
+                                            </td>
+                                            <td class="">
+                                                {{c.invoice_no}}
+                                            </td>
+                                            <td>{{c.status}}</td>
+                                            <td>{{c.date_added}}</td>
+                                        </tr>
+                                        {% endfor %}
+
+                                        {% endif %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--End Warranty Registration-->
+
+                    <!--Warranty Claim-->
+
+                    <div id="warranty_claim" class="tab-content appointment-form-in">
+                        <div class="col-lg-12 col-md-6" style="width:100%;">
+                            <div class="continue__btn update__btn" style="    display: flex;
+                                                justify-content: space-between;">
+                                <h4 class="pt-2 text-uppercase"> Warranty Claim</h4>
+                                <a href="{% url 'claim_warranty' %}" class="btn btn-primary">Warranty Claim</a>
+                            </div>
+
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert">
+                                {{message}}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            {% if w_claim %}
+                            <div class="u-table-res" style="overflow-x: scroll;">
+                                <table class="table table-bordered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Claim ID</th>
+                                            <th>E Warranty Registration Number</th>
+                                            <th>Product Batch No</th>
+                                            <th>Status</th>
+                                            <th>Date Added</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% if request.user.is_authenticated %}
+                                        {% for c in w_claim %}
+                                        <tr>
+                                            <td>{{c.claim_id}}</td>
+                                            <td class="">
+                                                {{c.warranty_registration}}
+                                            </td>
+                                            <td class="">
+                                                {{c.product_batch_no}}
+                                            </td>
+                                            <td>{{c.status}}</td>
+                                            <td>{{c.date_added}}</td>
+                                        </tr>
+                                        {% endfor %}
+
+                                        {% endif %}
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--End Warranty Claim-->
+
+                    <!--Address-->
+
+                    <div id="address" class="tab-content appointment-form-in">
+                        <div class="col-lg-12 col-md-6" style="width:100%;">
+                            <div class="continue__btn update__btn" style="    display: flex;
+                                                                    justify-content: space-between;">
+                                <h4 class="pt-2 text-uppercase"> Address</h4>
+                                <a href="#;" id="open-modal" class="btn btn-primary">+ Add Address</a>
+                            </div>
+
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert">
+                                {{message}}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            {% for a in address %}
+                            <div class="col-lg-6" style="padding:5px;">
+                                <div class="card" style="border : 1px solid #e53637; padding:5px;">
+                                    <div class="row">
+
+                                        <div class="col" style="margin:5px;">
+                                            <div class="row">
+                                                <div class="col">
+
+                                                    {{a.first_name}} {{a.last_name}}
+                                                </div>
+                                                <div class="col">
+                                                    <a style="float:right;padding:5px; color:#e53637;"
+                                                        href="/user/address/edit/{{a.address_id}}?profile=1" class=""><i
+                                                            class="cps cp-edit"></i></a>
+                                                    <a style="float:right;padding:5px; color:#e53637;"
+                                                        href="/user/address/delete/{{a.address_id}}?profile=1"
+                                                        class=""><i class="cps cp-trash"></i></a>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                {{a.phone}}
+                                            </div>
+                                            <div>
+                                                {{a.address}}, {{a.local_address}}, {{a.town}}
+                                            </div>
+                                            <div>
+                                                {{a.postalcode}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+                    <!--End Address-->
+
+                    <!--Complaint-->
+
+                    <div id="complaint" class="tab-content appointment-form-in">
+                        <div class="col-lg-12 col-md-6" style="width:100%;">
+                            <div class="continue__btn update__btn" style="    display: flex;
+                                                justify-content: space-between;">
+                                <h4 class="pt-2 text-uppercase"> Complaint</h4>
+                            </div>
+
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert">
+                                {{message}}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            <form method="post" action="{% url 'complaint' %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="checkout__input">
+                                            <p>Subject<span>*</span></p>
+                                            <select id="subject" name="subject">
+                                                <option value="Fan Stopped Running">Fan Stopped Running</option>
+                                                <option value="Fan Is Jerking">Fan Is Jerking</option>
+                                                <option value="Fan Stops and Runs">Fan Stops and Runs</option>
+                                                <option value="Fan not Responding to remote">Fan not Responding to
+                                                    remote</option>
+                                                <option value="Fan Making Noise">Fan Making Noise</option>
+                                                <option value="Fan Not Givving Sufficient Air">Fan Not Givving
+                                                    Sufficient Air</option>
+                                                <option value="Any Parts dameged in transit">Any Parts dameged in
+                                                    transit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="checkout__input">
+                                            <p>Complaint<span>*</span></p>
+                                            <textarea class="form-control" required name="complaint" rows="3"
+                                                placeholder="Complaint"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="bt btn-primary" style="margin-top: 15px;">
+                                    Complain
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <!--End Complaint-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<div id="popupModal" class="modal fade">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content p-1">
+            <header class="">
+                <h4 style="float:left; padding:3px; padding-left:10px;"><b>Add address</b></h4>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close" style="float: right;
+            border: none;"><i class="fa fa-close"></i></button>
+            </header>
+            <div class="modal-body">
+                <form class="form" action="{% url 'add_address' %}?profile=1" method="post"
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>Fist Name<span>*</span></p>
+                                <input type="text" name="first_name" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>Last Name<span>*</span></p>
+                                <input type="text" name="last_name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="checkout__input">
+                        <p>Country<span>*</span></p>
+                        <input type="text" name="country" required>
+                    </div>
+                    <div class="checkout__input">
+                        <p>Address<span>*</span></p>
+                        <input type="text" placeholder="Street Address" class="checkout__input__add"
+                            name="street_address" required>
+                        <input type="text" placeholder="Apartment, suite, unite ect (optinal)" name="appartment"
+                            required>
+                    </div>
+                    <div class="checkout__input">
+                        <p>Town/City<span>*</span></p>
+                        <input type="text" name="town" required>
+                    </div>
+                    <div class="checkout__input">
+                        <p>Country/State<span>*</span></p>
+                        <input type="text" name="state" required>
+                    </div>
+                    <div class="checkout__input">
+                        <p>Postcode / ZIP<span>*</span></p>
+                        <input type="text" name="postcode" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>Phone<span>*</span></p>
+                                <input type="text" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="checkout__input">
+                                <p>Email<span>*</span></p>
+                                <input type="email" name="email" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <button type="submit" class="rounded submit btn btn-primary">
+                            Add
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $("#open-modal").click(function () {
+            $("#popupModal").modal("show");
+        });
+    });
+    $(document).ready(function () {
+        // Close modal on button click
+        $(".btn-close").click(function () {
+            $("#popupModal").modal('hide');
+        });
+    });
+</script>
+{% endblock script %}

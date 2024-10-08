@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Male_Fashion Template" />
+    <meta name="keywords" content="Male_Fashion, unica, creative, html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>FURNITURE {% block title %}| {{title}} {% endblock %}</title>
+    <!-- <link rel="icon" href="{% static 'img/icon/icon.png' %}" type="image/x-icon" /> -->
+    <!-- <meta name="keywords" content="Buy FURNITURE Fans,FURNITURE Fans Online in India at Best Prices | furniture.swastik.ai" />
+    <meta name="description" content="Buy Electric fans for your living room, bedroom and others at best Prices Online in India. Shop from a wide range of Ceiling Fans, Table Fans, Pedestal Fans, Tower Fans, and Exhaust Fans, at FURNITURE." />
+    <meta name="author" content="Furniture Fans" /> -->
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/elegant-icons.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" />
+    {% block head %} {% endblock head %}
+    <style>
+      .black-and-white {
+        filter: invert(1);
+      }
+
+      .header__logo {
+        padding: 18px !important;
+        margin-left: -20px !important;
+      }
+
+      .dropdown .active {
+        background-color: red !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+      <div class="loader"></div>
+    </div>
+
+    <!-- Offcanvas Menu Begin -->
+    <div class="offcanvas-menu-overlay"></div>
+    <div class="offcanvas-menu-wrapper">
+      <div class="offcanvas__option">
+        <div class="offcanvas__links">
+          {% if user.is_authenticated %}
+          <a href="{% url 'profile' %}">{{request.user.first_name}}</a>
+          {% else %}
+          <a href="{% url 'login' %}">Sign in</a>
+          {% endif %}
+          <a href="#">FAQs</a>
+        </div>
+      </div>
+      <div class="offcanvas__nav__option">
+        <a href="#" class="search-switch"><img src="{% static 'img/icon/search.png' %}" alt="" /></a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}"><i class="fa fa-user" style="color: black"></i></a>
+        {% else %}
+        <a href="{% url 'login' %}"><i class="fa fa-user" style="color: black"></i></a>
+        {% endif %}
+        <a href="#"><img src="{% static 'img/icon/cart.png' %}" alt="" /> <span>0</span></a>
+      </div>
+      <div id="mobile-menu-wrap"></div>
+      <div class="offcanvas__text">
+        <a href="tel:18002584430" target="_blank">
+          <span class="text-light text-sm"> <i class="fa fa-phone fa-headset"></i></span>
+        </a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="https://wa.me/916292303030" target="_blank">
+          <span class="text-light text-sm">
+            <i class="fa fa-brands fa-whatsapp fa-shake" style="color: #ffffff"></i>
+          </span>
+        </a>
+      </div>
+    </div>
+    <!-- Offcanvas Menu End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-2 col-md-2">
+            <div class="header__logo">
+              <a href="{% url 'admin-index' %}">
+                <!-- <img class="black-and-white" src="{% static 'img/gllogo.png' %}" alt="" /> -->
+                <h2>FURNITURE</h2>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-8 col-md-8">
+            <nav class="header__menu mobile-menu">
+              <ul>
+                <li class="{% if page == 'Home' %}active{% endif %}"><a href="{% url 'admin-index' %}">Home</a></li>
+                <li class="has-children {% if page == 'Products' %}active{% endif %}">
+                  <a href="{% url 'admin_products' %}">Products</a>
+                  <ul class="dropdown" style="z-index: 9999">
+                    {% for i in categories %}
+                    <li><a href="/admin/products/{{i.slug}}" class="{% if cats == i.slug %}active{% endif %}">{{i.title}}</a></li>
+
+                    {% endfor %}
+                  </ul>
+                </li>
+                <li class="{% if page == 'Order' %}active{% endif %}"><a href="{% url 'admin_order' %}">Order</a></li>
+                <!-- <li class="{% if page == 'Partner' %}active{% endif %}"><a href="{% url 'admin_partner_locetor' %}">Partner</a></li> -->
+                <!-- <li class="has-children {% if page == 'Services' or page == 'Registration' or page == 'Claim' or page == 'Contact' or page == 'Complainet' or page == 'News' or page == 'Faq' or page == 'Subscrie' or page == 'locator' %}active{% endif %}">
+                  <a href="#;">Services</a>
+                  <ul class="dropdown" style="z-index: 9999">
+                    <li class="{% if page == 'Registration' %}active{% endif %}"><a href="{% url 'admin_wr_locetor' %}">Warranty Registration</a></li>
+                    <li class="{% if page == 'Claim' %}active{% endif %}"><a href="{% url 'admin_wc_locetor' %}">Warranty Claim</a></li>
+                    <li class="{% if page == 'Contact' %}active{% endif %}"><a href="{% url 'admin_contact' %}">Contact</a></li>
+                    <li class="{% if page == 'Complainet' %}active{% endif %}"><a href="{% url 'admin_complainet' %}">Complainet</a></li>
+                    <li class="{% if page == 'locator' %}active{% endif %}"><a href="{% url 'partner_locator' %}">Partner Locator</a></li>
+                    <li class="{% if page == 'News' %}active{% endif %}"><a href="{% url 'admin_news' %}">News</a></li>
+                    <li class="{% if page == 'Faq' %}active{% endif %}"><a href="{% url 'admin_faq' %}">Faq</a></li>
+                    <li class="{% if page == 'Video' %}active{% endif %}"><a href="{% url 'admin_video' %}">Videos</a></li>
+                  </ul>
+                </li> -->
+                <li class="has-children {% if page == 'Services' or page == 'Registration' or page == 'Claim' or page == 'Contact' or page == 'Complainet' or page == 'News' or page == 'Faq' or page == 'Subscrie' or page == 'locator' %}active{% endif %}">
+                  <a href="#;">Links</a>
+                  <ul class="dropdown" style="z-index: 9999">
+                    <li class="{% if page == 'About' %}active{% endif %}">
+                      <a href="{% url 'admin_about' %}">About</a>
+                    </li>
+                    <li class="{% if page == 'Privacy' %}active{% endif %}">
+                      <a href="{% url 'admin_privacy_policy' %}">Privacy Policy</a>
+                    </li>
+                    <li class="{% if page == 'Terms' %}active{% endif %}">
+                      <a href="{% url 'admin_terms_condition' %}">Terms & Condition</a>
+                    </li>
+                    <li class="{% if page == 'Return' %}active{% endif %}">
+                      <a href="{% url 'admin_return_policy' %}">Return Policy</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-lg-2 col-md-2">
+            <div class="header__nav__option">
+              <a href="#" class="search-switch"><img src="{% static 'img/icon/search.png' %}" alt="" /></a>
+              {% if user.is_authenticated %}
+              <a href="{% url 'logout' %}" style="color: #e53637">Log Out</a>
+              {% else %}
+              <a href="{% url 'login' %}"><i class="fa fa-user" style="color: black"></i></a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="canvas__open"><i class="fa fa-bars"></i></div>
+      </div>
+    </header>
+    <!-- Header Section End -->
+
+    {% block content %} {% endblock %}
+
+    <!-- Search Begin -->
+    <div class="search-model">
+      <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch">+</div>
+        <form class="search-model-form" action="/products">
+          <input type="text" name="search" id="search-input" placeholder="Search here....." />
+        </form>
+      </div>
+    </div>
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nicescroll.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/mixitup.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

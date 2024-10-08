@@ -1,0 +1,326 @@
+{% extends 'adminestration/base.html' %} 
+{% load static %} 
+{% block head %}
+<style>
+    .review_rating{
+        cursor : pointer;
+        font-size : 25px;
+        padding : 2px;
+    }
+</style>
+{% endblock head %}
+
+{% block content %}
+
+
+    <!-- Shop Details Section Begin -->
+    <section class="shop-details">
+        <div class="product__details__pic">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product__details__breadcrumb">
+                            <a href="/">Home</a>
+                            <a href="/products">Shop</a>
+                            <span>Product Details</span>
+                        </div>
+                    </div>
+                </div>
+                {% if messages %}
+                {% for message in messages %}
+                  <div class="alert" >
+                      {{message}}
+                  </div>
+                {% endfor %}
+              {% endif %}
+                <div class="row">
+                    <div class="col-lg-3 col-md-3">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="/media/{{product_detail.image1}}">
+                                    </div>
+                                </a>
+                            </li>
+                            {% if product_detail.image2 %}
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="/media/{{product_detail.image2}}">
+                                    </div>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if product_detail.image3 %}
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="/media/{{product_detail.image3}}">
+                                    </div>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if product_detail.image4 %}
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="/media/{{product_detail.image4}}">
+                                       
+                                    </div>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if product_detail.image5 %}
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-5" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="/media/{{product_detail.image5}}">
+                                        
+                                    </div>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-9">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="/media/{{product_detail.image1}}" alt="">
+                                </div>
+                            </div>
+                            {% if product_detail.image2 %}
+                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="/media/{{product_detail.image2}}" alt="">
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if product_detail.image3 %}
+                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="/media/{{product_detail.image3}}" alt="">
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if product_detail.image4 %}
+                            <div class="tab-pane" id="tabs-4" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="/media/{{product_detail.image4}}" alt="">
+                                    
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if product_detail.image5 %}
+                            <div class="tab-pane" id="tabs-5" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="/media/{{product_detail.image5}}" alt="">
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="product__details__content">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="product__details__text">
+                            <h4>{{product_detail.title}}</h4>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product__details__tab">
+                            <ul class="nav nav-tabs" role="tablist" style="position:sticky; top:0; background:#fff; z-index:99;">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-5"
+                                    role="tab">Edit</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">Reviews
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" style="padding-bottom:50px;">
+                                <div class="tab-pane active" id="tabs-5" role="tabpanel" >
+                                    <div class="product__details__tab__content" >
+                                        <div class="col-lg-12 col-md-6">
+                                            <form method="post" action="/admin/products/{{product_detail.category.slug}}/{{product_detail.slug}}" enctype="multipart/form-data">
+                                              {% csrf_token %}
+                                              <div class="row">
+                                                <div class="col-lg-6">
+                                                  <div class="checkout__input">
+                                                    <p>Title<span>*</span></p>
+                                                    <input type="text" name="title" value="{{product_detail.title}}" required />
+                                                  </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="checkout__input">
+                                                      <p>Category<span>*</span></p>
+                                                      <select id="category" name="category">
+                                                        <option value="{{product_detail.category.slug}}" selected>{{product_detail.category}}</option>
+                                                      {% for i in categories %} 
+                                                          {% if not i.children.all %}
+                                                            <option value="{{i.slug}}">{{i.title}}</option>
+                                                          {% else %}
+                                                            <option value="{{i.slug}}">{{i.title}}</option>
+                                                            {% for obj in i.children.all %} 
+                                                              {% if not obj.children.all %}
+                                                                <option value="{{obj.slug}}">{{i.title}} > {{obj.title}}</option>
+                                                              {% else %}
+                                                                {% for subobj in obj.children.all %}
+                                                                  <option value="{{subobj.slug}}">{{i.title}} > {{obj.title}} > {{subobj.title}}</option>
+                                                                {% endfor %}
+                                                              {% endif %}
+                                                            {% endfor %}
+                                                          {% endif %}
+                                                        {% endfor %}
+                                                      </select>
+                                                    </div>
+                                                  </div>
+                                              </div>
+                                              <div class="checkout__input">
+                                                <p>Details<span>*</span></p>
+                                                <textarea name="details" class="form-control" rows="5" required>{{product_detail.details}}</textarea>
+                                              </div>
+                                              <div class="checkout__input">
+                                                <p>Features<span>*</span></p>
+                                                <textarea name="features" class="form-control" rows="5"  required>{{product_detail.features}}</textarea>
+                                              </div>
+                                                <div class="checkout__input">
+                                                  <p>Specifications<span>*</span></p>
+                                                  <textarea name="specifications" class="form-control" rows="5" required>{{product_detail.specifications}}</textarea>
+                                                </div>
+
+                                              <div class="row">
+                                                <div class="col-lg-6">
+                                                  <div class="checkout__input">
+                                                    <p>Image 1<span>*</span></p>
+                                                    <input type="file" name="image1" accept="image/*, video/*"  />
+                                                  </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="checkout__input">
+                                                      <p>Image 2<span>*</span></p>
+                                                      <input type="file" name="image2" accept="image/*, video/*" />
+                                                    </div>
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-lg-4">
+                                                  <div class="checkout__input">
+                                                    <p>Image 3<span>*</span></p>
+                                                    <input type="file" name="image3" accept="image/*, video/*"  />
+                                                  </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="checkout__input">
+                                                      <p>Image 4<span>*</span></p>
+                                                    <input type="file" name="image4" accept="image/*, video/*" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                  <div class="checkout__input">
+                                                    <p>Image 5<span>*</span></p>
+                                                    <input type="file" name="image5" accept="image/*, video/*" />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-lg-4">
+                                                  <div class="checkout__input">
+                                                    <p>Quantity<span>*</span></p>
+                                                    <input type="number" name="quantity" value="{{product_detail.quantity}}"  required />
+                                                  </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="checkout__input">
+                                                      <p>Actual Price<span>*</span></p>
+                                                    <input type="number" name="not_price" value="{{product_detail.not_price}}"  required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                  <div class="checkout__input">
+                                                    <p>Selling Price<span>*</span></p>
+                                                    <input type="number" name="price" value="{{product_detail.price}}" required />
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div class="row">
+                                                <div class="col-lg-4">
+                                                  <div class="checkout__input">
+                                                    <p>GST<span>*</span></p>
+                                                    <input type="number" name="tax" value="{{product_detail.tax}}" required />
+                                                  </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                  <div class="checkout__input">
+                                                    <p>Status<span>*</span></p>
+                                                    <input style="height:50px; width:10%;" type="checkbox" name="status" {% if product_detail.status == True %}checked{% endif %} value="{{product_detail.status}}" />
+                                                  </div>
+                                                </div>
+                                                
+                                                <div class="col-lg-4">
+                                                  <div class="checkout__input">
+                                                    <p>Featured in home page<span></span></p>
+                                                    <input style="height:50px; width:10%;" type="checkbox" name="is_featured" value="{{product_detail.is_featured}}" {% if product_detail.is_featured == True %}checked{% endif %}  />
+                                                  </div>
+                                                </div>
+                                                
+                                              </div>
+                                              <button type="submit"  class="site-btn">
+                                                Save
+                                              </button>
+                                            </form>
+                                        </div>
+                                        <a type="submit" href="/admin/delete/products/delete/{{product_detail.slug}}" class="site-btn" style="margin-top: 15px;">
+                                          Delete
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="tabs-6" role="tabpanel">
+                                    <div class="product__details__tab__content">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                              <div class="review_list">
+                                                {% if reviews %}
+                                                {% for r in reviews %}
+                                                <div class="review_item">
+                                                  <div class="media">
+                                                    <div class="media-body">
+                                                      <h4>{{r.user.first_name}}</h4>
+                                                      {% with ''|center:r.review_rating as range %}
+                                                        {% for _ in range %}
+                                                            <i class="fa fa-star"></i>
+                                                        {% endfor %}
+                                                    {% endwith %}
+                                                    </div>
+                                                    <div><a href="/admin/products/reviews/delete/{{product_detail.slug}}/{{r.review_id}}"><i style="color:#dc3545;" class="fa fa-trash"></i></a></div>
+                                                  </div>
+                                                  <p>
+                                                    {{r.review_text}}
+                                                  </p>
+                                                </div>
+                                                {% endfor %}
+                                                {% else %}
+                                                <h4>No reviews.</h4>
+                                                {% endif %}
+                                              </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shop Details Section End -->
+
+
+{% endblock %}

@@ -1,0 +1,758 @@
+{% extends 'main/base.html' %} {% load static %} {% load custom_filters %}
+{% block head %}
+
+<style>
+    .review_rating{
+        cursor: pointer !important;
+    }
+    .review_rating_span{
+        cursor: pointer;
+    }
+
+    #product_imageee {
+        height: 250px;
+
+        /* background-size: cover; */
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+</style>
+{% endblock head %}
+{% block content %}
+<!--Page Content-->
+<main id="page-content">
+
+
+
+
+    <!--Page Content-->
+    <div class="container">
+        <!--Product Content-->
+        <div class="product-single">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="product-details-img product-horizontal-style mb-3">
+                        <div class="zoompro-wrap product-zoom-right pl-20">
+                            <div class="zoompro-span">
+                                <img id="zoompro" class="zoompro prlightbox"
+                                    src="/media/{{product_detail.image1}}"
+                                    data-zoom-image="/media/{{product_detail.image1}}" alt="" />
+                            </div>
+                            {% if product_detail.quantity > 0 %}
+                            {% else %}
+                            <div class="product-labels">
+                                <span class="lbl on-sale rounded">Out Of Stock</span>
+                            </div>
+                            {% endif %}
+                            <div class="product-buttons">
+                                <a href="#" class="btn prlightbox rounded" title="Zoom">
+                                    <i class="cps cp-expand"></i>
+                                    <span class="tooltip-label">Zoom Image</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-thumb product-horizontal-thumb">
+                            <div id="gallery" class="product-thumb-style1">
+                            {% if product_detail.image1 %}
+
+                                <a class="active" data-image="/media/{{product_detail.image1}}"
+                                    data-zoom-image="/media/{{product_detail.image1}}" data-slick-index="-4"
+                                    aria-hidden="true" tabindex="-1">
+                                    <img class="blur-up lazyload" data-src="/media/{{product_detail.image1}}"
+                                        src="/media/{{product_detail.image1}}" alt="" />
+                                </a>
+                            {% endif %}
+                            {% if product_detail.image2 %}
+
+                                <a data-image="/media/{{product_detail.image2}}"
+                                    data-zoom-image="/media/{{product_detail.image2}}" data-slick-index="-3"
+                                    aria-hidden="true" tabindex="-1">
+                                    <img class="blur-up lazyload" data-src="/media/{{product_detail.image2}}"
+                                        src="/media/{{product_detail.image2}}" alt="" />
+                                </a>
+                            {% endif %}
+                            {% if product_detail.image3 %}
+                                <a data-image="/media/{{product_detail.image3}}"
+                                    data-zoom-image="/media/{{product_detail.image3}}" data-slick-index="-2"
+                                    aria-hidden="true" tabindex="-1">
+                                    <img class="blur-up lazyload" data-src="/media/{{product_detail.image3}}"
+                                        src="/media/{{product_detail.image3}}" alt="" />
+                                </a>
+                            {% endif %}
+                            {% if product_detail.image4 %}
+                                <a data-image="/media/{{product_detail.image4}}"
+                                    data-zoom-image="/media/{{product_detail.image4}}" data-slick-index="-1"
+                                    aria-hidden="true" tabindex="-1">
+                                    <img class="blur-up lazyload" data-src="/media/{{product_detail.image4}}"
+                                        src="/media/{{product_detail.image4}}" alt="" />
+                                </a>
+                            {% endif %}
+                            {% if product_detail.image5 %}
+                                <a data-image="/media/{{product_detail.image5}}"
+                                    data-zoom-image="/media/{{product_detail.image5}}" data-slick-index="0"
+                                    aria-hidden="true" tabindex="-1">
+                                    <img class="blur-up lazyload" data-src="/media/{{product_detail.image5}}"
+                                        src="/media/{{product_detail.image5}}" alt="" />
+                                </a>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <div class="lightboximages">
+                            <a href="/media/{{product_detail.image1}}" data-size="1000x1000"></a>
+                            <a href="/media/{{product_detail.image2}}" data-size="1000x1000"></a>
+                            <a href="/media/{{product_detail.image3}}" data-size="1000x1000"></a>
+                            <a href="/media/{{product_detail.image4}}" data-size="1000x1000"></a>
+                            <a href="/media/{{product_detail.image5}}" data-size="1000x1000"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                    <div class="product-single-detail">
+                        <h1 class="product-title">{{product_detail.title}}</h1>
+                        <div class="product-review mb-2">
+                      
+                            {% if avg_rating != 0 %}
+                                {% with ''|center:avg_rating as range %}
+                                    {% for _ in range %}
+                                        <i class="cps cp-star"></i>
+                                    {% endfor %}
+                                {% endwith %}
+                                <span> - {{reviews|length}} Reviews</span>
+
+                            {% else %}
+                            <i class="cps cp-star"></i>
+                            <i class="cps cp-star"></i>
+                            <i class="cps cp-star"></i>
+                            <i class="cps cp-star"></i>
+                            <i class="cps cp-star"></i>
+
+                                <span> - {{reviews|length}} Reviews</span>
+                            {% endif %}
+                        </div>
+                        <div class="stock mb-1">Availability: 
+                            <b>
+                                {% if product_detail.quantity > 0 %}
+
+                                <span class="inStock text-uppercase">
+                                    InStock
+                                </span>
+                                {% else %}
+                                <span class=" text-uppercase" style="color:red">
+                                    Out Of Stock
+                                </span>
+                                {% endif %}
+                            </b>
+                        </div>
+                        <div class="price-box">
+                            <span class="visually-hidden">Regular price</span>
+                            <span class="old-price">&#x20b9; {{product_detail.not_price}}</span>
+                            <span class="sale-price">&#x20b9; {{product_detail.price}}</span>
+                        </div>
+
+                        <div class="sort-description">
+                            <h4 class="title">Sort Description</h4>
+                            <ul class="list-items">
+                                {% for detail in product_detail.details|split_string:"." %}
+                                    {% if detail %}
+                                    <li>{{ detail }}.</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <hr>
+                        <!-- Product Form -->
+                        <form method="post" action="/add/cart/{{product_detail.slug}}" id="product_form" class="product-form hidedropdown"
+                            accept-charset="UTF-8" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <!-- Product Action -->
+                            <div class="product-action w-100 clearfix d-flex">
+                                <div class="product-form-quantity mb-3">
+                                    <div class="qtyField">
+                                        <a class="qtyBtn minus" href="javascript:void(0);"><i
+                                                class="cps cp-minus"></i></a>
+                                        <input type="text" name="quantity_p" value="1" class="product-form__input qty">
+                                        <a class="qtyBtn plus" href="javascript:void(0);"><i
+                                                class="cps cp-plus"></i></a>
+                                    </div>
+                                </div>
+                                <div class="product-form-submit flex-1">
+                                {% if product_detail.quantity > 0 %}
+                                    <button type="submit" class="btn rounded w-100 add-to-cart-btn add-cartt">
+                                        <i class="cps cp-shopping-cart "></i>
+                                        <span>Add to cart</span>
+                                    </button>
+                                {% else %}
+
+                                    <button type="submit" class="btn rounded d-none" disabled="disabled">Sold
+                                        out</button>
+                                {% endif %}
+
+                                </div>
+                            </div>
+                            <!-- End Product Action -->
+                            
+                            <!-- Product Info link -->
+                            <p class="infolinks d-flex justify-content-between mt-2 mb-3 w-100">
+                                {% if request.user.is_authenticated %}
+                                    <a class="btn-link add-to-wishlist" href="#;" onclick="AddToWishList('{{product_detail.slug}}')"><i
+                                            class="cpr cp-lg cp-heart add-heart"></i> <span>Add to Wishlist</span></a>
+                                {% else %}
+                                    <a class="btn-link add-to-wishlist" href="{% url 'login' %}"><i
+                                        class="cpr cp-lg cp-heart"></i> <span>Add to Wishlist</span></a>
+                                {% endif %}
+                                <a class="btn-link shippingInfo" href="#ShippingInfo"><i
+                                        class="cp-lg cps cp-truck-moving"></i> Delivery &amp; Returns</a>
+                                <a class="btn-link emaillink me-0" href="#productInquiry"> <i
+                                        class="cp-lg cps cp-question-circle"></i> Ask A Question</a>
+                            </p>
+                            <!-- End Product Info link -->
+                        </form>
+                        <!-- End Product Form -->
+
+                        <!--Social Share-->
+                        <div class="social-sharing d-flex mb-3 clearfix">
+                            <span class="sharing-lbl me-2">Share :</span>
+                            <a href="#;" target="_blank"><i class="cpb cp-facebook-f"></i></a>
+                            <a href="#;" target="_blank"><i class="cpb cp-twitter"></i></a>
+                            <a href="#;" target="_blank"><i class="cpb cp-instagram"></i></a>
+                            <a href="#;" target="_blank"><i class="cpb cp-google-plus"></i></a>
+                            <a href="#;" target="_blank"><i class="cpb cp-linkedin-in"></i></a>
+                            <a href="#;" target="_blank"><i class="cps cp-envelope"></i></a>
+                        </div>
+                        <!--End Social Share-->
+                        <!--Guranteed Checkout-->
+                        <div class="guaranteed-safe-checkout">
+                            <h4>Guaranteed Safe Checkout</h4>
+                            <img class="fade-in lazyload" src="{% static 'assets/images/garauntee-img.png' %}"
+                                data-src="{% static 'assets/images/garauntee-img.png' %}" alt="Guaranteed Safe Checkout">
+                        </div>
+                        <!--End Guranteed Checkout-->
+                    </div>
+                </div>
+            </div>
+
+            <!--Store Feature-->
+            <section class="section-sm store-features">
+                <div class="row store-info">
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-2 my-md-2">
+                        <div class="d-flex">
+                            <i class="cps cp-truck-moving"></i>
+                            <div class="detail">
+                                <h5 class="fs-6 text-uppercase mb-1 body-font">Free Shipping &amp; Return</h5>
+                                <p class="sub-text">Free shipping on all US orders</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-2 my-md-2">
+                        <div class="d-flex">
+                            <i class="cps cp-shield-alt"></i>
+                            <div class="detail">
+                                <h5 class="fs-6 text-uppercase mb-1 body-font">Secure Payment</h5>
+                                <p class="sub-text">All payment are Secured and trusted.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-2 my-md-2">
+                        <div class="d-flex">
+                            <i class="cps cp-dollar-sign"></i>
+                            <div class="detail">
+                                <h5 class="fs-6 text-uppercase mb-1 body-font">Money Gurantee</h5>
+                                <p class="sub-text">30 days money back guarantee</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-2 my-md-2">
+                        <div class="d-flex">
+                            <i class="cps cp-question-circle"></i>
+                            <div class="detail">
+                                <h5 class="fs-6 text-uppercase mb-1 body-font">Have A Questions?</h5>
+                                <p class="sub-text">our technical will help you</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--End Store Feature-->
+
+            <!--Products Tabs-->
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div class="tabs-listing mt-2">
+                        <ul class="product-tabs list-unstyled d-flex-wrap m-0 d-none d-md-flex justify-content-center">
+                            <li rel="description" class="active"><a class="tablink">Description</a></li>
+                            <li rel="reviews"><a class="tablink">Reviews</a></li>
+                            <li rel="shipping-return"><a class="tablink">Shipping &amp; Return</a></li>
+                        </ul>
+                        <div class="tab-container">
+                            <!--Description-->
+                            <h3 class="tabs-ac-style acor-ttl d-md-none active" rel="description">Description</h3>
+                            <div id="description" class="tab-content">
+                                <div class="product-description">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-4 mb-md-0">
+                                            
+                                            <h4 class="pt-2 text-uppercase">Features</h4>
+                                            <ul class="list-items">
+                                                {% for detail in product_detail.features|split_string:"." %}
+                                                    {% if detail %}
+                                                    <li>{{ detail }}.</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                            <h4 class="pt-2 text-uppercase">Products Infomation</h4>
+                                            <ul class="list-items">
+                                                {% for detail in product_detail.specifications|split_string:"." %}
+                                                    {% if detail %}
+                                                    <li>{{ detail }}.</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Description-->
+                            <!--Review-->
+                            <h3 class="tabs-ac-style acor-ttl d-md-none" rel="reviews">Review</h3>
+                            <div id="reviews" class="tab-content">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 mt-2 px-4 mb-3">
+                                        <h4 class="text-uppercase mb-3">Customer Reviews</h4>
+                                        <div class="review-inner">
+                                            
+                                            {% for r in reviews %}
+
+                                            <div class="review-list row">
+                                                <div class="col-3 col-sm-2 col-md-2 col-lg-2 text-center">
+                                                    {% if r.user.profile.profile_image %}
+                                                    <img class="blur-up lazyload rounded"
+                                                        data-src="/media/{{r.user.profile.profile_image}}"
+                                                        src="/media/{{r.user.profile.profile_image}}" alt="Photo" />
+                                                    {% else %}
+                                                    <img id="avater_photo_view" style="width:50%;height:50%;"
+                                                    src="/media/img/user-picture.png" alt="User" />
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-9 col-sm-10 col-md-10 col-lg-10">
+                                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                                        <div class="detail">
+                                                            <p class="m-0"><b>{{r.user.first_name}}</b></p>
+                                                            <small>{{r.date_added}}</small>
+                                                        </div>
+                                                        <div class="product-review">
+                                                            {% with ''|center:r.review_rating as range %}
+                                                                {% for _ in range %}
+                                                                    <i class="cps cp-star"></i>
+                                                                {% endfor %}
+                                                            {% endwith %}
+                                                        </div>
+                                                    </div>
+                                                    <p>{{r.review_text}}</p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 mt-2 px-4 mb-3">
+                                        <h4 class="text-uppercase mb-3">Write A Review</h4>
+                                        <form  action="" method="post" id="review_rating_form">
+                                            <div class="row align-items-center">
+                                                
+                                                <div class="col-md-12 col-sm-12 col-xs-12 margin-30px-bottom">
+                                                    <label class="margin-15px-bottom">Your rating <span
+                                                            class="required">*</span></label>
+                                                    <span
+                                                        class="text-orange text-extra-small d-block product-review review_rating_span mb-2">
+                                                        <i class="cpr cp-star review_rating" onclick="Review('1')"></i>
+                                                        <i class="cpr cp-star review_rating" onclick="Review('2')"></i>
+                                                        <i class="cpr cp-star review_rating" onclick="Review('3')"></i>
+                                                        <i class="cpr cp-star review_rating" onclick="Review('4')"></i>
+                                                        <i class="cpr cp-star review_rating" onclick="Review('5')"></i>
+                                                    </span>
+                                                    <input style="display:none;" required name="rating" type="number" id="review_rating_star">
+                                                    <input style="display:none;" required name="product" type="text" value="{{product_detail.slug}}">
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <div class="margin-15px-bottom">Your comment</div>
+                                                    <textarea class="bg-white mb-3" rows="4" name="message"
+                                                        placeholder="Enter your comment"></textarea>
+                                                </div>
+                                                <div class="col-12">
+                                                    {% if request.user.is_authenticated %}
+                                                    <input class="btn btn-medium rounded" type="submit" name="submit"
+                                                        value="Submit Review">
+                                                    {% else %}
+                                                        <a href="{% url 'login' %}" class="btn btn-medium rounded">First Login</a>
+                                                    {% endif %}
+                                                    
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Review-->
+
+                            <!--Shipping & Returns-->
+                            <h3 class="tabs-ac-style acor-ttl d-md-none" rel="shipping-return">Shipping &amp; Return
+                            </h3>
+                            <div id="shipping-return" class="tab-content">
+                                <h4 class="pt-2 text-uppercase">Delivery</h4>
+                                <ul class="list-items">
+                                    <li>Dispatch: Within 24 Hours</li>
+                                    <li>Free shipping across all products on a minimum purchase of $50.</li>
+                                    <li>International delivery time - 7-10 business days</li>
+                                    <li>Cash on delivery might be available</li>
+                                    <li>Easy 30 days returns and exchanges</li>
+                                </ul>
+                                <h4 class="pt-2 text-uppercase">Returns</h4>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                                    Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+                                    unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                    It has survived not only five centuries, but also the leap into electronic
+                                    typesetting, remaining essentially unchanged.</p>
+                                <h4 class="pt-2 text-uppercase">Shipping</h4>
+                                <p>There are many variations of passages of Lorem Ipsum available, but the majority have
+                                    suffered alteration in some form, by injected humour, or randomised words which
+                                    don't look even slightly believable. If you are going to use a passage.</p>
+                            </div>
+                            <!--End Shipping & Returns-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Products Tabs-->
+        </div>
+        <!--End Product Content-->
+        <!--Related products-->
+        {% if related_product %}
+        <section class="section product-slider pt-0">
+            <div class="container">
+                <div class="row">
+                    <div class="section-title col-12">
+                        <h2 class="title text-uppercase">Related products</h2>
+                    </div>
+                </div>
+                <div class="productSlider grid-products products-grid">
+                    {% for r in related_product %}
+
+                    <div class="item">
+                        <!--Product Item-->
+                        <div class="item">
+                            <!--Product Image-->
+                            <div class="product-image">
+                                <a href="/products/{{r.category.slug}}/{{r.slug}}">
+                                    <!--Image-->
+                                    <div class="primary blur-up lazyload rounded-3" style="background-image: url(/media/{{r.image1}});" id="product_imageee"
+                                        data-src="/media/{{r.image1}}"
+                                        src="/media/{{r.image1}}" alt="product" title="product" > </div>
+                                    <!--End Image-->
+                                    
+                                    <!--Hover Image-->
+                                    <img class="hover blur-up lazyload rounded-3"
+                                        data-src="/media/{{r.image1}}"
+                                        src="/media/{{r.image1}}" alt="product" title="product" />
+                                    <!--End Hover Image-->
+                                </a>
+                                {% if r.quantity > 0 %}
+                                {% else %}
+                                <!--Product Label-->
+                                <div class="product-labels"><span class="lbl on-sale rounded">Out Of Stock</span></div>
+                                <!--End Product Label-->
+                                {% endif %}
+                                {% if request.user.is_authenticated %}
+                                <!--Button Action-->
+                                <div class="button-hover">
+                                    <a href="#;" class="btn btn-wishlist"  onclick="AddToWishList('{{product_detail.slug}}')"><i class="cpr cp-heart add-heart"></i></a>
+                                </div>
+                                <!--End Button Action-->
+                                {% endif %}
+                            </div>
+                            <!--End Product Image-->
+                            <!--Product Detail-->
+                            <div class="product-details d-flex">
+                                <div class="product-details-in">
+                                    <div class="h3"><a href="/products/{{r.category.slug}}/{{r.slug}}">{{r.title}}</a></div>
+                                    <div class="price-box"><span class="price">&#x20b9 {{r.price}}</span></div>
+                                    <div class="add-to-cart">
+                                        <a class="btn-primary btn pro-addtocart-popup rounded add-cart"
+                                            href="#;"><i class="cps cp-shopping-cart"></i> <span
+                                                class="label">Add to Cart</span></a>
+                                    </div>
+                                </div>
+                                <div class="product-review">
+                                    <i class="cps cp-star"></i><i class="cps cp-star"></i><i class="cps cp-star"></i><i
+                                        class="cps cp-star"></i><i class="cps cp-star"></i>
+                                </div>
+                            </div>
+                            <!--End Product Detail-->
+                        </div>
+                        <!--End Product Item-->
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+        {% endif %}
+        <!--End Related products-->
+    </div>
+    <!--End Page Content-->
+
+</main><!--End Page Content-->
+
+
+
+<!-- Shipping Popup-->
+<div id="ShippingInfo" class="mfpbox mfp-with-anim mfp-hide">
+    <h4>DELIVERY</h4>
+    <ul>
+        <li>Dispatch: Within 24 Hours</li>
+        <li>Free shipping across all products on a minimum purchase of $50.</li>
+        <li>International delivery time - 7-10 business days</li>
+        <li>Cash on delivery might be available</li>
+        <li>Easy 30 days returns and exchanges</li>
+    </ul>
+    <h4>RETURNS</h4>
+    <p>If you do not like the product you can return it within 15 days - no questions asked. This excludes bodysuits,
+        swimwear and clearance sale items. We have an easy and hassle free return policy. Please look at our Delivery
+        &amp; Returns section for further information.</p>
+</div>
+<!-- End Shipping Popup-->
+
+<!--Product Enuiry Popup-->
+<div id="productInquiry" class="mfpbox mfp-with-anim mfp-hide">
+    <div class="contact-form form-vertical p-lg-1">
+        <h3 class="text-uppercase">Product Inquiry Popup</h3>
+        <form method="post" action="#" id="contact_form" class="contact-form">
+            <div class="formFeilds">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                        <div class="form-group">
+                            <label for="ContactFormName">Name <span class="required">*</span></label>
+                            <input class="rounded" type="text" id="ContactFormName" name="contact[name]" placeholder=""
+                                value="" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
+                        <div class="form-group">
+                            <label for="ContactFormEmail">Email Address <span class="required">*</span></label>
+                            <input class="rounded" type="email" id="ContactFormEmail" name="contact[email]"
+                                placeholder="" value="" required />
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-3">
+                        <div class="form-group">
+                            <label for="ContactFormPhone">Phone Number</label>
+                            <input class="rounded" type="tel" id="ContactFormPhone" name="contact[phone]"
+                                pattern="[0-9\-]*" placeholder="" value="" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                        <div class="form-group">
+                            <label for="ContactFormSubject">Subject</label>
+                            <input class="rounded" type="text" id="ContactFormSubject" name="contact[subject]"
+                                placeholder="" value="" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-3">
+                        <div class="form-group">
+                            <label for="ContactFormMessage">Message</label>
+                            <textarea class="rounded" rows="4" id="ContactFormMessage" name="contact[body]"
+                                placeholder="" required></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <input type="submit" class="btn btn-large rounded" value="Send Message" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--End Product Enuiry Popup-->
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    function Review(id){
+        // Get all the star elements
+        var stars = document.querySelectorAll('.review_rating');
+
+        // Loop through each star element and set the class based on the ID value
+        for (var i = 0; i < stars.length; i++) {
+            // Check if the current star should be filled or not
+            if (i < id) {
+            stars[i].classList.add('cps');
+            stars[i].classList.remove('cpr');
+            } else {
+            stars[i].classList.remove('cps');
+            stars[i].classList.add('cpr');
+            }
+        }
+        document.getElementById('review_rating_star').value = id;
+    }
+</script>
+<script>
+    function saveFormData() {
+        var form = document.getElementById('review_rating_form');
+        var formData = new FormData(form);
+      
+        $.ajax({
+          url: '/add/review',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            if (response.success) {
+              // Handle successful form submission
+              console.log(response.message)
+              form.reset()
+              window.location.reload()
+            } else {
+              // Handle failed form submission
+              console.log(response.message)
+            }
+          },
+          error: function(xhr, status, error) {
+            // Handle Ajax error
+          }
+        });
+      }
+      
+      $(document).ready(function() {
+        $('#review_rating_form').submit(function(event) {
+          event.preventDefault();
+          saveFormData();
+        });
+      });
+</script>
+<script>
+
+    function AddToCart(product, quantity) {
+        event.preventDefault();
+        url_ = `/add/cart/` + product + '?quantity=' + quantity;
+
+
+        $.ajax({
+            type: 'GET',
+            url: url_,
+            success: function (data) {
+                console.log(data)
+                var cartLengthElements = document.getElementsByClassName('cart_length');
+                var totalItems = data.totalitems;
+                for (var i = 0; i < cartLengthElements.length; i++) {
+                    cartLengthElements[i].innerHTML = totalItems;
+                }
+
+            }
+        });
+    };
+
+    document.querySelectorAll('.add-cart').forEach(function (el) {
+        el.addEventListener('click', function (event) {
+            var clickedbutton = event.target;
+            clickedbutton.innerHTML = ' Added';
+            setTimeout(() => {
+                // Change the innerHTML after 3 seconds
+                clickedbutton.innerHTML = ' Add To Cart';
+            }, 2000); // 2000 milliseconds = 3 seconds
+        })
+    })
+
+
+</script>
+
+<script>
+
+    function AddToWishList(product) {
+        event.preventDefault();
+        url_ = `/wishlist/add/` + product;
+
+
+        $.ajax({
+            type: 'GET',
+            url: url_,
+            success: function (data) {
+                console.log(data)
+                
+            }
+        });
+    };
+
+    document.querySelectorAll('.add-heart').forEach(function (el) {
+        el.addEventListener('click', function (event) {
+            var clickedbutton = event.target;
+            clickedbutton.classList.add('cps');
+            clickedbutton.classList.remove('cpr');
+            setTimeout(() => {
+                // Change the innerHTML after 3 seconds
+                clickedbutton.classList.remove('cps');
+                clickedbutton.classList.add('cpr');
+            }, 2000); // 2000 milliseconds = 3 seconds
+        })
+    })
+
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#product_form').on('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            var form = $(this);
+            var url = form.attr('action');
+            var method = form.attr('method');
+            var data = form.serialize(); // Serialize form data
+    
+            $.ajax({
+                url: url,
+                type: method,
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    // Handle the success response
+                    var cartLengthElements = document.getElementsByClassName('cart_length');
+                    var totalItems = response.totalitems;
+                    for (var i = 0; i < cartLengthElements.length; i++) {
+                        cartLengthElements[i].innerHTML = totalItems;
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error response
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
+
+    document.querySelectorAll('.add-cartt').forEach(function (el) {
+        el.addEventListener('click', function (event) {
+            var clickedbutton = event.target;
+            clickedbutton.innerHTML = ' Added';
+            setTimeout(() => {
+                // Change the innerHTML after 3 seconds
+                clickedbutton.innerHTML = ' Add To Cart';
+            }, 2000); // 2000 milliseconds = 3 seconds
+        })
+    })
+    </script>
+    
+{% endblock script %}

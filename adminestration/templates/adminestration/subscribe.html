@@ -1,0 +1,117 @@
+{% extends 'adminestration/base.html' %} {% load static %} 
+{% block head %} 
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .example::-webkit-scrollbar {
+      display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .example {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+<div class="container" >
+
+<div class="card"style="border-radius:10px;">
+    <div class="card-body">
+        <div class="shop__product__option">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="shop__product__option__left">
+                <p>
+                Page {{ subscribe.number }} of {{ subscribe.paginator.num_pages}}.
+                </p>
+            </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+            <div class="shop__product__option__center">
+                <div class="checkout__input">
+                <form action="/admin/subscribe">
+                <input type="text" name="search" placeholder="Search...">
+                </form>
+            </div>
+            </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4">
+            
+            </div>
+        </div>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert" >
+                {{message}}
+            </div>
+        {% endfor %}
+        {% endif %}
+        {% if user %}
+    <div class="u-table-res" style="overflow-x: scroll;">
+        <table class="table mb-0 example">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% if request.user.is_staff %}
+                    {% for c in subscribe %}
+                    <tr>
+                        <td>{{c.email}}</td>
+                        <td>{{c.date_added}}</td>
+
+                        
+                        <td><a href="/admin/subscribe/delete/{{c.email}}" class="primary-btn" style="">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                
+                {% endif %}
+                
+            </tbody>
+
+        </table>
+    </div>
+    {% else %}
+    <h3 style="text-align:center;">No User found</h3>
+    {% endif %}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="product__pagination">
+          <span class="step-links">
+            {% if subscribe.has_previous %} 
+              {% if subscribe.has_previous != '1' %}
+                <a href="?page={{ subscribe.previous_page_number }}{% if search != 'None' %}&search={{search}}{% endif %}">&laquo; </a>
+              {% endif %} 
+            {% endif %}
+            <span class="current-page active">{{ subscribe.number }}</span>
+            {% if user.has_next %} 
+              {% if subscribe.has_next != subscribe.paginator.num_pages %}
+                <a href="?page={{ subscribe.next_page_number }}{% if search != 'None' %}&search={{search}}{% endif %}">&raquo;</a>
+              {% endif %} 
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+{% endblock %}

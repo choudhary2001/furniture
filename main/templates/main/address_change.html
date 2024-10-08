@@ -1,0 +1,99 @@
+{% extends 'main/base.html' %} {% load static %} 
+{% block head %} 
+<style>
+
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+<div class="container" style="margin-top: 15px;">
+
+    <div class="card appointment-form-in"style="border-radius:10px;">
+        <div class="card-body">
+            
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert" >
+                    {{message}}
+                </div>
+            {% endfor %}
+            {% endif %}
+            {% if category != 'None' %}
+            <form class="form" action="/user/address/edit/{{address.address_id}}" method = "post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-lg-6">
+                      <div class="checkout__input">
+                          <p>Fist Name<span>*</span></p>
+                          <input type="text" name="first_name" value="{{address.first_name}}" required>
+                      </div>
+                  </div>
+                  <div class="col-lg-6">
+                      <div class="checkout__input">
+                          <p>Last Name<span>*</span></p>
+                          <input type="text" name="last_name" value="{{address.last_name}}" required>
+                      </div>
+                  </div>
+              </div>
+              <div class="checkout__input">
+                  <p>Country<span>*</span></p>
+                  <input type="text" name="country" value="{{address.country}}" required>
+              </div>
+              <div class="checkout__input">
+                  <p>Address<span>*</span></p>
+                  <input type="text" placeholder="Street Address" value="{{address.address}}" class="checkout__input__add" name="street_address" required>
+                  <input type="text" placeholder="Apartment, suite, unite ect (optinal)" value="{{address.local_address}}" name="appartment" required>
+              </div>
+              <div class="checkout__input">
+                  <p>Town/City<span>*</span></p>
+                  <input type="text" name="town" value="{{address.town}}" required>
+              </div>
+              <div class="checkout__input">
+                  <p>Country/State<span>*</span></p>
+                  <input type="text" name="state" value="{{address.state}}" required>
+              </div>
+              <div class="checkout__input">
+                  <p>Postcode / ZIP<span>*</span></p>
+                  <input type="text" name="postcode" value="{{address.postalcode}}" required>
+              </div>
+              <div class="row">
+                  <div class="col-lg-6">
+                      <div class="checkout__input">
+                          <p>Phone<span>*</span></p>
+                          <input type="text" name="phone" value="{{address.phone}}" required>
+                      </div>
+                  </div>
+                  <div class="col-lg-6">
+                      <div class="checkout__input">
+                          <p>Email<span>*</span></p>
+                          <input type="email" name="email" value="{{address.email}}" required>
+                      </div>
+                  </div>
+              </div>
+                  
+                  <div class="form-group" style="margin-top: 15px;">
+                    <button
+                      type="submit"
+                      class="rounded submit btn btn-primary"
+                    >
+                      Change
+                    </button>
+                  </div>
+                </form>
+            {% else %}
+            <h3 style="text-align:center;">No address found</h3>
+            {% endif %}
+        
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

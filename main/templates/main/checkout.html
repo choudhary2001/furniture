@@ -1,0 +1,212 @@
+{% extends 'main/base.html' %} 
+{% load static %} 
+{% block head %}
+
+{% endblock head %}
+{% block content %}
+<style>
+    .span{
+        float: right;
+    }
+</style>
+<main id="page-content">
+
+    <!-- Breadcrumb Section Begin -->
+    <!--Breadcrums-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a> <span><i
+                                class="cps cp-angle-right"></i></span></li>
+                    <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!--End Breadcrums-->
+    <!-- Breadcrumb Section End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout container ">
+    
+        <div class=" appointment-form-in">
+            <div class="checkout__form">
+                <form method="POST" action="{% url 'checkout_page' %}">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-6">
+                            <h6 class="checkout__title">Billing Details</h6>
+                            <div class="row">
+                                {% for a in address %}
+                                <div class="col-lg-6" style="padding:5px;">
+                                    <div class="card" style="border : 1px solid #e53637; padding:5px;">
+                                        <div class="row">
+                                            <div class="col" style="max-width:15%;align-items: center;
+                                            display: flex;
+                                            justify-content: center;">
+                                                <input type="radio" name="address" value={{a.address_id}} style="cursor:pointer;" required>
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                    <div class="col">
+
+                                                        {{a.first_name}} {{a.last_name}}
+                                                    </div>
+                                                    <div class="col">
+                                                        <a style="float:right;padding:5px; color:#e53637;" href="/user/address/edit/{{a.address_id}}" class=""><i class="fa fa-edit"></i></a>
+                                                        <a style="float:right;padding:5px; color:#e53637;" href="/user/address/delete/{{a.address_id}}" class=""><i class="fa fa-trash"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    {{a.phone}}
+                                                </div>
+                                                <div>
+                                                    {{a.address}}, {{a.local_address}}, {{a.town}}
+                                                </div> 
+                                                <div>
+                                                    {{a.postalcode}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="shop__product__option__left">
+                                      <a id="open-modal" class="btn btn-primary" style="color:white; cursor:pointer; margin:4px;">+ Add Address</a>
+                                    </div>
+                                  </div>
+                            </div>
+                        </div>
+                    
+                        {% csrf_token %}
+                       
+                        <div class="col-lg-4 col-md-6">
+                            <div class="checkout__order list-unstyled">
+                                <h4 class="order__title">Your order</h4>
+                                <div class="checkout__order__products">Product <span class="span">Total</span></div>
+                                <ul class="checkout__total__products list-unstyled">
+                                    {% for c in cart_data %}
+                                        <li>{{c.product.title}} <span class="span">&#x20b9; {{c.product.price}}</span></li>
+                                    {% endfor %}
+                                </ul>
+                                <ul class="checkout__total__all list-unstyled">
+                                    <li>Subtotal : <span class="span"><strike>&#x20b9;{{total_not_price}}</strike></span></li>
+                                    <li>Price : <span class="span">&#x20b9;{{total_cart_price}}</span></li>
+                                    <li>GST : <span class="span">+ &#x20b9;{{tax}}</span></li>
+                                    <li>Total : <span class="span">&#x20b9;{{total_price}}</span></li>
+                                
+                                </ul>
+                                
+                                <button type="submit" name="cod" class="btn btn-primary">Cash On Delivery</button>
+                                <button type="submit" name="payment" class="btn btn-primary">Pay</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- Checkout Section End -->
+
+
+    <div id="popupModal" class="modal fade">
+        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+            <div class="modal-content p-1">
+              <header class="">
+                <h4 style="float:left; padding:3px; padding-left:10px;"><b>Add address</b></h4>
+                <button  
+                  type="button"
+                  class="btn-close"
+                  data-mdb-dismiss="modal"
+                  aria-label="Close" style="float: right;
+                  border: none;"
+                ><i class="fa fa-close"></i></button>    
+                </header>
+              <div class="modal-body" >
+                <form class="form" action="{% url 'add_address' %}" method = "post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-lg-6">
+                        <div class="checkout__input">
+                            <p>Fist Name<span>*</span></p>
+                            <input type="text" name="first_name" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="checkout__input">
+                            <p>Last Name<span>*</span></p>
+                            <input type="text" name="last_name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout__input">
+                    <p>Country<span>*</span></p>
+                    <input type="text" name="country" required>
+                </div>
+                <div class="checkout__input">
+                    <p>Address<span>*</span></p>
+                    <input type="text" placeholder="Street Address" class="checkout__input__add" name="street_address" required>
+                    <input type="text" placeholder="Apartment, suite, unite ect (optinal)" name="appartment" required>
+                </div>
+                <div class="checkout__input">
+                    <p>Town/City<span>*</span></p>
+                    <input type="text" name="town" required>
+                </div>
+                <div class="checkout__input">
+                    <p>Country/State<span>*</span></p>
+                    <input type="text" name="state" required>
+                </div>
+                <div class="checkout__input">
+                    <p>Postcode / ZIP<span>*</span></p>
+                    <input type="text" name="postcode" required>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="checkout__input">
+                            <p>Phone<span>*</span></p>
+                            <input type="text" name="phone" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="checkout__input">
+                            <p>Email<span>*</span></p>
+                            <input type="email" name="email" required>
+                        </div>
+                    </div>
+                </div>
+                    
+                    <div class="form-group" style="margin-top: 15px;">
+                      <button
+                        type="submit" 
+                        class="rounded submit btn btn-primary"
+                      >
+                        Create 
+                      </button>
+                    </div>
+                  </form>
+              </div>
+        </div>
+      </div>
+      </div>
+
+</main>
+{% endblock %}
+     
+{% block script %}
+      <script>
+        $(document).ready(function() {
+          $("#open-modal").click(function() {
+            $("#popupModal").modal("show");
+          });
+        });
+        $(document).ready(function(){
+          // Close modal on button click
+          $(".btn-close").click(function(){
+              $("#popupModal").modal('hide');
+          });
+      });
+      </script>
+
+{% endblock script %}

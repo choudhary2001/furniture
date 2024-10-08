@@ -1,0 +1,248 @@
+
+{% extends 'adminestration/base.html' %} {% load static %} 
+{% block head %} 
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .example::-webkit-scrollbar {
+      display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .example {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+<div class="container" >
+  <div class="col-lg-4 col-md-4 col-sm-4">
+    <div class="shop__product__option__left">
+      <button id="open-modal" class="primary-btn" style="margin:10px;">Add User</button>
+    </div>
+  </div>
+<div class="card"style="border-radius:10px;">
+    <div class="card-body">
+          <div class="shop__product__option">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__left">
+                  <p>
+                    Page {{ user.number }} of {{ user.paginator.num_pages}}.
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__center">
+                  <div class="checkout__input">
+
+                  <form action="/admin/">
+                    <input type="text" name="search" placeholder="Search...">
+                  </form>
+                </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__right">
+                  <p>Sort by Status:</p>
+                  <select onchange="location = this.value">
+                    <option {% if authenticate == 'None' %}selected{% endif %}>Sort</option>
+                    <option value="/admin/?authenticate=1{% if sarch != 'None' %}&search={{search}}{% endif %}" {% if authenticate == '1' %}selected{% endif %}>Authenticated</option>
+                    <option value="/admin/?authenticate=0{% if sarch != 'None' %}&search={{search}}{% endif %}" {% if authenticate == '0' %}selected{% endif %}>Not Authenticated</option>
+                </select>
+                </div>
+              </div>
+            </div>
+          </div>
+      {% if messages %}
+      {% for message in messages %}
+        <div class="alert" >
+            {{message}}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if user %}
+    <div class="u-table-res" style="overflow-x: scroll;">
+        <table class="table mb-0 example">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>phone Number</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% if request.user.is_staff %}
+                    {% for c in users %}
+                    <tr>
+                        <td class="product__cart__item">
+                            {% if c.profile_image %}
+                            <div class="product__cart__item__pic" style="display:flex; justify-content:center;">
+                                <img src="/media/{{c.profile_image}}" width="60" height="60" alt="">
+                            </div>
+                            {% else %}
+                            <div class="product__cart__item__pic" style="display:flex; justify-content:center;">
+                                <img src="/media/img/user-picture.png" width="60" height="60" alt="">
+                            </div>
+                            {% endif %}
+                            <div class="product__cart__item__text" style="text-align:center;">
+                                <h6>{{c.user.username}}</td>
+                            </div>
+                        </td>
+                        <td> <h6>{{c.user.first_name}} {{c.user.last_name}}</h6> </td>
+                       
+                        <td>{{c.user.email}}</td>
+                        <td class="">
+                            <span>{{c.phone_number}}<span>
+                        </td>
+                        <td>
+                            <select onchange="location = this.value">
+                                <option value="/admin/user/status/{{c.user.username}}?active=1" {% if c.user.is_active == True %}selected{% endif %}>Authenticated</option>
+                                <option value="/admin/user/status/{{c.user.username}}?active=0" {% if c.user.is_active != True %}selected{% endif %}>Not Authenticated</option>
+                            </select>
+                        </td>
+                        <td><a href="/admin/user/delete/{{c.user.username}}" class="primary-btn" style="">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                
+                {% endif %}
+                
+            </tbody>
+
+        </table>
+
+    </div>
+    {% else %}
+    <h3 style="text-align:center;">No User found</h3>
+    {% endif %}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="product__pagination">
+          <span class="step-links">
+            {% if user.has_previous %} 
+              {% if user.has_previous != '1' %}
+                <a href="?page={{ user.previous_page_number }}{% if authenticate != 'None' %}&authenticate={{authenticate}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&laquo; </a>
+              {% endif %} 
+            {% endif %}
+            <span class="current-page active">{{ user.number }}</span>
+            {% if user.has_next %} 
+              {% if user.has_next != user.paginator.num_pages %}
+                <a href="?page={{ user.next_page_number }}{% if authenticate != 'None' %}&authenticate={{authenticate}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&raquo;</a>
+              {% endif %} 
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div id="popupModal" class="modal fade">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content p-1">
+        <header class="">
+          <h4 style="float:left; padding:3px; padding-left:10px;"><b>Add User</b></h4>
+          <button  
+            type="button"
+            class="btn-close"
+            data-mdb-dismiss="modal"
+            aria-label="Close" style="float: right;
+            border: none;"
+          ><i class="fa fa-close"></i></button>    
+          </header>
+        <div class="modal-body" >
+          <form action="#" class="signin-form" action="/admin/" method = "post">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert" >
+                      {{message}}
+                  </div>
+                {% endfor %}
+              {% endif %}
+              <p>{{msg}}</p>
+            </div>
+              <div class="form-group mb-3">
+                <label class="label" for="first_name">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="First Name"
+                  required
+                  name = "first_name"
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label class="label" for="last_name">Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Last Name"
+                  required
+                  name = 'last_name'
+                />
+              </div>              
+              <div class="form-group mb-3">
+                <label class="label" for="name">Email or Phone Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Username"
+                  required
+                  name ='username'
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label class="label" for="password">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Password"
+                  required
+                  name = 'password'
+                />
+              </div>
+              <div class="form-group">
+                <button
+                  type="submit"
+                  class="rounded submit primary-btn"
+                >
+                  Create 
+                </button>
+              </div>
+            </form>
+        </div>
+  </div>
+</div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $("#open-modal").click(function() {
+      $("#popupModal").modal("show");
+    });
+  });
+  $(document).ready(function(){
+    // Close modal on button click
+    $(".btn-close").click(function(){
+        $("#popupModal").modal('hide');
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'main/base.html' %} {% load static %} {% load custom_filters %} {% block head %}
+<style>
+  .cart-page-banner {
+    /* background: url(https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); */
+
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    height: 250px;
+  }
+
+  @media (max-width: 768px) {
+    .cart-page-banner {
+      height: 175px !important;
+    }
+  }
+</style>
+{% endblock head %} {% block content %}
+<!--Page Content-->
+<main id="page-content">
+  <!--Page Heading-->
+  <div class="page-banner cart-page-banner gray-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="mb-1">Wishlist</h1>
+          <!--Breadcrums-->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center mb-0">
+              <li class="breadcrumb-item">
+                <a href="/">Home</a> <span><i class="cps cp-angle-right"></i></span>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+            </ol>
+          </nav>
+          <!--End Breadcrums-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End Page Heading-->
+
+  <!--Main Content-->
+  <div class="container">
+    {% if wishlist %}
+    <!--Wishlist Content-->
+    <form action="#" method="post">
+      <div class="wishlist-table table-content text-nowrap table-responsive my-4">
+        <table class="table table-bordered align-middle mb-5">
+          <thead class="bg-light thead-bg">
+            <tr>
+              <th class="product-name text-center alt-font">Remove</th>
+              <th class="product-price text-center alt-font">Images</th>
+              <th class="product-name alt-font">Product</th>
+              <th class="product-price text-center alt-font">Price</th>
+              <th class="stock-status text-center alt-font">Stock Status</th>
+              <th class="product-subtotal text-center alt-font">Add to Cart</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if request.user.is_authenticated %} {% for c in wishlist %}
+
+            <tr>
+              <td class="product-remove text-center">
+                <a href="/wishlist/remove/{{c.w_id}}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Remove" aria-label="Remove"><i class="cp-lg cps cp-trash-alt"></i></a>
+              </td>
+              <td class="product-thumbnail text-center">
+                <a href="/products/{{c.product.category.slug}}/{{c.product.slug}}"><img src="/media/{{c.product.image1}}" alt="" title="" width="100" /></a>
+              </td>
+              <td class="product-name">
+                <h6 class="mb-0"><a href="/products/{{c.product.category.slug}}/{{c.product.slug}}">{{c.product.title}}</a></h6>
+              </td>
+              <td class="product-price text-center"><span class="amount fw-500">&#x20b9; {{c.product.price}}</span></td>
+              {% if c.product.quantity > 0 %}
+              <td class="stock text-center"><span class="text-in-stock">in stock</span></td>
+              <td class="product-subtotal text-center"><button type="button" class="btn btn--small btn-secondary rounded-1 text-nowrap add-cart" onclick="AddToCart('{{c.product.slug}}', '1')">Add To Cart</button></td>
+              {% else %}
+              <td class="stock text-center"><span class="text-out-stock">Out Of stock</span></td>
+              <td class="product-subtotal text-center"><button type="button" class="btn btn--small rounded-1 text-nowrap soldOutBtn">Out Of stock</button></td>
+              {% endif %}
+            </tr>
+            {% endfor %} {% else %} {% for key, value in cart_data.items %}
+            <tr>
+              <td class="product-remove text-center">
+                <a href="/wishlist/remove/{{value.w_id}}" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Remove" aria-label="Remove"><i class="cp-lg cps cp-trash-alt"></i></a>
+              </td>
+              <td class="product-thumbnail text-center">
+                <a href="/products/{{value.product.category.slug}}/{{value.product.slug}}"><img src="/media/{{value.product.image1}}" alt="" title="" width="100" /></a>
+              </td>
+              <td class="product-name">
+                <h6 class="mb-0"><a href="/products/{{value.product.category.slug}}/{{value.product.slug}}">{{value.product.title}}</a></h6>
+              </td>
+              <td class="product-price text-center"><span class="amount fw-500">&#x20b9; {{value.product.price}}</span></td>
+              {% if value.product.quantity > 0 %}
+              <td class="stock text-center"><span class="text-in-stock">in stock</span></td>
+              <td class="product-subtotal text-center"><button type="button" class="btn btn--small btn-secondary rounded-1 text-nowrap add-cart" onclick="AddToCart('{{value.product.slug}}', '1')">Add To Cart</button></td>
+              {% else %}
+              <td class="stock text-center"><span class="text-out-stock">Out Of stock</span></td>
+              <td class="product-subtotal text-center"><button type="button" class="btn btn--small rounded-1 text-nowrap soldOutBtn">Out Of stock</button></td>
+              {% endif %}
+            </tr>
+
+            {% endfor %} {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </form>
+    <!--End Wishlist Content-->
+    {% else %}
+    <div style="display: flex; align-items: center; justify-content: center; height: 25vh">
+      <a href="/products" class="btn btn-primary btn--small rounded cart-continue"><i class="cps cp-arrow-left"></i> Continue shopping</a>
+    </div>
+    {% endif %}
+  </div>
+</main>
+<!--End Page Content-->
+<script>
+  function AddToCart(product, quantity) {
+    event.preventDefault();
+    url_ = `/add/cart/` + product + "?quantity=" + quantity;
+
+    $.ajax({
+      type: "GET",
+      url: url_,
+      success: function (data) {
+        console.log(data);
+        var cartLengthElements = document.getElementsByClassName("cart_length");
+        var totalItems = data.totalitems;
+        for (var i = 0; i < cartLengthElements.length; i++) {
+          cartLengthElements[i].innerHTML = totalItems;
+        }
+      },
+    });
+  }
+
+  document.querySelectorAll(".add-cart").forEach(function (el) {
+    el.addEventListener("click", function (event) {
+      var clickedbutton = event.target;
+      clickedbutton.innerHTML = " Added";
+      setTimeout(() => {
+        // Change the innerHTML after 3 seconds
+        clickedbutton.innerHTML = " Add To Cart";
+      }, 3000); // 3000 milliseconds = 3 seconds
+    });
+  });
+</script>
+{% endblock %}

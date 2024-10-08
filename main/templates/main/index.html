@@ -1,0 +1,594 @@
+{% extends 'main/base.html' %} {% load static %} {% load custom_filters %} {% block head %} {% endblock head %} {% block content %}
+<!-- Styles -->
+<style>
+  .gallery-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .gallery-item {
+    flex: 1 1 calc(50% - 20px); /* Flexbox grid */
+    max-width: calc(50% - 20px);
+  }
+
+  .gallery-item img {
+    transition: transform 0.3s ease;
+  }
+
+  .transition-img:hover {
+    transform: scale(1.05);
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .gallery-item a:hover .overlay {
+    opacity: 1;
+  }
+
+  .overlay h5 {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .gallery-item {
+      flex: 1 1 100%;
+      max-width: 100%;
+    }
+
+    .features-grid {
+      padding: 10px;
+    }
+  }
+  .btn {
+    border-radius: 25px !important;
+  }
+</style>
+
+<!--Page Content-->
+<main id="page-content">
+  <!-- Main Slider start -->
+
+  <div id="owl-demo" class="owl-carousel owl-theme">
+    {% if crousel %} {% for c in crousel %}
+    <div class="item">
+      <a href="{{c.link}}">
+        <img class="img-fluid" src="/media/{{c.image}}" style="background-size: contain !important; height: 60vh !important; border-radius: 25px; padding: 15px" alt="...." />
+      </a>
+    </div>
+    {% endfor %} {% else %} {% endif %}
+  </div>
+  <!-- Main slider end -->
+
+  <!-- seprator -->
+  <div class="bg-light" style="min-height: 10px; border-bottom: 5px solid #f2f2f2"></div>
+  <!-- seprator -->
+  <!--End Features Section -->
+
+  <!-- Data from column row -->
+
+  <section class="product-category-tab py-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-2 col-md-4 col-6 features-grid b-r-shadow">
+          <a href="/products/table" class="row align-items-center">
+            <div class="col-5 px-2 text-center">
+              <img style="max-width: 120% !important" class="" src="{% static 'assets/images/coffee_table.png' %}" alt="TABLE" />
+            </div>
+            <div class="col-7 px-2">
+              <h4>TABLE</h4>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6 features-grid b-r-shadow">
+          <a href="/products/sofa" class="row align-items-center">
+            <div class="col-5 px-2 text-center">
+              <img class="" style="max-width: 90% !important" src="{% static 'assets/images/sofa.png' %}" alt="SOFA" />
+            </div>
+            <div class="col-7 px-2">
+              <h4>SOFA</h4>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6 features-grid b-r-shadow">
+          <a href="/products/armchair" class="row align-items-center">
+            <div class="col-5 px-2 text-center">
+              <img class="" style="max-width: 90% !important" src="{% static 'assets/images//armchair.png' %}" alt="ARMCHAIR" />
+            </div>
+            <div class="col-7 px-2">
+              <h4>ARMCHAIR</h4>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6 features-grid b-r-shadow">
+          <a href="/products/bed" class="row align-items-center">
+            <div class="col-5 px-2 text-center">
+              <img class="" style="max-width: 90% !important" src="{% static 'assets/images/bed.png' %}" alt="BED" />
+            </div>
+            <div class="col-7 px-2">
+              <h4>BED</h4>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6 features-grid b-r-shadow">
+          <a href="/products/wardrobe" class="row align-items-center">
+            <div class="col-5 px-2 text-center">
+              <img class="" style="max-width: 90% !important" src="{% static 'assets/images/wardrobe.png' %}" alt="WARDROBE" />
+            </div>
+            <div class="col-7 px-2">
+              <h4>WARDROBE</h4>
+            </div>
+          </a>
+        </div>
+        <div class="col-lg-2 col-md-4 col-6 features-grid">
+          <a href="/products/window" class="row align-items-center">
+            <div class="col-5 px-2 text-center">
+              <img class="" style="max-width: 64px !important" src="{% static 'assets/images/windown.png' %}" alt="WINDOW" />
+            </div>
+            <div class="col-7 px-2">
+              <h4>WINDOW</h4>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end data -->
+</main>
+
+<!-- seprator -->
+<div class="bg-light" style="min-height: 5px; border-bottom: 5px solid #f2f2f2"></div>
+<!-- seprator -->
+<!--End Features Section -->
+
+<section class="mainfeatures-container">
+  <!-- TABLE Category Listing Block -->
+  <article
+    class="category-seciton-cont py-3 py-sm-5"
+    style="background-image: url(https://images.unsplash.com/photo-1604014237800-1c9102c219da?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); background-size: 100% 100%; height: 500px !important; margin: 15px; border-radius: 24px"
+  >
+    <div class="container h-100">
+      <div class="row align-items-center h-100">
+        <div class="col-auto col-sm-7 col-lg-5 home-category--cont">
+          <div class="mb-md-4 mt-0 mb-5 mb-sm-0">
+            <h2 class="h2">TABLE</h2>
+          </div>
+          <p style="color: #fff; background-color: #252424d6; padding: 15px; border-radius: 25px">Discover our versatile collection of tables designed to complement any space. From coffee tables to dining sets, find the perfect fit for your home.</p>
+          <a href="/products/table" class="btn btn-primary mt-md-3">CHOOSE YOUR STYLE<ion-icon name="ios-arrow-forward"></ion-icon></a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- SOFA Category Listing Block -->
+  <article
+    class="category-seciton-cont py-3 py-sm-5"
+    style="background-image: url(https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=2953&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); background-size: 100% 100%; height: 500px !important; margin: 15px; border-radius: 24px"
+  >
+    <div class="container h-100">
+      <div class="row align-items-center h-100 justify-content-end">
+        <div class="col-auto col-sm-7 col-lg-5 home-category--cont">
+          <div class="mb-md-4 mt-0 mb-5 mb-sm-0">
+            <h2 class="h2">SOFA</h2>
+          </div>
+          <p style="color: #fff; background-color: #252424d6; padding: 15px; border-radius: 25px">Relax in style with our luxurious sofas. Offering a perfect blend of comfort and elegance, our sofas are designed to enhance your living space.</p>
+          <a href="/products/sofa" class="btn btn-primary mt-md-3">CHOOSE YOUR STYLE<ion-icon name="ios-arrow-forward"></ion-icon></a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ARMCHAIR Category Listing Block -->
+  <article
+    class="category-seciton-cont py-3 py-sm-5"
+    style="background-image: url(https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); background-size: 100% 100%; height: 500px !important; margin: 15px; border-radius: 24px"
+  >
+    <div class="container h-100">
+      <div class="row align-items-center h-100">
+        <div class="col-auto col-sm-7 col-lg-5 home-category--cont">
+          <div class="mb-md-4 mt-0 mb-5 mb-sm-0">
+            <h2 class="h2">ARMCHAIR</h2>
+          </div>
+          <p style="color: #fff; background-color: #252424d6; padding: 15px; border-radius: 25px">Add a touch of sophistication to your home with our elegant armchairs. Perfect for any room, these chairs provide both comfort and style.</p>
+          <a href="/products/armchair" class="btn btn-primary mt-md-3">CHOOSE YOUR STYLE<ion-icon name="ios-arrow-forward"></ion-icon></a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- BED Category Listing Block -->
+  <article
+    class="category-seciton-cont py-3 py-sm-5"
+    style="background-image: url(https://images.unsplash.com/photo-1562438668-bcf0ca6578f0?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); background-size: 100% 100%; height: 500px !important; margin: 15px; border-radius: 24px"
+  >
+    <div class="container h-100">
+      <div class="row align-items-center h-100 justify-content-end">
+        <div class="col-auto col-sm-7 col-lg-5 home-category--cont">
+          <div class="mb-md-4 mt-0 mb-5 mb-sm-0">
+            <h2 class="h2">BED</h2>
+          </div>
+          <p style="color: #fff; background-color: #252424d6; padding: 15px; border-radius: 25px">Experience ultimate comfort with our wide range of beds. From modern to classic designs, find the perfect bed to suit your style and needs.</p>
+          <a href="/products/bed" class="btn btn-primary mt-md-3">CHOOSE YOUR STYLE<ion-icon name="ios-arrow-forward"></ion-icon></a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WARDROBE Category Listing Block -->
+  <article
+    class="category-seciton-cont py-3 py-sm-5"
+    style="background-image: url(https://images.unsplash.com/photo-1653971858474-4f2dfa7f4dc1?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); background-size: 100% 100%; height: 500px !important; margin: 15px; border-radius: 24px"
+  >
+    <div class="container h-100">
+      <div class="row align-items-center h-100">
+        <div class="col-auto col-sm-7 col-lg-5 home-category--cont">
+          <div class="mb-md-4 mt-0 mb-5 mb-sm-0">
+            <h2 class="h2">WARDROBE</h2>
+          </div>
+          <p style="color: #fff; background-color: #252424d6; padding: 15px; border-radius: 25px">Keep your belongings organized with our stylish wardrobes. Designed to offer ample storage, our wardrobes blend seamlessly with any decor.</p>
+          <a href="/products/wardrobe" class="btn btn-primary mt-md-3">CHOOSE YOUR STYLE<ion-icon name="ios-arrow-forward"></ion-icon></a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WINDOW Category Listing Block -->
+  <article
+    class="category-seciton-cont py-3 py-sm-5"
+    style="background-image: url(https://images.unsplash.com/photo-1519643381401-22c77e60520e?q=80&w=2946&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D); background-size: 100% 100%; height: 500px !important; margin: 15px; border-radius: 24px"
+  >
+    <div class="container h-100">
+      <div class="row align-items-center h-100 justify-content-end">
+        <div class="col-auto col-sm-7 col-lg-5 home-category--cont">
+          <div class="mb-md-4 mt-0 mb-5 mb-sm-0">
+            <h2 class="h2">WINDOW</h2>
+          </div>
+          <p style="color: #fff; background-color: #252424d6; padding: 15px; border-radius: 25px">Enhance the look of your home with our beautifully designed windows. Offering both functionality and style, our windows are perfect for any room.</p>
+          <a href="/products/window" class="btn btn-primary mt-md-3">CHOOSE YOUR STYLE<ion-icon name="ios-arrow-forward"></ion-icon></a>
+        </div>
+      </div>
+    </div>
+  </article>
+  <!-- END Category Listing Block -->
+</section>
+
+<!-- FAQ's Section -->
+<section class="section pt-5">
+  <div class="container">
+    <div class="row">
+      <!-- FAQ's -->
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12 d-flex">
+        <div class="faqs-section w-100">
+          <div class="section-title text-start">
+            <h2 class="title text-uppercase">Customer FAQ's</h2>
+          </div>
+          <div class="accordion" id="accordionExample">
+            {% if faq %} {% for f in faq %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="heading{{f.faq_id}}">
+                <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{f.faq_id}}" aria-expanded="false" aria-controls="collapse{{f.faq_id}}">{{ f.title }}</button>
+              </h2>
+              <div id="collapse{{f.faq_id}}" class="accordion-collapse collapse" aria-labelledby="heading{{f.faq_id}}" data-bs-parent="#accordionExample">
+                <div class="accordion-body">{{f.description}}</div>
+              </div>
+            </div>
+            {% endfor %} {% else %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">How can I select the right furniture for my space?</button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  Choosing the right furniture involves considering the size, style, and functionality of your space. We recommend measuring your room and selecting pieces that complement your interior design. Our team can also provide personalized recommendations based on your specific needs and
+                  preferences, ensuring that each piece fits perfectly within your design vision.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Do you offer custom interior design services?</button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  Yes, we offer comprehensive interior design services tailored to your individual taste and space requirements. Our experienced designers work closely with you to create custom solutions that enhance the aesthetic and functionality of your home or business. Whether you’re starting
+                  from scratch or looking to update an existing space, we can help bring your vision to life.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">What is your warranty policy on furniture?</button>
+              </h2>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  We stand by the quality of our products and offer a warranty on all furniture purchases. The warranty period varies depending on the product but typically covers manufacturing defects and workmanship. For detailed warranty information on a specific product, please refer to the
+                  warranty section on our product page or contact our customer support team.
+                </div>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- End FAQ's -->
+    </div>
+  </div>
+</section>
+<!-- End FAQ's Section -->
+
+<!-- Updated Gallery Section -->
+<section class="section pt-5 pb-5">
+  <div class="container">
+    <div class="row">
+      <!-- Gallery Section Title -->
+      <div class="col-12">
+        <div class="section-title text-center mb-4">
+          <h2 class="title text-uppercase">Our Work Gallery</h2>
+          <p class="mb-0">Explore our recent projects and get inspired by our work in creating stunning interiors.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <!-- Gallery -->
+      <div class="col-lg-10">
+        <div class="gallery-grid d-flex flex-wrap">
+          <!-- Gallery Item -->
+          <div class="gallery-item p-2">
+            <a href="https://plus.unsplash.com/premium_photo-1681113076872-c74b8926e70c?q=80&w=2861&auto=format&fit=crop&ixlib=rb-4.0.3" class="d-block position-relative overflow-hidden">
+              <img class="img-fluid rounded shadow-sm transition-img" src="https://plus.unsplash.com/premium_photo-1681113076872-c74b8926e70c?q=80&w=2861&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Modern Living Room Design" style="border-radius: 24px" />
+              <div class="overlay d-flex align-items-center justify-content-center">
+                <h5 class="text-uppercase text-white">Modern Living Room Design</h5>
+              </div>
+            </a>
+          </div>
+          <!-- Gallery Item -->
+          <div class="gallery-item p-2">
+            <a href="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="d-block position-relative overflow-hidden">
+              <img class="img-fluid rounded shadow-sm transition-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Elegant Bedroom Setup" style="border-radius: 24px" />
+              <div class="overlay d-flex align-items-center justify-content-center">
+                <h5 class="text-uppercase text-white">Elegant Bedroom Setup</h5>
+              </div>
+            </a>
+            <br />
+            <a href="https://plus.unsplash.com/premium_photo-1680351370944-c938d9fc4dad?q=80&w=3078&auto=format&fit=crop&ixlib=rb-4.0.3" class="d-block position-relative overflow-hidden">
+              <img class="img-fluid rounded shadow-sm transition-img" src="https://plus.unsplash.com/premium_photo-1680351370944-c938d9fc4dad?q=80&w=3078&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Elegant Bedroom Setup" style="border-radius: 24px" />
+              <div class="overlay d-flex align-items-center justify-content-center">
+                <h5 class="text-uppercase text-white">Elegant Bedroom Setup</h5>
+              </div>
+            </a>
+          </div>
+
+          <!-- Gallery Item -->
+          <div class="gallery-item p-2">
+            <a href="https://images.unsplash.com/photo-1615875221248-d4b820203f97?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3" class="d-block position-relative overflow-hidden">
+              <img class="img-fluid rounded shadow-sm transition-img" src="https://images.unsplash.com/photo-1615875221248-d4b820203f97?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Stylish Office Interior" style="border-radius: 24px" />
+              <div class="overlay d-flex align-items-center justify-content-center">
+                <h5 class="text-uppercase text-white">Stylish Office Interior</h5>
+              </div>
+            </a>
+          </div>
+          <!-- Gallery Item -->
+          <div class="gallery-item p-2">
+            <a href="https://images.unsplash.com/photo-1615971677499-5467cbab01c0?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3" class="d-block position-relative overflow-hidden">
+              <img class="img-fluid rounded shadow-sm transition-img" src="https://images.unsplash.com/photo-1615971677499-5467cbab01c0?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Luxury Dining Room Design" style="border-radius: 24px" />
+              <div class="overlay d-flex align-items-center justify-content-center">
+                <h5 class="text-uppercase text-white">Luxury Dining Room Design</h5>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- End Gallery -->
+    </div>
+  </div>
+</section>
+<!-- End Updated Gallery Section -->
+
+<!-- Why Choose Us -->
+<!-- <section class="section why-choose-section pt-5 position-relative pb-0">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-title text-center">
+          <h2 class="title text-uppercase">Why Choose Us</h2>
+        </div>
+        <div class="intro-text text-center">
+          <h1>Discover the Benefits of Partnering with Us</h1>
+          <p class="mb-3">At Furniture & Interior Design, we combine premium furniture with expert interior design services to create spaces that truly feel like home.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="background-color: white !important">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-3 mt-3">
+        <ul class="items col1">
+          <li class="item">
+            <div class="title d-flex align-items-center mb-1">
+              <i class="cps cp-chess-king"></i>
+              <h4 class="mb-0 text-uppercase">Exceptional Quality</h4>
+            </div>
+            <p>Our furniture is crafted from the finest materials, ensuring durability and timeless appeal in every piece.</p>
+          </li>
+          <li class="item">
+            <div class="title d-flex align-items-center mb-1">
+              <i class="cps cp-user-cog"></i>
+              <h4 class="mb-0 text-uppercase">Bespoke Interior Design</h4>
+            </div>
+            <p>We offer personalized interior design services, creating customized spaces that reflect your unique style and preferences.</p>
+          </li>
+          <li class="item">
+            <div class="title d-flex align-items-center mb-1">
+              <i class="cps cp-tools"></i>
+              <h4 class="mb-0 text-uppercase">Innovative Design Solutions</h4>
+            </div>
+            <p>Our team integrates cutting-edge technology and creative design concepts to deliver innovative, functional spaces.</p>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-6 mt-3">
+        <div class="why-img text-center">
+          <img
+            class="blur-up lazyload"
+            data-src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=3058&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=3058&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Why Choose Us"
+            title="Why Choose Us"
+            width="562"
+            height="622"
+          />
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-3 mt-3">
+        <ul class="items col2">
+          <li class="item text-end">
+            <div class="title d-flex align-items-center justify-content-end mb-1">
+              <h4 class="mb-0 text-uppercase">Comprehensive Services</h4>
+              <i class="cps cp-wrench"></i>
+            </div>
+            <p>From furniture selection to full-scale interior design, we offer a wide range of services to meet all your needs.</p>
+          </li>
+          <li class="item text-end">
+            <div class="title d-flex align-items-center justify-content-end mb-1">
+              <h4 class="mb-0 text-uppercase">Sustainability Focused</h4>
+              <i class="cps cp-thumbs-up"></i>
+            </div>
+            <p>We prioritize eco-friendly practices, using sustainable materials and energy-efficient designs.</p>
+          </li>
+          <li class="item text-end">
+            <div class="title d-flex align-items-center justify-content-end mb-1">
+              <h4 class="mb-0 text-uppercase">Outstanding Customer Support</h4>
+              <i class="cps cp-tools"></i>
+            </div>
+            <p>Our dedicated team is here to support you every step of the way, ensuring your complete satisfaction.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- End Why Choose Us -->
+
+<!-- Interior Design Contracts Section -->
+<section class="section interior-contracts-section py-5 position-relative" style="background-color: #f8f9fa">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Section Title -->
+      <div class="col-12 text-center mb-5">
+        <div class="section-title">
+          <h2 class="title text-uppercase" style="font-weight: 700">We Take Interior Design Contracts</h2>
+        </div>
+        <p class="intro-text" style="font-size: 1.2rem">Transform your spaces with our expert interior design services. From concept to completion, we bring your vision to life.</p>
+      </div>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row justify-content-between align-items-center">
+      <!-- Contract Details -->
+      <div class="col-12 col-md-6 order-2 order-md-1">
+        <h3 class="text-uppercase" style="font-weight: 600">Personalized Design Services for Every Project</h3>
+        <p class="mb-4" style="">Whether you're renovating your home, designing a commercial space, or looking for bespoke furniture, our team of skilled designers ensures that your project meets the highest standards of quality and elegance.</p>
+        <ul class="features-list ps-0" style="list-style-type: none">
+          <li class="title d-flex align-items-center mb-3">
+            <i class="cps cp-chess-king me-3" style="font-size: 2.5rem; color: #d30a0c"></i>
+            <span style="font-weight: 500" class="text-uppercase">Custom Home Interiors</span>
+          </li>
+          <li class="d-flex align-items-center mb-3">
+            <i class="cps cp-tools me-3" style="font-size: 2.5rem; color: #d30a0c"></i>
+            <span style="font-weight: 500" class="text-uppercase">Office & Commercial Space Design</span>
+          </li>
+          <li class="d-flex align-items-center mb-3">
+            <i class="cps cp-user-cog me-3" style="font-size: 2.5rem; color: #d30a0c"></i>
+            <span style="font-weight: 500" class="text-uppercase">Full-Service Project Management</span>
+          </li>
+          <li class="d-flex align-items-center mb-3">
+            <i class="cps cp-wrench me-3" style="font-size: 2.5rem; color: #d30a0c"></i>
+            <span style="font-weight: 500" class="text-uppercase">Sustainable & Eco-Friendly Solutions</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="col-12 col-md-5 text-center order-1 order-md-2 mb-4 mb-md-0">
+        <div class="cta-image position-relative" style="overflow: hidden">
+          <img
+            class="img-fluid blur-up lazyload rounded-3 shadow"
+            data-src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Interior Design Services"
+            title="Interior Design Services"
+            width="400"
+            height="400"
+            style="transform: scale(1); transition: transform 0.5s ease-in-out"
+            onmouseover="this.style.transform='scale(1.05)'"
+            onmouseout="this.style.transform='scale(1)'"
+          />
+        </div>
+        <a href="/contact" class="btn btn-primary mt-4 text-uppercase px-5 py-3 rounded-pill shadow-lg" style="background-color: #d30a0c; border: none; font-size: 1rem; transition: background-color 0.3s ease"> Get a Quote <i class="bi bi-arrow-right-circle ms-2"></i> </a>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Interior Design Contracts Section -->
+
+<!--Newsletter Section-->
+<section class="section newsletter-section" style="background-image: url(https://images.unsplash.com/photo-1618219740975-d40978bb7378?q=80&w=2900&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="section-title text-center">
+          <h2 class="title text-uppercase">Subscribe to Our Newsletter <br />for New updates</h2>
+        </div>
+        <form action="/user/subscribe" method="post" id="subscribe-form">
+          <p>to stay up-to-date on our promotions, discounts, sales, special offers and more.</p>
+          <div id="subscribe-response" style="display: none; color: greenyellow !important"></div>
+          <div class="input-group">
+            <input type="email" class="newsletter-input" name="email" value="" placeholder="Enter email address..." required />
+            <span class="news-btn">
+              <button type="submit" class="btn" name="commit" id="Subscribe">Subscribe</button>
+            </span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!--End Newsletter Section-->
+
+{% endblock content %} {% block script %}
+<script>
+  $(document).ready(function () {
+    $("#subscribe-form").submit(function (e) {
+      e.preventDefault(); // Prevent default form submission
+
+      var form = $(this);
+      var url = form.attr("action");
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: form.serialize(), // Serialize the form data
+        dataType: "json",
+        success: function (data) {
+          // Handle the success response
+          $("#subscribe-form")[0].reset();
+          $("#subscribe-response").text(data.message).show();
+        },
+        error: function () {
+          // Handle the error response
+          alert("An error occurred. Please try again.");
+        },
+      });
+    });
+  });
+</script>
+{% endblock script %}

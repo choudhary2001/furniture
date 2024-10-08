@@ -1,0 +1,258 @@
+
+{% extends 'adminestration/base.html' %} {% load static %} 
+{% block head %} 
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .example::-webkit-scrollbar {
+      display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .example {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+<div class="container" >
+  <div class="col-lg-4 col-md-4 col-sm-4">
+    <div class="shop__product__option__left">
+      <button id="open-modal" class="primary-btn" style="margin:10px;">Add coupon</button>
+    </div>
+  </div>
+<div class="card"style="border-radius:10px;">
+    <div class="card-body">
+          <div class="shop__product__option">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__left">
+                  <p>
+                    Page {{ coupon.number }} of {{ coupon.paginator.num_pages}}.
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__center">
+                  <div class="checkout__input">
+
+                  <form action="/admin/">
+                    <input type="text" name="search" placeholder="Search...">
+                  </form>
+                </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <!-- <div class="shop__product__option__right">
+                  <p>Sort by Status:</p>
+                  <select onchange="location = this.value">
+                    <option {% if authenticate == 'None' %}selected{% endif %}>Sort</option>
+                    <option value="/admin/?authenticate=1{% if sarch != 'None' %}&search={{search}}{% endif %}" {% if authenticate == '1' %}selected{% endif %}>Authenticated</option>
+                    <option value="/admin/?authenticate=0{% if sarch != 'None' %}&search={{search}}{% endif %}" {% if authenticate == '0' %}selected{% endif %}>Not Authenticated</option>
+                </select>
+                </div> -->
+              </div>
+            </div>
+          </div>
+      {% if messages %}
+      {% for message in messages %}
+        <div class="alert" >
+            {{message}}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if coupon %}
+    <div class="u-table-res" style="overflow-x: scroll;">
+        <table class="table mb-0 example">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Product</th>
+                    <th>Discount</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% if request.user.is_staff %}
+                    {% for c in coupon %}
+                    <tr>
+                        <td class="product__cart__item">
+                            {{c.code}}
+                        </td>
+                        <td class="product__cart__item">
+                          {{c.product.title}}
+                      </td>
+                        <td>{{c.discount}} %</td>
+                       
+                        <td>{{c.start_date}}</td>
+                        <td class="">
+                            <span>{{c.end_date}}<span>
+                        </td>
+                        <td>
+                            <select onchange="location = this.value">
+                                <option value="/admincoupon/status/{{c.code}}?active=1" {% if c.status == True %}selected{% endif %}>Active</option>
+                                <option value="/admin/coupon/status{{c.code}}?active=0" {% if c.status != True %}selected{% endif %}>Closed</option>
+                            </select>
+                        </td>
+                        <td><a href="/admin/coupon/delete/{{c.code}}" class="primary-btn" style="">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                
+                {% endif %}
+                
+            </tbody>
+
+        </table>
+
+    </div>
+    {% else %}
+    <h3 style="text-align:center;">No coupon found</h3>
+    {% endif %}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="product__pagination">
+          <span class="step-links">
+            {% if coupon.has_previous %} 
+              {% if coupon.has_previous != '1' %}
+                <a href="?page={{ coupon.previous_page_number }}{% if authenticate != 'None' %}&authenticate={{authenticate}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&laquo; </a>
+              {% endif %} 
+            {% endif %}
+            <span class="current-page active">{{ coupon.number }}</span>
+            {% if coupon.has_next %} 
+              {% if coupon.has_next != coupon.paginator.num_pages %}
+                <a href="?page={{ coupon.next_page_number }}{% if authenticate != 'None' %}&authenticate={{authenticate}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&raquo;</a>
+              {% endif %} 
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div id="popupModal" class="modal fade">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content p-1">
+        <header class="">
+          <h4 style="float:left; padding:3px; padding-left:10px;"><b>Add coupon</b></h4>
+          <button  
+            type="button"
+            class="btn-close"
+            data-mdb-dismiss="modal"
+            aria-label="Close" style="float: right;
+            border: none;"
+          ><i class="fa fa-close"></i></button>    
+          </header>
+        <div class="modal-body" >
+          <form action="#" class="signin-form" action="/admin/coupon/" method = "post">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert" >
+                      {{message}}
+                  </div>
+                {% endfor %}
+              {% endif %}
+              <p>{{msg}}</p>
+            </div>
+              <div class="form-group mb-3">
+                <label class="label" for="code">Code</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="1234AB"
+                  required
+                  name = "code"
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label class="label" for="last_name">Product</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Product"
+                  required
+                  name = 'product'
+                  list="product"
+                />
+                <datalist id="product">
+                    {% for p in product %}
+                    <option value="{{p.slug}}">
+                    {% endfor %}
+                </datalist>
+
+              </div>              
+              <div class="form-group mb-3">
+                <label class="label" for="name">Discount</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="%"
+                  required
+                  name ='discount'
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label class="label" for="password">Start Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder=""
+                  required
+                  name = 'start_date'
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label class="label" for="password">End Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  placeholder=""
+                  required
+                  name = 'last_date'
+                />
+              </div>
+              <div class="form-group">
+                <button
+                  type="submit"
+                  class="rounded submit primary-btn"
+                >
+                  Create 
+                </button>
+              </div>
+            </form>
+        </div>
+  </div>
+</div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $("#open-modal").click(function() {
+      $("#popupModal").modal("show");
+    });
+  });
+  $(document).ready(function(){
+    // Close modal on button click
+    $(".btn-close").click(function(){
+        $("#popupModal").modal('hide');
+    });
+});
+</script>
+{% endblock %}

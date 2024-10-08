@@ -1,0 +1,411 @@
+{% extends 'main/base.html' %} {% load static %} {% load custom_filters %}
+{% block head %}
+<style>
+    #product_image {
+        height: 250px;
+
+        /* background-size: cover; */
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    @media (max-width:768px) {
+        #product_image {
+            height: 175px !important;
+        }
+    }
+
+    .product-reviewe>i {
+        color: #f4c402;
+    }
+
+    .shop-page-banner {
+        background: url(https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2900&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+    }
+</style>
+
+{% endblock head %}
+
+{% block content %}
+<!--Page Content-->
+<main id="page-content">
+
+    <!--Page Heading-->
+    <div class="page-banner shop-page-banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Shop {% if cat != None %} - {{cat}}{% endif %}</h1>
+                    <p class="sort-title">WE ARE PROVIDE best Products.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Page Heading-->
+
+    <!--Breadcrums-->
+    <div class="breadcrumbs">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a> <span><i class="cps cp-angle-right"></i></span>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Shop</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!--End Breadcrums-->
+
+    <!--Page Content-->
+    <div class="content-with-sidebar">
+        <div class="container">
+            <div class="row">
+                <!--Sidebar-->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-3 sidebar filterbar">
+                    <div class="closeFilter d-block d-lg-none"><i class="cps cp-times"></i></div>
+                    <div class="sidebar-filters">
+                        <!--Category Block-->
+                        <div class="block clearfix block-categories">
+                            <div class="block-title">
+                                <h3>Categories</h3>
+                            </div>
+                            <div class="block-content">
+                                <ul class="items">
+                                    {% for i in categories %}
+                                    {% if not i.children.all %}
+                                    <li class="lvl-1"><a
+                                            href="/products/{{i.slug}}{% if search != None %}?search={{search}}{% endif %}">{{i.title}}</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="lvl-1 sub-level"><a href="#;">{{i.title}}</a>
+                                        <ul class="sublinks">
+                                            {% for obj in i.children.all %}
+                                            {% if not obj.children.all %}
+                                            <li class="level2"><a
+                                                    href="/products/{{obj.slug}}{% if search != None %}?search={{search}}{% endif %}">{{obj.title}}</a>
+                                            </li>
+                                            {% else %}
+                                            <li class="level2 sub-level sub-sub-level"><a href="#;">{{obj.title}}</a>
+                                                <ul class="sublinks mb-0">
+                                                    {% for subobj in obj.children.all %}
+                                                    <li class="level3"><a
+                                                            href="/products/{{subobj.slug}}{% if search != None %}?search={{search}}{% endif %}">{{subobj.title}}</a>
+                                                    </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <!--End Category Block-->
+
+                        <!--Price Filter Block-->
+                        <div class="block filterBox filter-widget">
+                            <div class="block-title">
+                                <h3>Price</h3>
+                            </div>
+                            <form action="#" method="post" class="price-filter filterDD mt-3">
+                                {% csrf_token %}
+                                <div id="slider-range"
+                                    class="mt-2 ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all">
+                                    <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
+                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0">
+                                    </span>
+                                    <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"
+                                        style="right: 0%;">
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="no-margin"><input id="amount" type="text" class="rounded"
+                                                name="price_range"></p>
+                                    </div>
+                                    <div class="col-6 text-right margin-25px-top">
+                                        <button class="btn btn--small rounded">filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!--End Price Filter Block-->
+
+
+                    </div>
+                </div>
+                <!--End Sidebar-->
+
+                <!--Content-->
+                <div class="col-12 col-sm-12 col-md-12 col-lg-9 main-col">
+                    <!--Toolbar-->
+                    <div class="toolbar py-3">
+                        <div class="filters-toolbar-wrapper">
+                            <ul class="list-unstyled d-flex align-items-center justify-content-between m-0">
+                                <li class="product-count d-flex align-items-center">
+                                    <button type="button"
+                                        class="btn rounded btn-filter d-block d-lg-none me-2 me-sm-3"><span
+                                            class="hidden">Filter</span></button>
+                                    <div class="filters-toolbar__item">
+                                        <span class="filters-toolbar__product-count d-none d-sm-block">Page {{products.number }} of {{ products.paginator.num_pages}}.</span>
+                                    </div>
+                                </li>
+                                <!--<li class="collection-view">
+                                    <div
+                                        class="filters-toolbar__item collection-view-as d-flex align-items-center me-3">
+                                        <a href="/products/" class="change-view prd-grid active"><i
+                                                class="cps cp-th-large"></i><span class="tooltip-label">Grid
+                                                View</span></a>
+                                        <a href="javascript:void(0)" class="change-view prd-list"><i
+                                                class="cps cp-list"></i><span class="tooltip-label">List View</span></a>
+                                    </div>
+                                </li> -->
+                                <li class="filters-sort ms-auto ms-sm-0">
+                                    <div class="filters-toolbar__item">
+                                        <label for="SortBy" class="hidden">Sort by Price:</label>
+                                        <select name="SortBy" id="SortBy" onchange="location = this.value"
+                                            class="filters-toolbar__input filters-toolbar__input--sort rounded">
+                                            <option
+                                                value="{% if categoryy != None %}/products/{{categoryy}}{% endif %}?low_to_high=1{% if search != None %}&search={{search}}{% endif %}"
+                                                {% if low_to_high == 'None' %}selected{% endif %}>Sort</option>
+                                            <option
+                                                value="{% if categoryy != None %}/products/{{categoryy}}{% endif %}?low_to_high=0{% if search != None %}&search={{search}}{% endif %}"
+                                                {% if low_to_high == '0' %}selected{% endif %}>Low To High</option>
+                                            <option
+                                                value="{% if categoryy != None %}/products/{{categoryy}}{% endif %}?low_to_high=1{% if search != None %}&search={{search}}{% endif %}"
+                                                {% if low_to_high == '1' %}selected{% endif %}>High To Low</option>
+                                        </select>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--End Toolbar-->
+
+                    <!--Product Grid-->
+                    <div class="products-grid">
+                        {% if products %}
+                        <div class="row">
+                            {% for p in products %}
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+                                <!-- Product Item -->
+                                <div class="item">
+                                    <!-- Product Image -->
+                                    <div class="product-image">
+                                        <a href="/products/{{p.category.slug}}/{{p.slug}}">
+                                            <!-- Image -->
+                                            <div class="primary blur-up lazyload rounded-3" id="product_image"
+                                                data-src="/media/{{p.image1}}" src="/media/{{p.image1}}" alt="product"
+                                                title="product" style="background-image: url(/media/{{p.image1}});">
+                                            </div>
+                                            <!-- End Image -->
+                                            <!-- Hover Image -->
+                                            <img class="hover blur-up lazyload rounded-3" data-src="/media/{{p.image1}}"
+                                                src="/media/{{p.image1}}" alt="product" title="product" />
+                                            <!-- End Hover Image -->
+                                        </a>
+                                        {% if p.quantity > 0 %} {% else %}
+                                        <!-- Product Label -->
+                                        <div class="product-labels"><span class="lbl new rounded">Out Of Stock</span>
+                                        </div>
+                                        <!-- End Product Label -->
+                                        {% endif %}
+                                        {% if request.user.is_authenticated %}
+                                        <!-- Button Action -->
+                                        <div class="button-hover">
+                                            <a href="#;" class="btn btn-wishlist"
+                                                onclick="AddToWishList('{{p.slug}}')"><i
+                                                    class="cpr cp-heart add-heart"></i></a>
+                                        </div>
+                                        <!-- End Button Action -->
+                                        {% endif %}
+                                    </div>
+                                    <!-- End Product Image -->
+                                    <!-- Product Detail -->
+                                    <div class="product-details d-flex">
+                                        <div class="product-details-in">
+                                            <div class="h3"><a href="/products/{{p.category.slug}}/{{p.slug}}">{{p.title}}</a></div>
+                                            <div class="product-reviewe">
+                                                <i class="cps cp-star"></i>
+                                                <i class="cps cp-star"></i>
+                                                <i class="cps cp-star"></i>
+                                                <i class="cps cp-star"></i>
+                                                <i class="cps cp-star-half-alt"></i>
+                                            </div>
+                                            <div class="price-box"><span class="price">&#x20b9; {{p.price}}</span></div>
+                                            <div class="">
+                                                {% if p.quantity > 0 %}
+                                                <a class="btn-primary btn pro-addtocart-popup rounded"
+                                                    onclick="AddToCart('{{p.slug}}', '1')" href="#">
+                                                    <i class="cps cp-shopping-cart "></i>
+                                                    <span class="label add-cart">Add to Cart</span>
+                                                </a>
+                                                {% else %}
+                                                <a class="btn-primary btn pro-addtocart-popup rounded" href="#">
+                                                    <i class="cps cp-shopping-cart "></i>
+                                                    <span class="label">Out Of Stock</span>
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- End Product Detail -->
+                                </div>
+                                <!-- End Product Item -->
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="row">
+                            <h2>Soory!, Products are Not Available.</h2>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!--End Product Grid-->
+                    {% if products %}
+                    <!--Pagination-->
+                    <div class="pagination section pt-0">
+                        <div class="container">
+                            <ul class="d-flex align-items-center justify-content-center">
+                                {% if products.has_previous %}
+                                {% if products.has_previous != '1' %}
+                                <li class="prev arrow"><a
+                                        href="{% if categoryy != None %}/products/{{categoryy}}{% endif %}?page={{ products.previous_page_number }}{% if search != None %}&search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}"><i
+                                            class="cps cp-chevron-circle-left"></i></a></li>
+                                {% endif %}
+                                {% endif %}
+
+                                {% for num in products.paginator.page_range %}
+
+                                {% if num == products.number %}
+                                <li><a class="active" href="#" style="background-color: #d30a0c; color: white;">{{num}}</a></li>
+                                {% else %}
+                                <li><a
+                                        href="{% if categoryy != None %}/products/{{categoryy}}{% endif %}?page={{ num }}{% if search != None %}&search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}">{{num }}</a></li>
+                                {% endif %}
+                                {% endfor %}
+
+                                {% if products.has_next %}
+                                {% if products.has_next != products.paginator.num_pages %}
+                                <li class="next arrow"><a
+                                        href="{% if categoryy != None %}/products/{{categoryy}}{% endif %}?page={{ products.next_page_number }}{% if search != None %}&search={{search}}{% endif %}{% if low_to_high != None %}&low_to_high={{low_to_high}}{% endif %}"><i
+                                            class="cps cp-chevron-circle-right"></i></a></li>
+                                {% endif %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <!--End Pagination-->
+                    {% endif %}
+                </div>
+                <!--End Content-->
+            </div>
+        </div>
+    </div>
+    <!--End Page Content-->
+
+
+</main>
+<!--End Page Content-->
+{% endblock %}
+
+{% block script %}
+
+<script>
+    function price_slider(left, right) {
+        $("#slider-range").slider({
+            range: true,
+            min: left,
+            max: right,
+            values: [0, 100],
+            slide: function (event, ui) {
+                $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+            }
+        });
+        $("#amount").val($("#slider-range").slider("values", 0) +
+            " - " + $("#slider-range").slider("values", 1));
+    }
+
+    const left = {{ minMaxPrice.price__min }};
+    const right = {{ minMaxPrice.price__max }};
+    price_slider(left, right);
+</script>
+
+<script>
+
+    function AddToCart(product, quantity) {
+        event.preventDefault();
+        url_ = `/add/cart/` + product + '?quantity=' + quantity;
+
+
+        $.ajax({
+            type: 'GET',
+            url: url_,
+            success: function (data) {
+                console.log(data)
+                var cartLengthElements = document.getElementsByClassName('cart_length');
+                var totalItems = data.totalitems;
+                for (var i = 0; i < cartLengthElements.length; i++) {
+                    cartLengthElements[i].innerHTML = totalItems;
+                }
+
+            }
+        });
+    };
+
+    document.querySelectorAll('.add-cart').forEach(function (el) {
+        el.addEventListener('click', function (event) {
+            var clickedbutton = event.target;
+            clickedbutton.innerHTML = ' Added';
+            setTimeout(() => {
+                // Change the innerHTML after 3 seconds
+                clickedbutton.innerHTML = ' Add To Cart';
+            }, 2000); // 2000 milliseconds = 3 seconds
+        })
+    })
+
+
+</script>
+
+<script>
+
+    function AddToWishList(product) {
+        event.preventDefault();
+        url_ = `/wishlist/add/` + product;
+
+
+        $.ajax({
+            type: 'GET',
+            url: url_,
+            success: function (data) {
+                console.log(data)
+
+            }
+        });
+    };
+
+    document.querySelectorAll('.add-heart').forEach(function (el) {
+        el.addEventListener('click', function (event) {
+            var clickedbutton = event.target;
+            clickedbutton.classList.add('cps');
+            clickedbutton.classList.remove('cpr');
+            setTimeout(() => {
+                // Change the innerHTML after 3 seconds
+                clickedbutton.classList.remove('cps');
+                clickedbutton.classList.add('cpr');
+            }, 2000); // 2000 milliseconds = 3 seconds
+        })
+    })
+
+
+</script>
+{% endblock script %}

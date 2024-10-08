@@ -1,0 +1,153 @@
+{% extends 'adminestration/base.html' %} {% load static %} 
+{% block head %} 
+<style>
+
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+<div class="container" >
+
+    <div class="card"style="border-radius:10px;">
+        <div class="card-body">
+            
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert" >
+                    {{message}}
+                </div>
+            {% endfor %}
+            {% endif %}
+            {% if category != 'None' %}
+            <form action="#" class="signin-form" action="/admin/category/edit/{{category.slug}}" method = "post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="checkout__input">
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="alert" >
+                          {{message}}
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                  <p>{{msg}}</p>
+                </div>
+                <p for="category">Parent Category : {{category.parent.title}}</p>
+                
+                  <div class="checkout__input">
+                    <select id="category" name="parent">
+                        <option>Select</option>
+
+                      {% for i in categories %} 
+                        <option name="parent" value="{{i.slug}}" >{{i.title}}</option>
+                        
+                      {% endfor %}
+                    </select>
+                  </div>
+                <br>
+                  <div class="checkout__input">
+                    <br>
+                    <p for="title">Title : </p>
+                    <input
+                      type="text"
+                      placeholder="Title"
+                      required  
+                      name = "title"
+                      value = "{{category.title}}"
+                    />
+                  </div>
+                  <div class="checkout__input">
+                    <p for="description">Image : </p>
+                    <input type="file" accept="image/*" name = "image">
+                  </div>              
+                  
+                  <div class="form-group">
+                    <button
+                      type="submit"
+                      class="rounded submit primary-btn"
+                    >
+                      Change
+                    </button>
+                  </div>
+                </form>
+            {% else %}
+            <h3 style="text-align:center;">No category found</h3>
+            {% endif %}
+        
+        </div>
+    </div>
+
+</div>
+
+
+<div id="popupModal" class="modal fade">
+  <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content p-1">
+        <header class="">
+          <h4 style="float:left; padding:3px; padding-left:10px;"><b>Add category</b></h4>
+          <button  
+            type="button"
+            class="btn-close"
+            data-mdb-dismiss="modal"
+            aria-label="Close" style="float: right;
+            border: none;"
+          ><i class="fa fa-close"></i></button>    
+          </header>
+        <div class="modal-body" >
+          <form action="#" class="signin-form" action="/admin/category/" method = "post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="checkout__input">
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert" >
+                      {{message}}
+                  </div>
+                {% endfor %}
+              {% endif %}
+              <p>{{msg}}</p>
+            </div>
+              <div class="checkout__input">
+                <label for="category">Parent</label>
+                <select id="category" name="category">
+                  {% for i in categories %} 
+                    {% if not i.children.all %}
+                    <option value="{{i.slug}}">{{i.title}}</option>
+                    {% endif %}
+                  {% endfor %}
+              </div>
+              <div class="checkout__input">
+                <label for="title">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Title"
+                  required
+                  name = "title"
+                />
+              </div>
+              <div class="checkout__input">
+                <label for="description">Description</label>
+                <input type="file" accept="image/*">
+              </div>              
+              
+              <div class="form-group">
+                <button
+                  type="submit"
+                  class="rounded submit primary-btn"
+                >
+                  Create 
+                </button>
+              </div>
+            </form>
+        </div>
+  </div>
+</div>
+</div>
+
+
+
+{% endblock %}

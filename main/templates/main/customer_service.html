@@ -1,0 +1,617 @@
+{% extends 'main/base.html' %} {% load static %} {% block head %}
+<style>
+  #capture-button {
+    margin-top: 20px;
+  }
+
+  #capture-button-again {
+    margin-top: 20px;
+  }
+  .primary-btn {
+    background-color: black;
+    border-radius: 0px;
+    padding: 10px;
+    outline: none;
+  }
+  .product-tabs {
+    display: flex;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+  }
+  .product-tabs > li a:hover {
+    color: white !important;
+  }
+  @media (max-width: 768px) {
+    .product-tabs {
+      height: 10rem !important;
+    }
+    .tab_link {
+      padding: 0;
+      margin: 5px !important;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      width: 100% !important;
+    }
+    .product-tabs > li a {
+      margin: 0 !important;
+      text-align: center;
+    }
+  }
+</style>
+{% endblock head %} {% block content %}
+<div class="container" style="padding-top: 15px">
+  {% if messages %} {% for message in messages %}
+  <div class="alert">{{message}}</div>
+  {% endfor %} {% endif %}
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+      <div class="tabs-listing mt-2">
+        <ul class="product-tabs list-unstyled d-flex-wrap m-0 d-md-flex justify-content-center">
+          <li rel="warranty_registration" class="tab_link active"><a class="">Warranty Registration</a></li>
+          <li rel="warranty_claim" class="tab_link"><a>Warranty Claim</a></li>
+          <li rel="customer_help" class="tab_link"><a>Customer Help</a></li>
+        </ul>
+        <div class="tab-container">
+          <!--Warranty Registration-->
+
+          <div id="warranty_registration" class="tab-content appointment-form-in">
+            <h4 class="pt-2 text-uppercase">Warranty Registration</h4>
+
+            <div class="product-description">
+              <div class="row">
+                <form method="post" action="{% url 'warranty_registration' %}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Customer Name<span>*</span></p>
+                        <input type="text" name="name" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Email<span>*</span></p>
+                        <input type="email" name="email" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Mobile Number<span>*</span></p>
+                        <input type="number" name="number" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Product<span>*</span></p>
+                        <input type="text" name="product" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="checkout__input">
+                    <p>Product Manufacturing Date<span>*</span></p>
+                    <input type="date" name="manufacturing_date" required />
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Product Batch No<span>*</span></p>
+                        <input type="text" name="batch_no" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Product Serial No<span>*</span></p>
+                        <input type="text" name="serial_no" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Product Color<span>*</span></p>
+                        <select id="color" name="color">
+                          <option value="Brown">Brown</option>
+                          <option value="Crisp White">Crisp White</option>
+                          <option value="Grey">Grey</option>
+                          <option value="Black">Black</option>
+                          <option value="White">White</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Order Date<span>*</span></p>
+                        <input type="date" name="order_date" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Receipt / Invoice No.<span>*</span></p>
+                        <input type="text" name="invoice_no" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Upload Receipt / Invoice<span>*</span></p>
+                        <input type="file" name="invoice" accept="jpg,jpeg,png, pdf" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Price<span>*</span></p>
+                        <input type="text" name="price" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>State<span>*</span></p>
+                        <input type="text" name="state" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>District<span>*</span></p>
+                        <input type="text" name="district" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>City<span>*</span></p>
+                        <input type="text" name="city" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Post Office<span>*</span></p>
+                        <input type="text" name="postoffice" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>ZIP Code<span>*</span></p>
+                        <input type="number" name="zipcode" required />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Land Mark<span>*</span></p>
+                        <input type="text" name="landmark" required />
+                      </div>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                      <div class="checkout__input">
+                        <p>Purchase Source<span>*</span></p>
+                        <select id="category" name="category">
+                          <option value="Furniture Website">Furniture Website</option>
+                          <option value="Furniture Partner">Furniture Partner</option>
+                          <option value="Amazon">Amazon</option>
+                          <option value="Flipkart">FlipKart</option>
+                          <option value="Snapdeal">Snapdeal</option>
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="checkout__input">
+                    <p>Address<span>*</span></p>
+                    <input type="text" placeholder="Address" class="checkout__input__add" name="address" required />
+                  </div>
+                  <div class="row" style="margin-top: 10px">
+                    <div class="text-left col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
+                      <input type="submit" class="btn rounded btn-lg btn-primary" value="Register" />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!--End Warranty Registration-->
+          <!--Warranty Claim-->
+
+          <div id="warranty_claim" class="tab-content appointment-form-in">
+            <h4 class="pt-2 text-uppercase">Warranty Claim</h4>
+
+            <p id="wrr_message" style="color: red"></p>
+
+            <form method="post" action="{% url 'claim_warranty' %}" enctype="multipart/form-data" id="warranty-form">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>E Warranty Registration Number<span>*</span></p>
+                    <input type="number" name="reg_number" required />
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Customer Name<span>*</span></p>
+                    <input type="text" name="name" required />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Email<span>*</span></p>
+                    <input type="email" name="email" required />
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Mobile Number<span>*</span></p>
+                    <input type="number" name="number" required />
+                  </div>
+                </div>
+              </div>
+              <div class="checkout__input">
+                <p>Product Manufacturing Date<span>*</span></p>
+                <input type="date" name="manufacturing_date" required />
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Product Batch No<span>*</span></p>
+                    <input type="text" name="batch_no" required />
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Product Serial No<span>*</span></p>
+                    <input type="text" name="serial_no" required />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Product Color<span>*</span></p>
+                    <select id="color" name="color">
+                      <option value="Brown">Brown</option>
+                      <option value="Crisp White">Crisp White</option>
+                      <option value="Grey">Grey</option>
+                      <option value="Black">Black</option>
+                      <option value="White">White</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Warranty Registration Date<span>*</span></p>
+                    <input type="date" name="warranty_registration_date" required />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Upload Product Image<span>*</span></p>
+                    <p id="button_product_image_p"></p>
+                    <a class="primary-btn" id="button_product_image" style="color: white; cursor: pointer">Upload</a>
+                    <input type="hidden" name="product_image" id="image-input" required />
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Upload Warranty Card / Receipt<span>*</span></p>
+                    <p id="button_warranty_registration_p"></p>
+                    <input type="hidden" name="warranty_card" required id="warranty-card-image" />
+                    <a class="primary-btn" id="button_warranty_registration" style="color: white; cursor: pointer">Upload</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="checkout__input">
+                <p>State<span>*</span></p>
+                <input type="text" name="state" required />
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>District<span>*</span></p>
+                    <input type="text" name="district" required />
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>City<span>*</span></p>
+                    <input type="text" name="city" required />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Post Office<span>*</span></p>
+                    <input type="text" name="postoffice" required />
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>ZIP Code<span>*</span></p>
+                    <input type="number" name="zipcode" required />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Land Mark<span>*</span></p>
+                    <input type="text" name="landmark" required />
+                  </div>
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <div class="checkout__input">
+                    <p>Purchase Source<span>*</span></p>
+                    <select id="category" name="category">
+                      <option value="Furniture Website">Furniture Website</option>
+                      <option value="Furniture Partner">Furniture Partner</option>
+                      <option value="Amazon">Amazon</option>
+                      <option value="Flipkart">FlipKart</option>
+                      <option value="Snapdeal">Snapdeal</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="checkout__input">
+                <p>Address<span>*</span></p>
+                <input type="text" placeholder="Address" class="checkout__input__add" name="address" required />
+              </div>
+              <div class="row" style="margin-top: 10px">
+                <div class="text-left col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-between align-items-center">
+                  <input type="submit" class="btn rounded btn-lg btn-primary" value="Claim" />
+                </div>
+              </div>
+            </form>
+          </div>
+          <!--End Warranty Claim-->
+
+          <!--Customer Help-->
+
+          <div id="customer_help" class="tab-content appointment-form-in">
+            <h4 class="pt-2 text-uppercase">Customer Help</h4>
+            <div class="col-lg-12 col-md-6">
+              <div class="product__details__tab__content__item">
+                <h5>Let's talk</h5>
+                <p>Furniture has a wide network of service centres to provide you best of customer service experience. Call our helpline number and we will ensure best service at your doorstep!</p>
+              </div>
+              <div class="product__details__tab__content__item">
+                <h5>
+                  HELPLINE NO :
+                  <a href="tel: 1800 258 4430" target="_blank" style="color: black">1800 258 4430</a>
+                </h5>
+              </div>
+              <p class="note">OR</p>
+              <div class="product__details__tab__content__item">
+                <a href="/contact" class="btn rounded btn-lg btn-primary">Contact US</a>
+              </div>
+            </div>
+          </div>
+          <!--End Customer Help-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="popupModal" class="modal fade">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+      <div class="modal-content p-1">
+        <header class="">
+          <button type="button" class="btn-closee" data-mdb-dismiss="modal" aria-label="Close" style="float: right; border: none"><i class="fa fa-close"></i></button>
+        </header>
+        <div class="modal-body">
+          <video id="video-preview" style="width: calc(100%)"></video>
+          <canvas id="image-preview" style="width: calc(100%); display: none"></canvas>
+
+          <button type="button" id="capture-button" class="primary-btn" style="color: white">Capture Image</button>
+          <button type="button" id="capture-button-again" style="display: none" class="btn btn-primary btn-closee">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% endblock %} {% block script %}
+
+  <!-- Add jQuery library -->
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+
+  <script>
+    $(document).ready(function () {
+      // Disable all form fields except the "E Warranty Registration Number"
+      $("#warranty-form :input").not('[name="reg_number"]').prop("disabled", true);
+
+      // Listen for changes in the "E Warranty Registration Number" field
+      $('input[name="reg_number"]').on("input", function () {
+        const regNumber = $(this).val().trim();
+        console.log(regNumber);
+        // Perform regex validation for the registration number (you can update the regex pattern as needed)
+        const validRegNumberRegex = /^[A-Z\d]{8}$/;
+        if (!validRegNumberRegex.test(regNumber)) {
+          // Display error message or handle invalid input
+          return;
+        }
+
+        // Send the registration number to the server for validation and data retrieval
+        $.ajax({
+          method: "POST",
+          url: "/validate_registration_number/", // Update the URL to your server endpoint
+          data: {
+            reg_number: regNumber,
+            csrfmiddlewaretoken: "{{ csrf_token }}", // Add the CSRF token if using Django
+          },
+          success: function (response) {
+            console.log(response);
+            // Handle successful response
+            if (response.warranty_registration) {
+              console.log(response);
+              var data = response.warranty_registration;
+              $("#wrr_message").empty();
+              // Enable and fill other form fields with the retrieved data
+              $('#warranty-form input[name="name"]').val(data.name);
+              $('#warranty-form input[name="email"]').val(data.email);
+              $('#warranty-form input[name="number"]').val(data.mob_number);
+              $('#warranty-form input[name="manufacturing_date"]').val(data.product_manufacturing_date);
+              $('#warranty-form input[name="batch_no"]').val(data.product_batch_no);
+              $('#warranty-form input[name="serial_no"]').val(data.product_serial_no);
+              $('#warranty-form input[name="color"]').val(data.product_color);
+              $('#warranty-form input[name="warranty_registration_date"]').val(data.date_added.split("T")[0]);
+              // ... Continue filling other fields with the appropriate data
+
+              // Enable all form fields
+              // $('form input, form select, form textarea').prop('disabled', false);
+              $("#warranty-form :input").not('[name="name"], [name="email"], [name="number"], [name="manufacturing_date"], [name="batch_no"], [name="serial_no"], [name="color"], [name="warranty_registration_date"]').prop("disabled", false);
+            } else {
+              // Handle unsuccessful response (e.g., invalid registration number)
+              // Display error message or handle the error scenario
+              console.log(response);
+              $("#wrr_message").text(response.error);
+              setTimeout(function () {
+                $("#wrr_message").empty();
+              }, 3000);
+            }
+          },
+          error: function (xhr, status, error) {
+            // Handle error (e.g., server error)
+            console.log(error);
+          },
+        });
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
+    const imageForm = document.querySelector("#image-form");
+    const imageInput = document.querySelector("#image-input");
+    const WarrantyimageInput = document.querySelector("#warranty-card-image");
+    const videoPreview = document.querySelector("#video-preview");
+    const imagePreview = document.querySelector("#image-preview");
+    const captureButton = document.querySelector("#capture-button");
+    const captureButtonAgain = document.querySelector("#capture-button-again");
+    const button_image = document.querySelector("#button_image");
+    let mediaStream;
+
+    var product_button = document.querySelector("#button_product_image");
+    var product_button_p = document.querySelector("#button_product_image_p");
+    product_button.addEventListener("click", () => {
+      $("#popupModal").modal("show");
+      capture(imageInput, product_button_p);
+    });
+
+    var button_warranty_registration = document.querySelector("#button_warranty_registration");
+    var button_warranty_registration_p = document.querySelector("#button_warranty_registration_p");
+    button_warranty_registration.addEventListener("click", () => {
+      $("#popupModal").modal("show");
+      capture(WarrantyimageInput, button_warranty_registration_p);
+    });
+
+    $(document).ready(function () {
+      // Close modal on button click
+      $(".btn-closee").click(function () {
+        $("#popupModal").modal("hide");
+        $("#exampleModal").modal("hide");
+        captureButton.style.display = "block";
+        captureButtonAgain.style.display = "none";
+        videoPreview.style.display = "block";
+        imagePreview.style.display = "none";
+        stopCamera();
+      });
+    });
+
+    function startCamera() {
+      // Use the getUserMedia API to get access to the webcam
+      navigator.mediaDevices
+        .getUserMedia({ video: { facingMode: "user" } })
+        .then(stream => {
+          mediaStream = stream;
+          videoPreview.srcObject = stream;
+          videoPreview.play();
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+
+    function stopCamera() {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => {
+          track.stop();
+        });
+        mediaStream = null;
+      }
+    }
+
+    function capture(input, p) {
+      startCamera();
+      videoPreview.style.display = "block";
+      imagePreview.style.display = "none";
+
+      // Add an event listener to the capture button
+      captureButton.addEventListener("click", () => {
+        // Get the width and height of the video element
+        videoPreview.style.display = "none";
+
+        const width = videoPreview.videoWidth;
+        const height = videoPreview.videoHeight;
+
+        // Set the canvas element to the same dimensions as the video element
+        imagePreview.width = width;
+        imagePreview.height = height;
+
+        // Draw the current frame of the video element onto the canvas element
+        const context = imagePreview.getContext("2d");
+        context.drawImage(videoPreview, 0, 0, width, height);
+
+        // Convert the canvas element to a data URL
+        const dataURL = imagePreview.toDataURL("image/jpeg");
+
+        imagePreview.style.display = "block";
+
+        console.log(dataURL);
+        // Set the value of the image input field to the data URL
+        input.value = dataURL;
+
+        captureButton.style.display = "none";
+        captureButtonAgain.style.display = "block";
+        p.innerHTML = `Uploaded.`;
+        p.style.color = "green";
+      });
+    }
+
+    $(document).ready(function () {
+      $(".product-tabs li").click(function () {
+        // Get the rel attribute value of the clicked tab
+        var tabId = $(this).attr("rel");
+
+        // Toggle active class on the clicked tab
+        $(this).addClass("active").siblings().removeClass("active");
+
+        // Toggle display of the corresponding tab content
+        $("#" + tabId)
+          .show()
+          .siblings()
+          .hide();
+      });
+    });
+  </script>
+
+  {% comment %} captureButtonAgain.addEventListener('click', () => { stopCamera() startCamera() videoPreview.style.display = "block"; imagePreview.style.display = "none"; captureButton.style.display = "block"; captureButtonAgain.style.display = "none"; input.value = ""; p.innerHTML = ``; }); {%
+  endcomment %} {% endblock script %}
+</div>

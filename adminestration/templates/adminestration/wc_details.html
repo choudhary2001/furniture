@@ -1,0 +1,79 @@
+{% extends 'adminestration/base.html' %} {% load static %} {% block head %}
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+  
+  .card {
+    border: none;
+  }
+
+  .totals tr td {
+    font-size: 13px;
+  }
+  body {
+    background-color: #eeeeeea8;
+  }
+  @media (max-width:678px) {
+    .waranty_card_button{
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+{% endblock head %} {% block content %}
+<div class="container order_container mt-5 mb-5">
+  <div class="row d-flex justify-content-center" >
+    <div class="col-md-8" id="invoice">
+        <div class="invoice">
+          <div class="col-12 col-md-12 ">
+            <h2 class="border-bottom mt-3 mb-3">Personal Details :</h2>
+                
+                <span class="text-muted textmuted">Id: </span>{{wc.claim_id}}<br>
+                <span class="text-muted textmuted">Name: </span>{{wc.name}}<br>
+                <span class="text-muted textmuted">Email: </span>{{wc.email}}<br>
+                <span class="text-muted textmuted">Phone: </span>{{wc.mob_number}}<br>
+                <h2 class="border-bottom mt-3 mb-3">Product Details : </h2>
+                <span class="text-muted textmuted">Registration No.: </span>{{wc.warranty_registration}}<br>
+                <span class="text-muted textmuted">Product Manufacturing Date: </span>{{wc.product_manufacturing_date}}<br>
+                <span class="text-muted textmuted">Product Batch No.: </span>{{wc.product_batch_no}}<br>
+                <span class="text-muted textmuted">Product Serial No: </span>{{wc.product_serial_no}}<br>
+                <span class="text-muted textmuted">Product Color: </span>{{wc.product_color}}<br>
+                <span class="text-muted textmuted">Registration Date: </span>{{wc.registration_date}}<br>
+                <h6>Product Image : </h6>
+                <img src="{{wc.product_image}}" style="width:100%; height:100%;margin-top:25px; margin-bottom: 25px;">
+                <br>
+                <h6>Waranty Card : </h6>
+                <img src="{{wc.waranty_card}}" style="width:100%; height:100%;margin-top:25px; margin-bottom: 25px;">
+                <br>
+
+                <span class="text-muted textmuted">State: </span>{{wc.state}}<br>
+                <span class="text-muted textmuted">District: </span>{{wc.district}}<br>
+                <span class="text-muted textmuted">City: </span>{{wc.city}}<br>
+                <span class="text-muted textmuted">Post Office: </span>{{wc.post_office}}<br>
+                <span class="text-muted textmuted">Zip Code: </span>{{wc.zipcode}}<br>
+                <span class="text-muted textmuted">Land Mark: </span>{{wc.land_mark}}<br>
+                <span class="text-muted textmuted">Purchase Source: </span>{{wc.purchase_source}}<br>
+                <span class="text-muted textmuted">Address: </span>{{wc.address}}<br>
+                <span class="text-muted textmuted">Status: </span>{{wc.status}}<br>
+                <span class="text-muted textmuted">Date Added: </span>{{wc.date_added}}<br>
+                <div class="d-flex justify-content-center mt-3 mb-3 waranty_card_button">
+                  <a class="primary-btn" href="/admin/warranty_claim/status/{{wc.claim_id}}?active=Approved&details=1"  style="margin:5px;">Approve</button>
+                  <a href="/admin/warranty_claim/status/{{wc.claim_id}}?active=Rejected&details=1" class="primary-btn" style="margin:5px;">Reject</a>
+                  <a href="/admin/warranty_claim/delete/{{wc.claim_id}}" class="primary-btn" style="margin:5px;">Delete</a>
+                </div>
+
+        </div>
+         
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+
+{% endblock %}

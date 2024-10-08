@@ -1,0 +1,140 @@
+{% extends 'adminestration/base.html' %} {% load static %} 
+{% block head %} 
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .example::-webkit-scrollbar {
+      display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .example {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  button{
+    outline : none;
+    border : none;
+  }
+</style>
+{% endblock head %} 
+
+{% block content %}
+
+<div class="container" >
+
+<div class="card"style="border-radius:10px;">
+    <div class="card-body">
+          <div class="shop__product__option">
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__left">
+                  <p>
+                    Page {{ complainet.number }} of {{ complainet.paginator.num_pages}}.
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__center">
+                  <div class="checkout__input">
+                  <form action="/admin/complainet">
+                    <input type="text" name="search" placeholder="Search...">
+                  </form>
+                </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="shop__product__option__right">
+                  <p>Sort:</p>
+                  <select onchange="location = this.value">
+                    <option {% if time == 'None' %}selected{% endif %} value="/admin/complainet">Date</option>
+                    <option value="/admin/complainet/?time=1{% if search != 'None' %}&search={{search}}{% endif %}" {% if aut == '1' %}selected{% endif %}>Latest</option>
+                    <option value="/admin/complainet/?time=0{% if search != 'None' %}&search={{search}}{% endif %}" {% if aut == '0' %}selected{% endif %}>Oldest</option>
+                </select>
+                </div>
+              </div>
+            </div>
+          </div>
+      {% if messages %}
+      {% for message in messages %}
+        <div class="alert" >
+            {{message}}
+        </div>
+      {% endfor %}
+    {% endif %}
+    {% if user %}
+    <div class="u-table-res" style="overflow-x: scroll;">
+        <table class="table mb-0 example">
+            <thead>
+                <tr>
+                    <th>Complainet Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <!-- <th>Phone Number</th> -->
+                    <th>Subject</th>
+                    <th>Complainet</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% if request.user.is_staff %}
+                    {% for c in complainet %}
+                    <tr>
+                      <td>{{c.complaint_id}}</td>
+
+                        <td>
+                          <h6>{{c.user.first_name}} {{c.user.last_name}}</h6> 
+                        </td>
+                       
+                        <td>{{c.user.email}}</td>
+                        <!-- <td class="">
+                            <span>{{c.user.phone_no}}<span>
+                        </td> -->
+                        <td>{{c.subject}}</td>
+                        <td>{{c.complaint}}</td>
+                        <td>{{c.date_added}}</td>
+
+                        
+                        <td><a href="/admin/complainet/delete/{{c.complaint_id}}" class="primary-btn" style="">Delete</a></td>
+
+                    </tr>
+                    {% endfor %}
+                
+                {% endif %}
+                
+            </tbody>
+
+        </table>
+    </div>
+    {% else %}
+    <h3 style="text-align:center;">No User found</h3>
+    {% endif %}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="product__pagination">
+          <span class="step-links">
+            {% if complainet.has_previous %} 
+              {% if complainet.has_previous != '1' %}
+                <a href="?page={{ complainet.previous_page_number }}{% if aut != 'None' %}&time={{aut}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&laquo; </a>
+              {% endif %} 
+            {% endif %}
+            <span class="current-page active">{{ complainet.number }}</span>
+            {% if user.has_next %} 
+              {% if complainet.has_next != complainet.paginator.num_pages %}
+                <a href="?page={{ complainet.next_page_number }}{% if aut != 'None' %}&time={{aut}}{% endif %}{% if search != 'None' %}&search={{search}}{% endif %}">&raquo;</a>
+              {% endif %} 
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+{% endblock %}
